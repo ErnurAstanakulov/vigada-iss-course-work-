@@ -8,20 +8,64 @@
 
 /* Begin PBXBuildFile section */
 		B32674192385508700B2E45E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674182385508700B2E45E /* AppDelegate.swift */; };
-		B326741B2385508700B2E45E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B326741A2385508700B2E45E /* ViewController.swift */; };
-		B326741E2385508700B2E45E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B326741C2385508700B2E45E /* Main.storyboard */; };
 		B32674202385508A00B2E45E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B326741F2385508A00B2E45E /* Assets.xcassets */; };
 		B32674232385508A00B2E45E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32674212385508A00B2E45E /* LaunchScreen.storyboard */; };
+		B326742B2385514F00B2E45E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B326742A2385514F00B2E45E /* TabBarController.swift */; };
+		B326742D238552C500B2E45E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B326742C238552C500B2E45E /* HomeViewController.swift */; };
+		B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B326742E2385531500B2E45E /* BrowseViewController.swift */; };
+		B32674312385532500B2E45E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674302385532500B2E45E /* SearchViewController.swift */; };
+		B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674322385533D00B2E45E /* FavoritesViewController.swift */; };
+		B32674352385534C00B2E45E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674342385534C00B2E45E /* SettingsViewController.swift */; };
+		B32674372385582900B2E45E /* LoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674362385582900B2E45E /* LoaderViewController.swift */; };
+		B3267439238559A200B2E45E /* VGDLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3267438238559A200B2E45E /* VGDLoader.swift */; };
+		B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3490295238669AF000EF110 /* GameDetailsViewController.swift */; };
+		B349029823866B44000EF110 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349029723866B44000EF110 /* Fonts.swift */; };
+		B349029923867684000EF110 /* NewYorkExtraLarge-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */; };
+		B349029B23867688000EF110 /* NewYorkExtraLarge-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B349028B2386683E000EF110 /* NewYorkExtraLarge-Bold.otf */; };
+		B34902A123867688000EF110 /* NewYorkExtraLarge-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B349028D2386683E000EF110 /* NewYorkExtraLarge-Regular.otf */; };
+		B34902A223867688000EF110 /* NewYorkExtraLarge-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B349028E2386683E000EF110 /* NewYorkExtraLarge-RegularItalic.otf */; };
+		B34902B123867D5F000EF110 /* SF-Mono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902B023867D38000EF110 /* SF-Mono-Bold.otf */; };
+		B34902B523867D5F000EF110 /* SF-Mono-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902A623867D36000EF110 /* SF-Mono-Light.otf */; };
+		B34902B923867D5F000EF110 /* SF-Mono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902AB23867D37000EF110 /* SF-Mono-Regular.otf */; };
+		B34902BF238680B7000EF110 /* SF-Compact-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902BE2386809A000EF110 /* SF-Compact-Text-Bold.otf */; };
+		B34902C0238680B7000EF110 /* SF-Compact-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902BD23867FBC000EF110 /* SF-Compact-Text-Regular.otf */; };
+		B34902C2238680F4000EF110 /* SF-Compact-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */; };
+		B34902C42386B3BF000EF110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C32386B3BF000EF110 /* Colors.swift */; };
+		B34902C62386CF16000EF110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C52386CF16000EF110 /* SettingsView.swift */; };
+		B34902C82386D487000EF110 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C72386D487000EF110 /* AboutView.swift */; };
+		B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B32674152385508700B2E45E /* vigada (iss course work).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vigada (iss course work).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32674182385508700B2E45E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B326741A2385508700B2E45E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B326741D2385508700B2E45E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B326741F2385508A00B2E45E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B32674222385508A00B2E45E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B32674242385508A00B2E45E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B326742A2385514F00B2E45E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		B326742C238552C500B2E45E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B326742E2385531500B2E45E /* BrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
+		B32674302385532500B2E45E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		B32674322385533D00B2E45E /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		B32674342385534C00B2E45E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B32674362385582900B2E45E /* LoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderViewController.swift; sourceTree = "<group>"; };
+		B3267438238559A200B2E45E /* VGDLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGDLoader.swift; sourceTree = "<group>"; };
+		B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Black.otf"; sourceTree = "<group>"; };
+		B349028B2386683E000EF110 /* NewYorkExtraLarge-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Bold.otf"; sourceTree = "<group>"; };
+		B349028D2386683E000EF110 /* NewYorkExtraLarge-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Regular.otf"; sourceTree = "<group>"; };
+		B349028E2386683E000EF110 /* NewYorkExtraLarge-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-RegularItalic.otf"; sourceTree = "<group>"; };
+		B3490295238669AF000EF110 /* GameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsViewController.swift; sourceTree = "<group>"; };
+		B349029723866B44000EF110 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		B34902A623867D36000EF110 /* SF-Mono-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Light.otf"; sourceTree = "<group>"; };
+		B34902AB23867D37000EF110 /* SF-Mono-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Regular.otf"; sourceTree = "<group>"; };
+		B34902B023867D38000EF110 /* SF-Mono-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Bold.otf"; sourceTree = "<group>"; };
+		B34902BD23867FBC000EF110 /* SF-Compact-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Regular.otf"; sourceTree = "<group>"; };
+		B34902BE2386809A000EF110 /* SF-Compact-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Bold.otf"; sourceTree = "<group>"; };
+		B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Light.otf"; sourceTree = "<group>"; };
+		B34902C32386B3BF000EF110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		B34902C52386CF16000EF110 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B34902C72386D487000EF110 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +84,7 @@
 			children = (
 				B32674172385508700B2E45E /* vigada (iss course work) */,
 				B32674162385508700B2E45E /* Products */,
+				B349029423866845000EF110 /* Fonts */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +99,91 @@
 		B32674172385508700B2E45E /* vigada (iss course work) */ = {
 			isa = PBXGroup;
 			children = (
-				B32674182385508700B2E45E /* AppDelegate.swift */,
-				B326741A2385508700B2E45E /* ViewController.swift */,
-				B326741C2385508700B2E45E /* Main.storyboard */,
+				B326743C23855AD600B2E45E /* Controllers */,
+				B37FCBBE2385F07F00BE845A /* Cells */,
+				B37FCBBD2385F07100BE845A /* Views */,
+				B326743D23855B0300B2E45E /* Helpers */,
 				B326741F2385508A00B2E45E /* Assets.xcassets */,
+				B37FCBBF2385F09100BE845A /* Models */,
 				B32674212385508A00B2E45E /* LaunchScreen.storyboard */,
+				B32674182385508700B2E45E /* AppDelegate.swift */,
 				B32674242385508A00B2E45E /* Info.plist */,
 			);
 			path = "vigada (iss course work)";
+			sourceTree = "<group>";
+		};
+		B326743B23855AB000B2E45E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B32674362385582900B2E45E /* LoaderViewController.swift */,
+				B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */,
+				B326742C238552C500B2E45E /* HomeViewController.swift */,
+				B326742E2385531500B2E45E /* BrowseViewController.swift */,
+				B32674302385532500B2E45E /* SearchViewController.swift */,
+				B32674322385533D00B2E45E /* FavoritesViewController.swift */,
+				B32674342385534C00B2E45E /* SettingsViewController.swift */,
+				B3490295238669AF000EF110 /* GameDetailsViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B326743C23855AD600B2E45E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B326742A2385514F00B2E45E /* TabBarController.swift */,
+				B326743B23855AB000B2E45E /* ViewControllers */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B326743D23855B0300B2E45E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B3267438238559A200B2E45E /* VGDLoader.swift */,
+				B349029723866B44000EF110 /* Fonts.swift */,
+				B34902C32386B3BF000EF110 /* Colors.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		B349029423866845000EF110 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */,
+				B34902BE2386809A000EF110 /* SF-Compact-Text-Bold.otf */,
+				B34902BD23867FBC000EF110 /* SF-Compact-Text-Regular.otf */,
+				B34902B023867D38000EF110 /* SF-Mono-Bold.otf */,
+				B34902A623867D36000EF110 /* SF-Mono-Light.otf */,
+				B34902AB23867D37000EF110 /* SF-Mono-Regular.otf */,
+				B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */,
+				B349028B2386683E000EF110 /* NewYorkExtraLarge-Bold.otf */,
+				B349028D2386683E000EF110 /* NewYorkExtraLarge-Regular.otf */,
+				B349028E2386683E000EF110 /* NewYorkExtraLarge-RegularItalic.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B37FCBBD2385F07100BE845A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B34902C52386CF16000EF110 /* SettingsView.swift */,
+				B34902C72386D487000EF110 /* AboutView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		B37FCBBE2385F07F00BE845A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		B37FCBBF2385F09100BE845A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +193,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B32674272385508A00B2E45E /* Build configuration list for PBXNativeTarget "vigada (iss course work)" */;
 			buildPhases = (
+				B326743A23855A9800B2E45E /* ShellScript */,
 				B32674112385508700B2E45E /* Sources */,
 				B32674122385508700B2E45E /* Frameworks */,
 				B32674132385508700B2E45E /* Resources */,
@@ -122,35 +245,69 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B349029B23867688000EF110 /* NewYorkExtraLarge-Bold.otf in Resources */,
+				B34902B523867D5F000EF110 /* SF-Mono-Light.otf in Resources */,
+				B34902C0238680B7000EF110 /* SF-Compact-Text-Regular.otf in Resources */,
+				B34902A223867688000EF110 /* NewYorkExtraLarge-RegularItalic.otf in Resources */,
+				B34902B923867D5F000EF110 /* SF-Mono-Regular.otf in Resources */,
+				B349029923867684000EF110 /* NewYorkExtraLarge-Black.otf in Resources */,
 				B32674232385508A00B2E45E /* LaunchScreen.storyboard in Resources */,
+				B34902C2238680F4000EF110 /* SF-Compact-Text-Light.otf in Resources */,
+				B34902BF238680B7000EF110 /* SF-Compact-Text-Bold.otf in Resources */,
+				B34902B123867D5F000EF110 /* SF-Mono-Bold.otf in Resources */,
 				B32674202385508A00B2E45E /* Assets.xcassets in Resources */,
-				B326741E2385508700B2E45E /* Main.storyboard in Resources */,
+				B34902A123867688000EF110 /* NewYorkExtraLarge-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B326743A23855A9800B2E45E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B32674112385508700B2E45E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B326741B2385508700B2E45E /* ViewController.swift in Sources */,
+				B32674312385532500B2E45E /* SearchViewController.swift in Sources */,
+				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
+				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
+				B32674352385534C00B2E45E /* SettingsViewController.swift in Sources */,
+				B34902C82386D487000EF110 /* AboutView.swift in Sources */,
+				B349029823866B44000EF110 /* Fonts.swift in Sources */,
+				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,
+				B32674372385582900B2E45E /* LoaderViewController.swift in Sources */,
+				B34902C62386CF16000EF110 /* SettingsView.swift in Sources */,
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
+				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
+				B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */,
+				B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */,
+				B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */,
+				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B326741C2385508700B2E45E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B326741D2385508700B2E45E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B32674212385508A00B2E45E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

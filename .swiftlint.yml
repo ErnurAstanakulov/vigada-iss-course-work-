@@ -1,0 +1,69 @@
+# rule identifiers to opt in
+opt_in_rules:
+  - conditional_returns_on_newline
+  - closure_spacing
+  - force_unwrapping
+  - number_separator
+  - fatal_error_message
+  - empty_count
+  - implicitly_unwrapped_optional
+
+
+# special configuration for rules 
+function_parameter_count:
+  warning: 3
+  error: 5
+
+#force_cast: error
+#force_try: error
+#force_unwrapping: error
+
+colon:
+  flexible_right_spacing: false
+  apply_to_dictionaries: true
+
+file_length:
+  warning: 400
+  error: 1000
+
+number_separator:
+  minimum_length: 5
+
+line_length:
+  warning: 170
+  error: 200
+  ignores_urls: true
+  ignores_function_declarations: false
+  ignores_comments: true
+
+large_tuple:
+  warning: 2
+  error: 3
+
+implicitly_unwrapped_optional:
+  mode: allExceptIBOutlets
+
+function_body_length:
+  warning: 40
+  error: 100
+
+cyclomatic_complexity:
+  warning: 10
+  error: 20
+  ignores_case_statements: false
+
+variable_name:
+  max_length:
+    warning: 40
+    error: 50
+  min_length:
+    error: 4
+  excluded:
+    - row
+    - key
+    - id
+    - url
+    - uri
+    - URI
+    - URL
+

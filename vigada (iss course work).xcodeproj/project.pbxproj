@@ -33,7 +33,9 @@
 		B34902C42386B3BF000EF110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C32386B3BF000EF110 /* Colors.swift */; };
 		B34902C62386CF16000EF110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C52386CF16000EF110 /* SettingsView.swift */; };
 		B34902C82386D487000EF110 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C72386D487000EF110 /* AboutView.swift */; };
+		B377190E238840950074E458 /* vgdLoadGIF.gif in Resources */ = {isa = PBXBuildFile; fileRef = B377190D238840950074E458 /* vgdLoadGIF.gif */; };
 		B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */; };
+		B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3994AAA2387D2CB000C705A /* PlayGIF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,7 +67,9 @@
 		B34902C32386B3BF000EF110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B34902C52386CF16000EF110 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B34902C72386D487000EF110 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		B377190D238840950074E458 /* vgdLoadGIF.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = vgdLoadGIF.gif; sourceTree = "<group>"; };
 		B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
+		B3994AAA2387D2CB000C705A /* PlayGIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayGIF.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,7 @@
 				B32674172385508700B2E45E /* vigada (iss course work) */,
 				B32674162385508700B2E45E /* Products */,
 				B349029423866845000EF110 /* Fonts */,
+				B3994AAC2387D465000C705A /* Media */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,9 +107,9 @@
 				B326743C23855AD600B2E45E /* Controllers */,
 				B37FCBBE2385F07F00BE845A /* Cells */,
 				B37FCBBD2385F07100BE845A /* Views */,
+				B37FCBBF2385F09100BE845A /* Models */,
 				B326743D23855B0300B2E45E /* Helpers */,
 				B326741F2385508A00B2E45E /* Assets.xcassets */,
-				B37FCBBF2385F09100BE845A /* Models */,
 				B32674212385508A00B2E45E /* LaunchScreen.storyboard */,
 				B32674182385508700B2E45E /* AppDelegate.swift */,
 				B32674242385508A00B2E45E /* Info.plist */,
@@ -141,6 +146,7 @@
 			children = (
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
 				B349029723866B44000EF110 /* Fonts.swift */,
+				B3994AAA2387D2CB000C705A /* PlayGIF.swift */,
 				B34902C32386B3BF000EF110 /* Colors.swift */,
 			);
 			name = Helpers;
@@ -184,6 +190,14 @@
 			children = (
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		B3994AAC2387D465000C705A /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				B377190D238840950074E458 /* vgdLoadGIF.gif */,
+			);
+			path = Media;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +262,7 @@
 				B349029B23867688000EF110 /* NewYorkExtraLarge-Bold.otf in Resources */,
 				B34902B523867D5F000EF110 /* SF-Mono-Light.otf in Resources */,
 				B34902C0238680B7000EF110 /* SF-Compact-Text-Regular.otf in Resources */,
+				B377190E238840950074E458 /* vgdLoadGIF.gif in Resources */,
 				B34902A223867688000EF110 /* NewYorkExtraLarge-RegularItalic.otf in Resources */,
 				B34902B923867D5F000EF110 /* SF-Mono-Regular.otf in Resources */,
 				B349029923867684000EF110 /* NewYorkExtraLarge-Black.otf in Resources */,
@@ -291,6 +306,7 @@
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
 				B32674352385534C00B2E45E /* SettingsViewController.swift in Sources */,
+				B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */,
 				B34902C82386D487000EF110 /* AboutView.swift in Sources */,
 				B349029823866B44000EF110 /* Fonts.swift in Sources */,
 				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,

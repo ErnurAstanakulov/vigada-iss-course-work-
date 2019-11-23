@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31F1E272389538B000E4028 /* NoInternetViewController.swift */; };
+		B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31F1E2923896634000E4028 /* UIElemets.swift */; };
 		B32674192385508700B2E45E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674182385508700B2E45E /* AppDelegate.swift */; };
 		B32674202385508A00B2E45E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B326741F2385508A00B2E45E /* Assets.xcassets */; };
 		B32674232385508A00B2E45E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32674212385508A00B2E45E /* LaunchScreen.storyboard */; };
@@ -39,6 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B31F1E272389538B000E4028 /* NoInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
+		B31F1E2923896634000E4028 /* UIElemets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElemets.swift; sourceTree = "<group>"; };
 		B32674152385508700B2E45E /* vigada (iss course work).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vigada (iss course work).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32674182385508700B2E45E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B326741F2385508A00B2E45E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 			children = (
 				B32674362385582900B2E45E /* LoaderViewController.swift */,
 				B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */,
+				B31F1E272389538B000E4028 /* NoInternetViewController.swift */,
 				B326742C238552C500B2E45E /* HomeViewController.swift */,
 				B326742E2385531500B2E45E /* BrowseViewController.swift */,
 				B32674302385532500B2E45E /* SearchViewController.swift */,
@@ -147,6 +152,7 @@
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
 				B349029723866B44000EF110 /* Fonts.swift */,
 				B3994AAA2387D2CB000C705A /* PlayGIF.swift */,
+				B31F1E2923896634000E4028 /* UIElemets.swift */,
 				B34902C32386B3BF000EF110 /* Colors.swift */,
 			);
 			name = Helpers;
@@ -312,6 +318,8 @@
 				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,
 				B32674372385582900B2E45E /* LoaderViewController.swift in Sources */,
 				B34902C62386CF16000EF110 /* SettingsView.swift in Sources */,
+				B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */,
+				B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */,
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
 				B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */,

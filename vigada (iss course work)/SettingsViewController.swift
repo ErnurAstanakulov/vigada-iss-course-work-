@@ -14,17 +14,8 @@ class SettingsViewController: UIViewController {
     private let settingsView2 = SettingsView()
     private let aboutView = AboutView()
 
-    private let contentView: UIView = {
-        let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        return contentView
-    }()
-
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
+    private let contentView = UIElements().containerView
+    private let scrollView = UIElements().scrollView
 
     override func viewDidLoad() {
         super.viewDidLoad()

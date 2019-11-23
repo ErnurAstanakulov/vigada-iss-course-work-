@@ -21,32 +21,13 @@ class OnBoardViewController: UIViewController, UIScrollViewDelegate {
                        "See the information on the release screen"]
     private let imagesArray = ["onBoardImagesA", "onBoardImagesB", "onBoardImagesC", "onBoardImagesD"]
 
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
+    private let nextButton = UIElements().button
+    private let scrollView = UIElements().scrollView
 
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
-    }()
-
-    private let nextButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = NewYork.black.of(size: 20)
-        button.setTitle("Next", for: .normal)
-        button.setTitleColor(UIColor.VGDColor.white, for: .normal)
-        button.backgroundColor = UIColor.VGDColor.black
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 8
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 2, height: 1)
-        button.layer.masksToBounds = false
-        return button
     }()
 
     private var scrollWidth: CGFloat = 0.0
@@ -128,46 +109,17 @@ class OnBoardViewController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setTitleLabel() -> UILabel {
-        let title: UILabel = {
-            let label = UILabel()
-            label.textColor = .black
-            label.font = NewYork.regular.of(textStyle: .largeTitle, defaultSize: 34)
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.lineBreakMode = .byTruncatingTail
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.layer.shadowColor = UIColor.black.cgColor
-            label.layer.shadowRadius = 2.0
-            label.layer.shadowOpacity = 0.4
-            label.layer.shadowOffset = CGSize(width: 2, height: 1)
-            label.layer.masksToBounds = false
-            return label
-        }()
+        let title = UIElements().titleLabel
         return title
     }
 
     private func setDescriptionLabel() -> UILabel {
-        let description: UILabel = {
-            let label = UILabel()
-            label.textColor = .black
-            label.font = SFCompactText.regular.of(textStyle: .body, defaultSize: 18)
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.lineBreakMode = .byTruncatingTail
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
+        let description = UIElements().descriptionLabel
         return description
     }
 
     private func setImageView() -> UIImageView {
-        let imageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.contentMode = .scaleAspectFit
-            imageView.clipsToBounds = true
-            return imageView
-        }()
+        let imageView = UIElements().imageView
         return imageView
     }
 

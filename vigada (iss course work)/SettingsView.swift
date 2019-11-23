@@ -10,16 +10,8 @@ import UIKit
 
 final class SettingsView: UIView {
 
-    let settingNumber: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = SFCompactText.bold.of(size: 17)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.lineBreakMode = .byTruncatingTail
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let settingNumber = UIElements().descriptionLabel
+    let githubAuthDescription = UIElements().descriptionLabel
 
     let githubAuthButton: UIButton = {
         let button = UIButton(type: .system)
@@ -29,23 +21,15 @@ final class SettingsView: UIView {
         return button
     }()
 
-    let githubAuthDescription: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = SFCompactText.regular.of(size: 17)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.lineBreakMode = .byTruncatingTail
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.backgroundColor = .white
+
+        settingNumber.font = SFCompactText.bold.of(size: 17)
+        githubAuthDescription.font = SFCompactText.regular.of(size: 17)
 
         addSubview(settingNumber)
         NSLayoutConstraint.activate([

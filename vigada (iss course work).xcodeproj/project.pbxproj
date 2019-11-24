@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31F1E272389538B000E4028 /* NoInternetViewController.swift */; };
 		B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31F1E2923896634000E4028 /* UIElemets.swift */; };
+		B321C7CD238AB71A00821B73 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B321C7CC238AB71A00821B73 /* CoreDataStack.swift */; };
+		B321C7D0238AB76100821B73 /* VGDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B321C7CE238AB76100821B73 /* VGDModel.xcdatamodeld */; };
+		B321C7D2238AB7D100821B73 /* MOGameDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B321C7D1238AB7D100821B73 /* MOGameDetails.swift */; };
+		B321C7D8238AD49F00821B73 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B321C7D7238AD49F00821B73 /* CoreDataManager.swift */; };
 		B32674192385508700B2E45E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674182385508700B2E45E /* AppDelegate.swift */; };
 		B32674202385508A00B2E45E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B326741F2385508A00B2E45E /* Assets.xcassets */; };
 		B32674232385508A00B2E45E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32674212385508A00B2E45E /* LaunchScreen.storyboard */; };
@@ -40,7 +44,7 @@
 		B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3994AAA2387D2CB000C705A /* PlayGIF.swift */; };
 		B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB660A238A682A008265A7 /* HTTPMethod.swift */; };
 		B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB661E238A7F21008265A7 /* NetworkManager.swift */; };
-		B3DB6622238A8079008265A7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* Model.swift */; };
+		B3DB6622238A8079008265A7 /* GameModelForCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */; };
 		B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6623238A89F5008265A7 /* requestBuilder.swift */; };
 		B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */; };
 		B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */; };
@@ -49,6 +53,10 @@
 /* Begin PBXFileReference section */
 		B31F1E272389538B000E4028 /* NoInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
 		B31F1E2923896634000E4028 /* UIElemets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElemets.swift; sourceTree = "<group>"; };
+		B321C7CC238AB71A00821B73 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		B321C7CF238AB76100821B73 /* VGDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VGDModel.xcdatamodel; sourceTree = "<group>"; };
+		B321C7D1238AB7D100821B73 /* MOGameDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOGameDetails.swift; sourceTree = "<group>"; };
+		B321C7D7238AD49F00821B73 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B32674152385508700B2E45E /* vigada (iss course work).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vigada (iss course work).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32674182385508700B2E45E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B326741F2385508A00B2E45E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,7 +90,7 @@
 		B3994AAA2387D2CB000C705A /* PlayGIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayGIF.swift; sourceTree = "<group>"; };
 		B3DB660A238A682A008265A7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		B3DB661E238A7F21008265A7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		B3DB6621238A8079008265A7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForCoreData.swift; sourceTree = "<group>"; };
 		B3DB6623238A89F5008265A7 /* requestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestBuilder.swift; sourceTree = "<group>"; };
 		B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthViewController.swift; sourceTree = "<group>"; };
 		B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenHelpers.swift; sourceTree = "<group>"; };
@@ -244,6 +252,10 @@
 		B3DB6607238A67AC008265A7 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				B321C7CC238AB71A00821B73 /* CoreDataStack.swift */,
+				B321C7D7238AD49F00821B73 /* CoreDataManager.swift */,
+				B321C7CE238AB76100821B73 /* VGDModel.xcdatamodeld */,
+				B321C7D1238AB7D100821B73 /* MOGameDetails.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -251,7 +263,7 @@
 		B3DB6620238A806D008265A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B3DB6621238A8079008265A7 /* Model.swift */,
+				B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -378,9 +390,13 @@
 				B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */,
 				B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */,
 				B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */,
-				B3DB6622238A8079008265A7 /* Model.swift in Sources */,
+				B321C7CD238AB71A00821B73 /* CoreDataStack.swift in Sources */,
+				B3DB6622238A8079008265A7 /* GameModelForCoreData.swift in Sources */,
 				B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */,
+				B321C7D0238AB76100821B73 /* VGDModel.xcdatamodeld in Sources */,
 				B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */,
+				B321C7D8238AD49F00821B73 /* CoreDataManager.swift in Sources */,
+				B321C7D2238AB7D100821B73 /* MOGameDetails.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,6 +589,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B321C7CE238AB76100821B73 /* VGDModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B321C7CF238AB76100821B73 /* VGDModel.xcdatamodel */,
+			);
+			currentVersion = B321C7CF238AB76100821B73 /* VGDModel.xcdatamodel */;
+			path = VGDModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B326740D2385508700B2E45E /* Project object */;
 }

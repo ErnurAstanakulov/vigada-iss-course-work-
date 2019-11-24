@@ -11,9 +11,10 @@ import UIKit
 final class SettingsView: UIView {
 
     let settingNumber = UIElements().descriptionLabel
-    let githubAuthDescription = UIElements().descriptionLabel
+    let settingLabel = UIElements().descriptionLabel
+    let settingHiddenLabel = UIElements().descriptionLabel
 
-    let githubAuthButton: UIButton = {
+    let settingButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = NewYork.regular.of(size: 18)
         button.setTitleColor(UIColor.VGDColor.blue, for: .normal)
@@ -29,7 +30,8 @@ final class SettingsView: UIView {
         self.backgroundColor = .white
 
         settingNumber.font = SFCompactText.bold.of(size: 17)
-        githubAuthDescription.font = SFCompactText.regular.of(size: 17)
+        settingLabel.font = SFCompactText.regular.of(size: 17)
+        settingHiddenLabel.isHidden = true
 
         addSubview(settingNumber)
         NSLayoutConstraint.activate([
@@ -37,16 +39,29 @@ final class SettingsView: UIView {
             settingNumber.topAnchor.constraint(equalTo: topAnchor, constant: 8)
             ])
 
-        addSubview(githubAuthButton)
+        addSubview(settingButton)
         NSLayoutConstraint.activate([
-            githubAuthButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            githubAuthButton.topAnchor.constraint(equalTo: settingNumber.firstBaselineAnchor, constant: 2)
+            settingButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            settingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            settingButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            settingButton.topAnchor.constraint(equalTo: settingNumber.firstBaselineAnchor, constant: 2)
             ])
-        addSubview(githubAuthDescription)
+
+        addSubview(settingHiddenLabel)
         NSLayoutConstraint.activate([
-            githubAuthDescription.centerXAnchor.constraint(equalTo: centerXAnchor),
-            githubAuthDescription.topAnchor.constraint(equalTo: githubAuthButton.firstBaselineAnchor, constant: 8),
-            githubAuthDescription.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            settingHiddenLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            settingHiddenLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            settingHiddenLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            settingHiddenLabel.topAnchor.constraint(equalTo: settingNumber.firstBaselineAnchor, constant: 8)
+            ])
+
+        addSubview(settingLabel)
+        NSLayoutConstraint.activate([
+            settingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            settingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            settingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            settingLabel.topAnchor.constraint(equalTo: settingButton.firstBaselineAnchor, constant: 8),
+            settingLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
             ])
     }
 

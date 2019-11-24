@@ -38,6 +38,12 @@
 		B377190E238840950074E458 /* vgdLoadGIF.gif in Resources */ = {isa = PBXBuildFile; fileRef = B377190D238840950074E458 /* vgdLoadGIF.gif */; };
 		B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */; };
 		B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3994AAA2387D2CB000C705A /* PlayGIF.swift */; };
+		B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB660A238A682A008265A7 /* HTTPMethod.swift */; };
+		B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB661E238A7F21008265A7 /* NetworkManager.swift */; };
+		B3DB6622238A8079008265A7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* Model.swift */; };
+		B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6623238A89F5008265A7 /* requestBuilder.swift */; };
+		B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */; };
+		B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +80,12 @@
 		B377190D238840950074E458 /* vgdLoadGIF.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = vgdLoadGIF.gif; sourceTree = "<group>"; };
 		B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		B3994AAA2387D2CB000C705A /* PlayGIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayGIF.swift; sourceTree = "<group>"; };
+		B3DB660A238A682A008265A7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		B3DB661E238A7F21008265A7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		B3DB6621238A8079008265A7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B3DB6623238A89F5008265A7 /* requestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestBuilder.swift; sourceTree = "<group>"; };
+		B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthViewController.swift; sourceTree = "<group>"; };
+		B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +120,8 @@
 		B32674172385508700B2E45E /* vigada (iss course work) */ = {
 			isa = PBXGroup;
 			children = (
+				B3DB6620238A806D008265A7 /* Model */,
+				B3DB6605238A678F008265A7 /* DataServices */,
 				B326743C23855AD600B2E45E /* Controllers */,
 				B37FCBBE2385F07F00BE845A /* Cells */,
 				B37FCBBD2385F07100BE845A /* Views */,
@@ -133,6 +147,7 @@
 				B32674322385533D00B2E45E /* FavoritesViewController.swift */,
 				B32674342385534C00B2E45E /* SettingsViewController.swift */,
 				B3490295238669AF000EF110 /* GameDetailsViewController.swift */,
+				B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -150,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
+				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
 				B349029723866B44000EF110 /* Fonts.swift */,
 				B3994AAA2387D2CB000C705A /* PlayGIF.swift */,
 				B31F1E2923896634000E4028 /* UIElemets.swift */,
@@ -204,6 +220,40 @@
 				B377190D238840950074E458 /* vgdLoadGIF.gif */,
 			);
 			path = Media;
+			sourceTree = "<group>";
+		};
+		B3DB6605238A678F008265A7 /* DataServices */ = {
+			isa = PBXGroup;
+			children = (
+				B3DB6607238A67AC008265A7 /* CoreData */,
+				B3DB6606238A67A0008265A7 /* Network */,
+			);
+			name = DataServices;
+			sourceTree = "<group>";
+		};
+		B3DB6606238A67A0008265A7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B3DB660A238A682A008265A7 /* HTTPMethod.swift */,
+				B3DB6623238A89F5008265A7 /* requestBuilder.swift */,
+				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		B3DB6607238A67AC008265A7 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		B3DB6620238A806D008265A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B3DB6621238A8079008265A7 /* Model.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +365,9 @@
 				B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */,
 				B34902C82386D487000EF110 /* AboutView.swift in Sources */,
 				B349029823866B44000EF110 /* Fonts.swift in Sources */,
+				B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */,
+				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
+				B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */,
 				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,
 				B32674372385582900B2E45E /* LoaderViewController.swift in Sources */,
 				B34902C62386CF16000EF110 /* SettingsView.swift in Sources */,
@@ -323,6 +376,9 @@
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
 				B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */,
+				B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */,
+				B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */,
+				B3DB6622238A8079008265A7 /* Model.swift in Sources */,
 				B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */,
 				B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,

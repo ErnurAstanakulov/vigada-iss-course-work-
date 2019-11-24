@@ -9,7 +9,7 @@
 import UIKit
 
 final class UIElements {
-
+    // Коллекция базовых элементов UI
     let button: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = NewYork.black.of(size: 20)

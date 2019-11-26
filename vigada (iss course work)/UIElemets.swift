@@ -72,4 +72,15 @@ final class UIElements {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
+
+    let settingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = NewYork.regular.of(size: 18)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.numberOfLines = 0
+        button.setTitleColor(UIColor.VGDColor.blue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 }

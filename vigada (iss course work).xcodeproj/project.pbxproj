@@ -21,7 +21,6 @@
 		B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B326742E2385531500B2E45E /* BrowseViewController.swift */; };
 		B32674312385532500B2E45E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674302385532500B2E45E /* SearchViewController.swift */; };
 		B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674322385533D00B2E45E /* FavoritesViewController.swift */; };
-		B32674352385534C00B2E45E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674342385534C00B2E45E /* SettingsViewController.swift */; };
 		B32674372385582900B2E45E /* LoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32674362385582900B2E45E /* LoaderViewController.swift */; };
 		B3267439238559A200B2E45E /* VGDLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3267438238559A200B2E45E /* VGDLoader.swift */; };
 		B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3490295238669AF000EF110 /* GameDetailsViewController.swift */; };
@@ -37,18 +36,37 @@
 		B34902C0238680B7000EF110 /* SF-Compact-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902BD23867FBC000EF110 /* SF-Compact-Text-Regular.otf */; };
 		B34902C2238680F4000EF110 /* SF-Compact-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */; };
 		B34902C42386B3BF000EF110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C32386B3BF000EF110 /* Colors.swift */; };
-		B34902C62386CF16000EF110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C52386CF16000EF110 /* SettingsView.swift */; };
 		B34902C82386D487000EF110 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C72386D487000EF110 /* AboutView.swift */; };
 		B377190E238840950074E458 /* vgdLoadGIF.gif in Resources */ = {isa = PBXBuildFile; fileRef = B377190D238840950074E458 /* vgdLoadGIF.gif */; };
+		B38788BA238C3E61007C0893 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
 		B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */; };
 		B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3994AAA2387D2CB000C705A /* PlayGIF.swift */; };
+		B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */; };
 		B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB660A238A682A008265A7 /* HTTPMethod.swift */; };
 		B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB661E238A7F21008265A7 /* NetworkManager.swift */; };
-		B3DB6622238A8079008265A7 /* GameModelForCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */; };
+		B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
 		B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6623238A89F5008265A7 /* requestBuilder.swift */; };
 		B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */; };
 		B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */; };
+		B3FCD194238CFA5F001C9FDE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */; };
+		B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */; };
+		B3FCD198238D0000001C9FDE /* SettingNormalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */; };
+		B3FCD19A238D0365001C9FDE /* SettingViewNormal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD199238D0365001C9FDE /* SettingViewNormal.swift */; };
+		B3FCD19C238D0E67001C9FDE /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD19B238D0E67001C9FDE /* SettingModel.swift */; };
+		B3FCD19E238D252C001C9FDE /* SettingViewActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD19D238D252C001C9FDE /* SettingViewActive.swift */; };
+		B3FCD1A0238D25BD001C9FDE /* SettingActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD19F238D25BD001C9FDE /* SettingActiveTableViewCell.swift */; };
+		B3FCD1A2238D3DD3001C9FDE /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD1A1238D3DD3001C9FDE /* SettingView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B3BA3B23238BCEC400B9C08D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B326740D2385508700B2E45E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B32674142385508700B2E45E;
+			remoteInfo = "vigada (iss course work)";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B31F1E272389538B000E4028 /* NoInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
@@ -67,7 +85,6 @@
 		B326742E2385531500B2E45E /* BrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
 		B32674302385532500B2E45E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B32674322385533D00B2E45E /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
-		B32674342385534C00B2E45E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B32674362385582900B2E45E /* LoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderViewController.swift; sourceTree = "<group>"; };
 		B3267438238559A200B2E45E /* VGDLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGDLoader.swift; sourceTree = "<group>"; };
 		B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Black.otf"; sourceTree = "<group>"; };
@@ -83,21 +100,38 @@
 		B34902BE2386809A000EF110 /* SF-Compact-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Bold.otf"; sourceTree = "<group>"; };
 		B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Light.otf"; sourceTree = "<group>"; };
 		B34902C32386B3BF000EF110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		B34902C52386CF16000EF110 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B34902C72386D487000EF110 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		B377190D238840950074E458 /* vgdLoadGIF.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = vgdLoadGIF.gif; sourceTree = "<group>"; };
 		B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		B3994AAA2387D2CB000C705A /* PlayGIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayGIF.swift; sourceTree = "<group>"; };
+		B3BA3B1E238BCEC400B9C08D /* vigada (iss course work)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vigada (iss course work)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3BA3B22238BCEC400B9C08D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeepingTest.swift; sourceTree = "<group>"; };
 		B3DB660A238A682A008265A7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		B3DB661E238A7F21008265A7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForCoreData.swift; sourceTree = "<group>"; };
+		B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeeping.swift; sourceTree = "<group>"; };
 		B3DB6623238A89F5008265A7 /* requestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestBuilder.swift; sourceTree = "<group>"; };
 		B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthViewController.swift; sourceTree = "<group>"; };
 		B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenHelpers.swift; sourceTree = "<group>"; };
+		B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewCell.swift; sourceTree = "<group>"; };
+		B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNormalTableViewCell.swift; sourceTree = "<group>"; };
+		B3FCD199238D0365001C9FDE /* SettingViewNormal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewNormal.swift; sourceTree = "<group>"; };
+		B3FCD19B238D0E67001C9FDE /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		B3FCD19D238D252C001C9FDE /* SettingViewActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewActive.swift; sourceTree = "<group>"; };
+		B3FCD19F238D25BD001C9FDE /* SettingActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingActiveTableViewCell.swift; sourceTree = "<group>"; };
+		B3FCD1A1238D3DD3001C9FDE /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B32674122385508700B2E45E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3BA3B1B238BCEC400B9C08D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -111,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				B32674172385508700B2E45E /* vigada (iss course work) */,
+				B3BA3B1F238BCEC400B9C08D /* vigada (iss course work)Tests */,
 				B32674162385508700B2E45E /* Products */,
 				B349029423866845000EF110 /* Fonts */,
 				B3994AAC2387D465000C705A /* Media */,
@@ -121,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				B32674152385508700B2E45E /* vigada (iss course work).app */,
+				B3BA3B1E238BCEC400B9C08D /* vigada (iss course work)Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,7 +169,7 @@
 				B326743C23855AD600B2E45E /* Controllers */,
 				B37FCBBE2385F07F00BE845A /* Cells */,
 				B37FCBBD2385F07100BE845A /* Views */,
-				B37FCBBF2385F09100BE845A /* Models */,
+				B3FCD1A3238D48F4001C9FDE /* Utils */,
 				B326743D23855B0300B2E45E /* Helpers */,
 				B326741F2385508A00B2E45E /* Assets.xcassets */,
 				B32674212385508A00B2E45E /* LaunchScreen.storyboard */,
@@ -153,9 +189,9 @@
 				B326742E2385531500B2E45E /* BrowseViewController.swift */,
 				B32674302385532500B2E45E /* SearchViewController.swift */,
 				B32674322385533D00B2E45E /* FavoritesViewController.swift */,
-				B32674342385534C00B2E45E /* SettingsViewController.swift */,
-				B3490295238669AF000EF110 /* GameDetailsViewController.swift */,
+				B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */,
 				B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */,
+				B3490295238669AF000EF110 /* GameDetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -172,8 +208,6 @@
 		B326743D23855B0300B2E45E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				B3267438238559A200B2E45E /* VGDLoader.swift */,
-				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
 				B349029723866B44000EF110 /* Fonts.swift */,
 				B3994AAA2387D2CB000C705A /* PlayGIF.swift */,
 				B31F1E2923896634000E4028 /* UIElemets.swift */,
@@ -202,7 +236,9 @@
 		B37FCBBD2385F07100BE845A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B34902C52386CF16000EF110 /* SettingsView.swift */,
+				B3FCD1A1238D3DD3001C9FDE /* SettingView.swift */,
+				B3FCD199238D0365001C9FDE /* SettingViewNormal.swift */,
+				B3FCD19D238D252C001C9FDE /* SettingViewActive.swift */,
 				B34902C72386D487000EF110 /* AboutView.swift */,
 			);
 			name = Views;
@@ -211,15 +247,11 @@
 		B37FCBBE2385F07F00BE845A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */,
+				B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */,
+				B3FCD19F238D25BD001C9FDE /* SettingActiveTableViewCell.swift */,
 			);
 			name = Cells;
-			sourceTree = "<group>";
-		};
-		B37FCBBF2385F09100BE845A /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		B3994AAC2387D465000C705A /* Media */ = {
@@ -228,6 +260,15 @@
 				B377190D238840950074E458 /* vgdLoadGIF.gif */,
 			);
 			path = Media;
+			sourceTree = "<group>";
+		};
+		B3BA3B1F238BCEC400B9C08D /* vigada (iss course work)Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */,
+				B3BA3B22238BCEC400B9C08D /* Info.plist */,
+			);
+			path = "vigada (iss course work)Tests";
 			sourceTree = "<group>";
 		};
 		B3DB6605238A678F008265A7 /* DataServices */ = {
@@ -263,9 +304,19 @@
 		B3DB6620238A806D008265A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B3DB6621238A8079008265A7 /* GameModelForCoreData.swift */,
+				B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */,
+				B3FCD19B238D0E67001C9FDE /* SettingModel.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		B3FCD1A3238D48F4001C9FDE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
+				B3267438238559A200B2E45E /* VGDLoader.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,6 +340,24 @@
 			productReference = B32674152385508700B2E45E /* vigada (iss course work).app */;
 			productType = "com.apple.product-type.application";
 		};
+		B3BA3B1D238BCEC400B9C08D /* vigada (iss course work)Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3BA3B27238BCEC500B9C08D /* Build configuration list for PBXNativeTarget "vigada (iss course work)Tests" */;
+			buildPhases = (
+				B3BA3B1A238BCEC400B9C08D /* Sources */,
+				B3BA3B1B238BCEC400B9C08D /* Frameworks */,
+				B3BA3B1C238BCEC400B9C08D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B3BA3B24238BCEC400B9C08D /* PBXTargetDependency */,
+			);
+			name = "vigada (iss course work)Tests";
+			productName = "vigada (iss course work)Tests";
+			productReference = B3BA3B1E238BCEC400B9C08D /* vigada (iss course work)Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -300,6 +369,9 @@
 				ORGANIZATIONNAME = "Maxim Marchuk";
 				TargetAttributes = {
 					B32674142385508700B2E45E = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					B3BA3B1D238BCEC400B9C08D = {
 						CreatedOnToolsVersion = 10.3;
 					};
 				};
@@ -318,6 +390,7 @@
 			projectRoot = "";
 			targets = (
 				B32674142385508700B2E45E /* vigada (iss course work) */,
+				B3BA3B1D238BCEC400B9C08D /* vigada (iss course work)Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -340,6 +413,13 @@
 				B34902B123867D5F000EF110 /* SF-Mono-Bold.otf in Resources */,
 				B32674202385508A00B2E45E /* Assets.xcassets in Resources */,
 				B34902A123867688000EF110 /* NewYorkExtraLarge-Regular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3BA3B1C238BCEC400B9C08D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,29 +450,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3FCD1A0238D25BD001C9FDE /* SettingActiveTableViewCell.swift in Sources */,
 				B32674312385532500B2E45E /* SearchViewController.swift in Sources */,
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
-				B32674352385534C00B2E45E /* SettingsViewController.swift in Sources */,
 				B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */,
+				B3FCD19A238D0365001C9FDE /* SettingViewNormal.swift in Sources */,
 				B34902C82386D487000EF110 /* AboutView.swift in Sources */,
 				B349029823866B44000EF110 /* Fonts.swift in Sources */,
 				B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */,
 				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
 				B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */,
+				B3FCD19E238D252C001C9FDE /* SettingViewActive.swift in Sources */,
+				B3FCD19C238D0E67001C9FDE /* SettingModel.swift in Sources */,
 				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,
 				B32674372385582900B2E45E /* LoaderViewController.swift in Sources */,
-				B34902C62386CF16000EF110 /* SettingsView.swift in Sources */,
 				B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */,
 				B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */,
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
+				B3FCD1A2238D3DD3001C9FDE /* SettingView.swift in Sources */,
 				B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */,
 				B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */,
 				B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */,
 				B321C7CD238AB71A00821B73 /* CoreDataStack.swift in Sources */,
-				B3DB6622238A8079008265A7 /* GameModelForCoreData.swift in Sources */,
+				B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */,
+				B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */,
 				B326742F2385531500B2E45E /* BrowseViewController.swift in Sources */,
+				B3FCD194238CFA5F001C9FDE /* SettingsViewController.swift in Sources */,
+				B3FCD198238D0000001C9FDE /* SettingNormalTableViewCell.swift in Sources */,
 				B321C7D0238AB76100821B73 /* VGDModel.xcdatamodeld in Sources */,
 				B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */,
 				B321C7D8238AD49F00821B73 /* CoreDataManager.swift in Sources */,
@@ -401,7 +487,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B3BA3B1A238BCEC400B9C08D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */,
+				B38788BA238C3E61007C0893 /* GameModelForKeeping.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B3BA3B24238BCEC400B9C08D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B32674142385508700B2E45E /* vigada (iss course work) */;
+			targetProxy = B3BA3B23238BCEC400B9C08D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B32674212385508A00B2E45E /* LaunchScreen.storyboard */ = {
@@ -567,6 +670,42 @@
 			};
 			name = Release;
 		};
+		B3BA3B25238BCEC500B9C08D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9A3LV7T75L;
+				INFOPLIST_FILE = "vigada (iss course work)Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.m.vigada--iss-course-work-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B3BA3B26238BCEC500B9C08D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9A3LV7T75L;
+				INFOPLIST_FILE = "vigada (iss course work)Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.m.vigada--iss-course-work-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -584,6 +723,15 @@
 			buildConfigurations = (
 				B32674282385508A00B2E45E /* Debug */,
 				B32674292385508A00B2E45E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3BA3B27238BCEC500B9C08D /* Build configuration list for PBXNativeTarget "vigada (iss course work)Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3BA3B25238BCEC500B9C08D /* Debug */,
+				B3BA3B26238BCEC500B9C08D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

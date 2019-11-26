@@ -21,5 +21,6 @@ extension UIColor {
         static var black: UIColor { return UIColor.black }
         static var white: UIColor { return UIColor.white }
         static var redmy: UIColor { return UIColor.red }
+        static var clear: UIColor { return UIColor.clear }
     }
 }

@@ -8,13 +8,6 @@
 
 import UIKit
 
-//for family in UIFont.familyNames {
-//    print("\(family)")
-//    for name in UIFont.fontNames(forFamilyName: family) {
-//        print("   \(name)")
-//    }
-//}
-
 protocol Font {
     func of(size: CGFloat) -> UIFont?
     func of(textStyle: UIFont.TextStyle, defaultSize: CGFloat, maxSize: CGFloat?) -> UIFont?

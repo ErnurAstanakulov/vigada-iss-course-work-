@@ -8,20 +8,23 @@
 
 import Foundation
 
-let githubKey = "githubToken"
+final class GithubTokenStoreManager {
+    let githubKey = "githubToken"
 
-func checkGithubToken() -> Bool {
-    return UserDefaults.standard.object(forKey: githubKey) != nil
-}
+    func checkGithubToken() -> Bool {
+        return UserDefaults.standard.object(forKey: githubKey) != nil
+    }
 
-func getGithubToken() -> String? {
-    return UserDefaults.standard.string(forKey: githubKey)
-}
+    func getGithubToken() -> String? {
+        return UserDefaults.standard.string(forKey: githubKey)
+    }
 
-func saveGithubToken(value: String) {
-    UserDefaults.standard.set(value, forKey: githubKey)
-}
+    func saveGithubToken(value: String) {
+        UserDefaults.standard.set(value, forKey: githubKey)
+    }
 
-func removeGithubToken() {
-    UserDefaults.standard.removeObject(forKey: githubKey)
+    func removeGithubToken() {
+        UserDefaults.standard.removeObject(forKey: githubKey)
+    }
+
 }

@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
     private var tableSource = [Setting]()
     private let reuseId = "UITableViewCellreuseId"
     private var isAuthGithub = false
+    private let githubTokenStoreManager = GithubTokenStoreManager()
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class SettingsViewController: UIViewController {
     private func tableSourceSetup() {
         var settingGuthubAccount: Setting
 
-        if !checkGithubToken() {
+        if !githubTokenStoreManager.checkGithubToken() {
             settingGuthubAccount = Setting(number: "1.",
                                                buttonTitle: "Have a github account? Log in",
                                                settingTitle: "You can keep your favorites \n& wish list there, too.",
@@ -150,7 +151,7 @@ class SettingsViewController: UIViewController {
         present(requestTokenViewController, animated: false, completion: nil)
     }
     func gihubLogoutButtonTapped() {
-        removeGithubToken()
+        githubTokenStoreManager.removeGithubToken()
         // Возвращаем первоначальное состояние интерфейса
         tableSource.removeAll()
         tableSourceSetup()
@@ -192,7 +193,7 @@ extension SettingsViewController: GithubAuthViewControllerDelegate {
     func handleTokenReceived(token: String) {
         DispatchQueue.main.async {
             // сохраняем токен
-            saveGithubToken(value: token)
+            self.githubTokenStoreManager.saveGithubToken(value: token)
             // меняем элементы интерфейса
             self.tableView.reloadData()
         }

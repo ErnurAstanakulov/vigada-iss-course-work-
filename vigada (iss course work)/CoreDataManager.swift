@@ -9,11 +9,40 @@
 import Foundation
 import CoreData
 
-final class CoreDataManager {
+protocol CoreDataManagerDelegate: class {
+    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [String]])
+}
+
+final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
     let stack = CoreDataStack.shared
 
-    func saveGame(_ gameModelForCoreData: GameModelForCoreData) {
+    weak var delegate: CoreDataManagerDelegate?
 
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<MOGameDetails> = {
+        let fetchRequest = NSFetchRequest<MOGameDetails>()
+        fetchRequest.entity = MOGameDetails.entity()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
+        //fetchRequest.fetchBatchSize = 14
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: stack.persistentContainer.viewContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
+
+    func loadFavoritesFromCoreData() {
+        //fetchedResultsController
+        print("loading...")
+        // тут всё поменяется конечно
+        let responseMessages = ["200": ["OK"],
+                                "403": ["Access forbidden"],
+                                "404": ["File not found"],
+                                "500": ["Internal server error"]]
+        self.delegate?.loadFavoritesFromCoreData(responseMessages)
+    }
+
+    func saveGame(_ gameModelForKeeping: GameModelForKeeping) {
         stack.persistentContainer.performBackgroundTask { (context) in
 
             let newGame = NSEntityDescription.insertNewObject(forEntityName: "GameDetails", into: context)
@@ -22,9 +51,9 @@ final class CoreDataManager {
             //                    print("ошибка jpg")
             //                    return
             //                }
-            newGame.setValue(gameModelForCoreData.gameUuid, forKey: "gameUuid")
-            newGame.setValue(gameModelForCoreData.gameIndex, forKey: "gameIndex")
-            newGame.setValue(gameModelForCoreData.gameCategory, forKey: "gameCategory")
+            newGame.setValue(gameModelForKeeping.gameUuid, forKey: "gameUuid")
+            newGame.setValue(gameModelForKeeping.gameIndex, forKey: "gameIndex")
+            newGame.setValue(gameModelForKeeping.gameCategory, forKey: "gameCategory")
 
             do {
                 // сохраняем контекст

@@ -23,6 +23,7 @@ internal final class CoreDataStack {
         persistentContainer = NSPersistentContainer(name: "VGDModel")
         group.enter()
         persistentContainer.loadPersistentStores { storeDescription, error in
+            print(storeDescription)
             if let error = error {
                 assertionFailure(error.localizedDescription)
             }

@@ -59,6 +59,7 @@ final class GithubAuthViewController: UIViewController {
     }
 
     private func getTokenBy(code: String, completion: @escaping (_ token: String?, _ error: String?) -> Void) {
+
         var components = URLComponents(string: "https://github.com/login/oauth/access_token")
         components?.queryItems = [
             URLQueryItem(name: "client_id", value: "\(clientId)"),
@@ -113,11 +114,9 @@ final class GithubAuthViewController: UIViewController {
 
 extension GithubAuthViewController: WKNavigationDelegate {
     func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        defer {
-            decisionHandler(.allow)
-        }
 
         if let url = navigationAction.request.url, url.scheme == "https" {
+            decisionHandler(.allow)
             let targetString = url.absoluteString.replacingOccurrences(of: "#", with: "?")
             guard let components = URLComponents(string: targetString) else {
                 return
@@ -134,6 +133,7 @@ extension GithubAuthViewController: WKNavigationDelegate {
             }
         } else {
             print("Чота не получилося")
+            decisionHandler(.cancel)
         }
     }
 }

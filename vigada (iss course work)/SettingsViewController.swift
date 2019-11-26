@@ -39,10 +39,10 @@ class SettingsViewController: UIViewController {
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: tableView.topAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
             ])
 
         tableView.separatorColor = UIColor.VGDColor.clear
@@ -78,7 +78,7 @@ class SettingsViewController: UIViewController {
         tableSource.append(aboutStubSetting)
     }
 
-    func isNormalCell(_ indexPath: IndexPath) -> UITableViewCell {
+    private func isNormalCell(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingNormalTableViewCell", for: indexPath) as? SettingNormalTableViewCell
         cell?.settingView.settingNumber.text = tableSource[indexPath.row].number
         cell?.settingView.settingButton.setTitle(tableSource[indexPath.row].buttonTitle, for: .normal)
@@ -95,7 +95,7 @@ class SettingsViewController: UIViewController {
         }
     }
 
-    func isActiveCell(_ indexPath: IndexPath) -> UITableViewCell {
+    private func isActiveCell(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingActiveTableViewCell", for: indexPath) as? SettingActiveTableViewCell
         cell?.settingView.settingNumber.text = tableSource[indexPath.row].number
         cell?.settingView.settingButton.setTitle(tableSource[indexPath.row].buttonTitle, for: .normal)
@@ -112,7 +112,7 @@ class SettingsViewController: UIViewController {
         }
     }
 
-    func isAboutCell(_ indexPath: IndexPath) -> UITableViewCell {
+    private func isAboutCell(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AboutTableViewCell", for: indexPath) as? AboutTableViewCell
         cell?.aboutView.logoImageView.image = UIImage(named: "vgdLogo")
         cell?.aboutView.vgdLabel.text = "VIDEO GAMES DATA"

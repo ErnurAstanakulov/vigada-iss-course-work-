@@ -147,8 +147,6 @@
 				B32674172385508700B2E45E /* vigada (iss course work) */,
 				B3BA3B1F238BCEC400B9C08D /* vigada (iss course work)Tests */,
 				B32674162385508700B2E45E /* Products */,
-				B349029423866845000EF110 /* Fonts */,
-				B3994AAC2387D465000C705A /* Media */,
 			);
 			sourceTree = "<group>";
 		};
@@ -171,6 +169,8 @@
 				B37FCBBD2385F07100BE845A /* Views */,
 				B3FCD1A3238D48F4001C9FDE /* Utils */,
 				B326743D23855B0300B2E45E /* Helpers */,
+				B349029423866845000EF110 /* Fonts */,
+				B3994AAC2387D465000C705A /* Media */,
 				B326741F2385508A00B2E45E /* Assets.xcassets */,
 				B32674212385508A00B2E45E /* LaunchScreen.storyboard */,
 				B32674182385508700B2E45E /* AppDelegate.swift */,

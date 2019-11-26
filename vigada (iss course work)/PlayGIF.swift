@@ -16,9 +16,7 @@ extension UIImageView {
         }
         let url = URL(fileURLWithPath: path)
         guard let gifData = try? Data(contentsOf: url),
-            let source =  CGImageSourceCreateWithData(gifData as CFData, nil) else {
-                return nil
-        }
+            let source =  CGImageSourceCreateWithData(gifData as CFData, nil) else { return nil }
         var images = [UIImage]()
         let imageCount = CGImageSourceGetCount(source)
         for index in 0 ..< imageCount {

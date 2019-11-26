@@ -21,3 +21,7 @@ func getGithubToken() -> String? {
 func saveGithubToken(value: String) {
     UserDefaults.standard.set(value, forKey: githubKey)
 }
+
+func removeGithubToken() {
+    UserDefaults.standard.removeObject(forKey: githubKey)
+}

@@ -16,11 +16,11 @@ enum Favorites {
     case segmentCells
 
     struct FavoritesSegments {
-        let segmentsCells = ["Best", "Wishes", "Later", "Recent"]
-        let best = ["World Of Warcraft", "Fortnite", "PubG", "Tetris"]
-        let wishes = ["Full House", "Dr. Who"]
-        var later = ["Full 2", "Dr. 3"]
-        let recent = ["iMac Pro", "Mac Mini", "iMac Pro", "Mac Mini"]
+        let segmentsCells = ["Best", "Wishes", "Later", "Recent"]        
+        let best = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        let wishes = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
+        var later = ["Mini", "Pro", "Mac", "Book", "iMac", "Apple", "TV", "Arcade", "Xcode", "Swift"]
+        let recent = ["Тетрис", "КС", "Симс", "Симсити", "Контра", "Пугб", "Форнайт", "Пятнашки"]
     }
 
     var data: [String] {

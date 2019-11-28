@@ -30,6 +30,11 @@ class LoaderViewController: UIViewController {
         let time = 2.5
         DispatchQueue.main.asyncAfter(deadline: .now() + time) { [weak self] in
             var newViewController: UIViewController
+            if let viewWithTag = self?.view.viewWithTag(42) {
+                viewWithTag.removeFromSuperview()
+            } else {
+                print("Гифка загрузки не удалилась с вью")
+            }
             self?.loaderView.vgdLoader(.stop)
             // Если интернета нет, то будем смотреть данные из базы
             if self?.isInternet ?? false {
@@ -49,6 +54,7 @@ class LoaderViewController: UIViewController {
         }
         gifImageView.translatesAutoresizingMaskIntoConstraints = false
         gifImageView.contentMode = .scaleAspectFit
+        gifImageView.tag = 42
         view.addSubview(gifImageView)
         NSLayoutConstraint.activate([
             gifImageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),

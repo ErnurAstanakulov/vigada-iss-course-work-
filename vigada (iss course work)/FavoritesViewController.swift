@@ -28,7 +28,7 @@ class FavoritesViewController: UIViewController {
     }()
 
     // TableSource дата
-    lazy var rowsToDisplay = Favorites.first.data
+    lazy var rowsToDisplay = Favorites.best.data
     var segmentDictionary: [String: [String]]?
 
     // MARK: UIViewController lifecycle
@@ -82,8 +82,10 @@ class FavoritesViewController: UIViewController {
             rowsToDisplay = []
         }
         // Анимация сдвига секции
+        // релоад таблицы для убирания артефактов незавершенного свайп экшена
+        // своего рода костыль ;(
         tableView.reloadData()
-        //tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .bottom)
+        tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .bottom)
     }
 
 }
@@ -103,6 +105,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavoritesTableViewCell", for: indexPath) as? FavoritesTableViewCell
         cell?.settingView.settingLabel.text = rowsToDisplay[indexPath.row]
+        cell?.settingView.settingNumber.text = "-//1\\-"
         cell?.selectionStyle = .none
         if let cell = cell {
             return cell
@@ -115,83 +118,91 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: переход на экран с детальной информацией по игре
+        // TODO: переход на экран с детальной информацией по игре c передачей модели для отображения
+        let newViewController = GameDetailsViewController()
+        if let navigator = navigationController {
+            navigator.pushViewController(newViewController, animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    func swipeChangeCategory(category: String, indexPath: IndexPath) {
-        let segment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
-        let temp1 = self.segmentDictionary?[segment]
-        let temp2 = temp1?.filter { $0 != self.rowsToDisplay[indexPath.row] }
-        self.segmentDictionary?[segment] = temp2
+    func swipeChangeCategory(category: String, indexPath: IndexPath, completion: (Bool) -> Void) {
+        let currentSegment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
+        let tempVarForSwipeValue1 = self.segmentDictionary?[currentSegment]
+        let tempVarForSwipeValue2 = tempVarForSwipeValue1?.filter { $0 != self.rowsToDisplay[indexPath.row] }
+        self.segmentDictionary?[currentSegment] = tempVarForSwipeValue2
 
-        var temp = self.segmentDictionary?[category]
-        temp?.append(self.rowsToDisplay[indexPath.row])
-        self.segmentDictionary?[category] = temp
+        var tempVarForSwipeValue = self.segmentDictionary?[category]
+        tempVarForSwipeValue?.append(self.rowsToDisplay[indexPath.row])
+        self.segmentDictionary?[category] = tempVarForSwipeValue
+
         self.rowsToDisplay.remove(at: indexPath.row)
-        self.tableView.reloadData()
-        //self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        //self.tableView.reloadData()
+        completion(true)
         // TODO: добавить метод смены категории (нормальный)
     }
 
     func tableView(_: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let temp = UIContextualAction(style: .normal, title: "tmp") { _, _, _ in
-            print("tmp")
-        }
-        var conf = UISwipeActionsConfiguration(actions: [temp])
+        var swipeActionsConf = UISwipeActionsConfiguration(actions: [])
+        var actionsArray = [UIContextualAction]()
 
-        var actionArray = [UIContextualAction]()
-
-        let swipeCell = [Favorites.segmentCells.data[0], Favorites.segmentCells.data[1]]
+        let currentSegment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
+        let lastSegmentAkaRecent = Favorites.segmentCells.data.last
+        let swipeCell = Favorites.segmentCells.data.filter { ($0 != currentSegment) && ($0 != lastSegmentAkaRecent) }
 
         for cell in swipeCell {
-            let swipe = UIContextualAction(style: .normal, title: cell) { _, _, _ in
-                print(cell)
-                self.swipeChangeCategory(category: cell, indexPath: indexPath)
+            let action = UIContextualAction(style: .destructive, title: cell) { (_, _, completion) in
+                self.swipeChangeCategory(category: cell, indexPath: indexPath, completion: completion)
             }
 
             switch cell {
             case Favorites.segmentCells.data[0]:
-                    swipe.backgroundColor = UIColor.VGDColor.green
-                    swipe.image = UIImage(named: "tabbarHeartIcon")
+                    action.backgroundColor = UIColor.VGDColor.green
+                    action.image = UIImage(named: "tabbarHeartIcon")
             case Favorites.segmentCells.data[1]:
-                    swipe.backgroundColor = UIColor.VGDColor.yellow
-                    swipe.image = UIImage(named: "wishes")
+                    action.backgroundColor = UIColor.VGDColor.yellow
+                    action.image = UIImage(named: "wishes")
+            case Favorites.segmentCells.data[2]:
+                action.backgroundColor = UIColor.VGDColor.blue
+                action.image = UIImage(named: "tabbarHomeIcon")
             default:
-                swipe.backgroundColor = UIColor.VGDColor.yellow
-                swipe.image = UIImage(named: "wishes")
+                action.backgroundColor = UIColor.VGDColor.yellow
+                action.image = UIImage(named: "wishes")
             }
-            actionArray.append(swipe)
+            actionsArray.append(action)
         }
 
-        conf = UISwipeActionsConfiguration(actions: actionArray)
-        conf.performsFirstActionWithFullSwipe = false
-        return conf
+        swipeActionsConf = UISwipeActionsConfiguration(actions: actionsArray)
+        swipeActionsConf.performsFirstActionWithFullSwipe = false
+        return swipeActionsConf
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let swipeCell = [Favorites.segmentCells.data[2]]
-        let swipeLater = UIContextualAction(style: .normal, title: swipeCell[0]) { _, _, _ in
-            print(swipeCell[0])
-            self.swipeChangeCategory(category: swipeCell[0], indexPath: indexPath)
 
+        let currentSegment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
+        if currentSegment == Favorites.segmentCells.data.last {
+            let swipeActionConf = UISwipeActionsConfiguration(actions: [])
+            swipeActionConf.performsFirstActionWithFullSwipe = false
+            return swipeActionConf
+        } else {
+            let actionDelete = UIContextualAction(style: .destructive, title: "Remove from favorites") { _, _, completion in
+                print("index path of delete: \(indexPath)")
+                self.rowsToDisplay.remove(at: indexPath.row)
+                // TODO: Позже, когда будет норм модель, переведем категорию в .none
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                completion(true)
+            }
+            actionDelete.backgroundColor = UIColor.VGDColor.orange
+
+            let swipeActionConf = UISwipeActionsConfiguration(actions: [actionDelete])
+            swipeActionConf.performsFirstActionWithFullSwipe = false
+            return swipeActionConf
         }
-        swipeLater.backgroundColor = UIColor.VGDColor.blue
-        swipeLater.image = UIImage(named: "tabbarHomeIcon")
 
-        let swipeDelete = UIContextualAction(style: .destructive, title: "Remove from favorites") { _, _, _ in
-            print("index path of delete: \(indexPath)")
-            self.rowsToDisplay.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-        swipeDelete.backgroundColor = UIColor.VGDColor.orange
-
-        let swipeAction = UISwipeActionsConfiguration(actions: [swipeDelete, swipeLater])
-        swipeAction.performsFirstActionWithFullSwipe = false
-        return swipeAction
     }
 
 }

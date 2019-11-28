@@ -17,16 +17,16 @@ final class GithubAuthViewController: UIViewController {
     weak var delegate: GithubAuthViewControllerDelegate?
 
     private let webView = WKWebView()
-    private let clientId = "78f64659ae5f7ddc1cd3"
-    private let clientSecret = "cc1f948e7b3dc5b85eee0acc46552b18560a83e8"
+    private let githubConstants = GithubConstants()
+    private let githubAuthorizationService = GithubAuthorizationService()
 
     private var codeGetRequest: URLRequest? {
-        guard var urlComponents = URLComponents(string: "https://github.com/login/oauth/authorize") else {
+        guard var urlComponents = URLComponents(string: githubConstants.authorizationLink) else {
             return nil
         }
         urlComponents.queryItems = [
             URLQueryItem(name: "scope", value: "gist"),
-            URLQueryItem(name: "client_id", value: "\(clientId)")
+            URLQueryItem(name: "client_id", value: "\(githubConstants.clientId)")
         ]
         guard let url = urlComponents.url else {
             return nil
@@ -57,59 +57,6 @@ final class GithubAuthViewController: UIViewController {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
-
-    private func getTokenBy(code: String, completion: @escaping (_ token: String?, _ error: String?) -> Void) {
-
-        var components = URLComponents(string: "https://github.com/login/oauth/access_token")
-        components?.queryItems = [
-            URLQueryItem(name: "client_id", value: "\(clientId)"),
-            URLQueryItem(name: "client_secret", value: "\(clientSecret)"),
-            URLQueryItem(name: "code", value: "\(code)")
-        ]
-        guard let url = components?.url else {
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.postData.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            defer {
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-
-            if let error = error {
-                completion(nil, "\(error.localizedDescription)")
-            }
-
-            if let response = response as? HTTPURLResponse {
-                let result = handleNetworkResponse(response)
-                switch result {
-                case .success:
-                    guard let responseData = data else {
-                        completion(nil, NetworkResponse.noData.rawValue)
-                        return
-                    }
-                    do {
-                        if let content = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject] {
-                            if let token = content["access_token"] as? String {
-                                completion(token, nil)
-                            }
-                        }
-                    } catch {
-                        print(error.localizedDescription)
-                        completion(nil, NetworkResponse.unableToDecode.rawValue)
-                    }
-
-                case .failure(let networkFailureError):
-                    completion(nil, networkFailureError)
-                }
-            }
-
-        }.resume()
-    }
 }
 
 extension GithubAuthViewController: WKNavigationDelegate {
@@ -123,7 +70,7 @@ extension GithubAuthViewController: WKNavigationDelegate {
             }
 
             if let code = components.queryItems?.first(where: { $0.name == "code" })?.value {
-                getTokenBy(code: code, completion: {token, error in
+                githubAuthorizationService.getTokenBy(authViewController: self, code: code, completion: {token, error in
                     if let token = token {
                         self.delegate?.handleTokenReceived(token: token)
                     } else {

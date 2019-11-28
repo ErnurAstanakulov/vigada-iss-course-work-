@@ -143,7 +143,7 @@ class SettingsViewController: UIViewController {
         }
     }
 
-    // MARK: - Network Manager calls
+    // MARK: - GithubAuthorization call
     // Авторизируемся на гитхабе
     func githubLoginButtonTapped() {
         let requestTokenViewController = GithubAuthViewController()
@@ -156,7 +156,6 @@ class SettingsViewController: UIViewController {
         tableSource.removeAll()
         tableSourceSetup()
         tableView.updateRow(row: 0)
-        //tableView.reloadData()
     }
 
 }

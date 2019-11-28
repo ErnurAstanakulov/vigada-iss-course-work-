@@ -9,14 +9,14 @@
 import Foundation
 
 enum Favorites {
-    case first
-    case second
-    case third
-    case fourth
+    case best
+    case wishes
+    case later
+    case recent
     case segmentCells
 
     struct FavoritesSegments {
-        let segmentsCells = ["Best", "Wishes", "Later", "Recent"]        
+        let segmentsCells = ["Best", "Wishes", "Later", "Recent"]
         let best = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
         let wishes = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
         var later = ["Mini", "Pro", "Mac", "Book", "iMac", "Apple", "TV", "Arcade", "Xcode", "Swift"]
@@ -25,13 +25,13 @@ enum Favorites {
 
     var data: [String] {
         switch self {
-        case .first:
+        case .best:
             return FavoritesSegments().best
-        case .second:
+        case .wishes:
             return FavoritesSegments().wishes
-        case .third:
+        case .later:
             return FavoritesSegments().later
-        case .fourth:
+        case .recent:
             return FavoritesSegments().recent
         case .segmentCells:
             return FavoritesSegments().segmentsCells

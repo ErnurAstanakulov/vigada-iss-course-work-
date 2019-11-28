@@ -35,10 +35,10 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
         //fetchedResultsController
         print("loading...")
         // тут всё поменяется конечно
-        let responseMessages = ["200": ["OK"],
-                                "403": ["Access forbidden"],
-                                "404": ["File not found"],
-                                "500": ["Internal server error"]]
+        let responseMessages = [Favorites.segmentCells.data[0]: Favorites.best.data,
+                                Favorites.segmentCells.data[1]: Favorites.wishes.data,
+                                Favorites.segmentCells.data[2]: Favorites.later.data,
+                                Favorites.segmentCells.data[3]: Favorites.recent.data]
         self.delegate?.loadFavoritesFromCoreData(responseMessages)
     }
 

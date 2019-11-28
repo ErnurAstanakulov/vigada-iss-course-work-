@@ -45,6 +45,11 @@
 		B39C491D238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C491C238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift */; };
 		B39C491F238DB7D900F4B7AC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */; };
 		B39C4921238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C4920238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift */; };
+		B3B6F501238FB82E0034AE3F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F500238FB82E0034AE3F /* DataManager.swift */; };
+		B3B6F503238FB8B90034AE3F /* GithubAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */; };
+		B3B6F505238FB9490034AE3F /* GithubAuthorizationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */; };
+		B3B6F507238FE1760034AE3F /* PrintLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F506238FE1760034AE3F /* PrintLog.swift */; };
+		B3B6F509238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */; };
 		B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */; };
 		B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB660A238A682A008265A7 /* HTTPMethod.swift */; };
 		B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB661E238A7F21008265A7 /* NetworkManager.swift */; };
@@ -112,6 +117,11 @@
 		B39C491C238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSegmentControlsModel.swift; sourceTree = "<group>"; };
 		B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		B39C4920238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecentTableViewCell.swift; sourceTree = "<group>"; };
+		B3B6F500238FB82E0034AE3F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthorizationService.swift; sourceTree = "<group>"; };
+		B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthorizationConstants.swift; sourceTree = "<group>"; };
+		B3B6F506238FE1760034AE3F /* PrintLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
+		B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPanelLikeButtonView.swift; sourceTree = "<group>"; };
 		B3BA3B1E238BCEC400B9C08D /* vigada (iss course work)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vigada (iss course work)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BA3B22238BCEC400B9C08D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeepingTest.swift; sourceTree = "<group>"; };
@@ -245,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				B3FCD1A1238D3DD3001C9FDE /* SettingView.swift */,
+				B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */,
 				B3FCD199238D0365001C9FDE /* SettingViewNormal.swift */,
 				B3FCD19D238D252C001C9FDE /* SettingViewActive.swift */,
 				B34902C72386D487000EF110 /* AboutView.swift */,
@@ -285,6 +296,7 @@
 		B3DB6605238A678F008265A7 /* DataServices */ = {
 			isa = PBXGroup;
 			children = (
+				B3B6F500238FB82E0034AE3F /* DataManager.swift */,
 				B3DB6607238A67AC008265A7 /* CoreData */,
 				B3DB6606238A67A0008265A7 /* Network */,
 			);
@@ -294,9 +306,11 @@
 		B3DB6606238A67A0008265A7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
 				B3DB660A238A682A008265A7 /* HTTPMethod.swift */,
 				B3DB6623238A89F5008265A7 /* requestBuilder.swift */,
-				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
+				B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */,
+				B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -325,6 +339,7 @@
 		B3FCD1A3238D48F4001C9FDE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				B3B6F506238FE1760034AE3F /* PrintLog.swift */,
 				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
 			);
@@ -465,12 +480,14 @@
 				B3FCD1A0238D25BD001C9FDE /* SettingActiveTableViewCell.swift in Sources */,
 				B32674312385532500B2E45E /* SearchViewController.swift in Sources */,
 				B39C491D238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift in Sources */,
+				B3B6F505238FB9490034AE3F /* GithubAuthorizationConstants.swift in Sources */,
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
 				B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */,
 				B3FCD19A238D0365001C9FDE /* SettingViewNormal.swift in Sources */,
 				B34902C82386D487000EF110 /* AboutView.swift in Sources */,
 				B349029823866B44000EF110 /* Fonts.swift in Sources */,
+				B3B6F507238FE1760034AE3F /* PrintLog.swift in Sources */,
 				B3DB660B238A682A008265A7 /* HTTPMethod.swift in Sources */,
 				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
 				B3DB6624238A89F5008265A7 /* requestBuilder.swift in Sources */,
@@ -478,6 +495,8 @@
 				B3FCD19C238D0E67001C9FDE /* SettingModel.swift in Sources */,
 				B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */,
 				B32674372385582900B2E45E /* LoaderViewController.swift in Sources */,
+				B3B6F503238FB8B90034AE3F /* GithubAuthorizationService.swift in Sources */,
+				B3B6F509238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift in Sources */,
 				B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */,
 				B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */,
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
@@ -499,6 +518,7 @@
 				B321C7D8238AD49F00821B73 /* CoreDataManager.swift in Sources */,
 				B321C7D2238AB7D100821B73 /* MOGameDetails.swift in Sources */,
 				B39C4921238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift in Sources */,
+				B3B6F501238FB82E0034AE3F /* DataManager.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

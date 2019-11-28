@@ -153,6 +153,7 @@ class SettingsViewController: UIViewController {
     func gihubLogoutButtonTapped() {
         githubTokenStoreManager.removeGithubToken()
         // Возвращаем первоначальное состояние интерфейса
+        isAuthGithub = !isAuthGithub
         tableSource.removeAll()
         tableSourceSetup()
         tableView.updateRow(row: 0)

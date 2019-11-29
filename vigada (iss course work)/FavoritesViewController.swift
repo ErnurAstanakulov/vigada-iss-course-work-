@@ -31,6 +31,8 @@ class FavoritesViewController: UIViewController {
     lazy var rowsToDisplay = Favorites.best.data
     var segmentDictionary: [String: [String]]?
 
+    let favoritsColors = UIElements().favoritesColors
+
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,23 +157,23 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         let swipeCell = Favorites.segmentCells.data.filter { ($0 != currentSegment) && ($0 != lastSegmentAkaRecent) }
 
         for cell in swipeCell {
-            let action = UIContextualAction(style: .destructive, title: cell) { (_, _, completion) in
+            let action = UIContextualAction(style: .destructive, title: "") { (_, _, completion) in
                 self.swipeChangeCategory(category: cell, indexPath: indexPath, completion: completion)
             }
 
             switch cell {
             case Favorites.segmentCells.data[0]:
-                    action.backgroundColor = UIColor.VGDColor.green
-                    action.image = UIImage(named: "tabbarHeartIcon")
+                    action.backgroundColor = favoritsColors[0]
+                    action.image = UIImage(named: Favorites.segmentIcons.data[0])
             case Favorites.segmentCells.data[1]:
-                    action.backgroundColor = UIColor.VGDColor.yellow
-                    action.image = UIImage(named: "wishes")
+                    action.backgroundColor = favoritsColors[1]
+                    action.image = UIImage(named: Favorites.segmentIcons.data[1])
             case Favorites.segmentCells.data[2]:
-                action.backgroundColor = UIColor.VGDColor.blue
-                action.image = UIImage(named: "tabbarHomeIcon")
+                action.backgroundColor = favoritsColors[2]
+                action.image = UIImage(named: Favorites.segmentIcons.data[2])
             default:
-                action.backgroundColor = UIColor.VGDColor.yellow
-                action.image = UIImage(named: "wishes")
+                action.backgroundColor = favoritsColors[1]
+                action.image = UIImage(named: Favorites.segmentIcons.data[1])
             }
             actionsArray.append(action)
         }
@@ -196,7 +198,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 completion(true)
             }
-            actionDelete.backgroundColor = UIColor.VGDColor.orange
+            actionDelete.backgroundColor = favoritsColors[3]
+            actionDelete.image = UIImage(named: Favorites.segmentIcons.data[3])
 
             let swipeActionConf = UISwipeActionsConfiguration(actions: [actionDelete])
             swipeActionConf.performsFirstActionWithFullSwipe = false

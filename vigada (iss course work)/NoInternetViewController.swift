@@ -9,14 +9,14 @@
 import UIKit
 
 class NoInternetViewController: UIViewController {
-
+    // MARK: - Properties
     private let lookStoredButton = UIElements().button
     private let gameOverTitle = UIElements().titleLabel
     private let contentView = UIElements().containerView
     private let contentLabel = UIElements().descriptionLabel
     private let pacmanGhostImageView = UIElements().imageView
     private var index = true
-
+    // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,7 +55,7 @@ class NoInternetViewController: UIViewController {
                                                   name: UIApplication.didBecomeActiveNotification,
                                                   object: nil)
     }
-
+    // MARK: - Action
     @objc func applicationDidBecomeActive() {
         print("снова проверили интернет")
         // Если он есть, то предзагрузим данные для первого экрана и перейдем на него.
@@ -70,7 +70,7 @@ class NoInternetViewController: UIViewController {
             pacmanGhostImageView.image = UIImage(named: "pacmanGhostAnimationSlide1")
         }
     }
-
+     // MARK: - Set up
     private func setupGameOverLabel() {
         gameOverTitle.text = "GAME OVER"
         gameOverTitle.font = NewYork.black.of(textStyle: .largeTitle, defaultSize: 34)
@@ -134,7 +134,7 @@ class NoInternetViewController: UIViewController {
             ])
         lookStoredButton.addTarget(self, action: #selector(self.lookStoredButtonClicked), for: .touchUpInside)
     }
-
+    // MARK: - Navigation
     // Переходим на экран с данными из CoreData
     @objc func lookStoredButtonClicked() {
 //        let newViewController = LoaderViewController()

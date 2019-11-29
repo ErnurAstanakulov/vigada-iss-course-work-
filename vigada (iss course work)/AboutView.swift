@@ -9,7 +9,7 @@
 import UIKit
 
 final class AboutView: UIView {
-
+    // MARK: - Properties
     let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +83,7 @@ final class AboutView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
 

@@ -9,11 +9,11 @@
 import UIKit
 
 class SettingView: UIView {
-
+     // MARK: - Properties
     let settingNumber = UIElements().descriptionLabel
     let settingLabel = UIElements().descriptionLabel
     let settingButton = UIElements().settingButton
-
+     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
 

@@ -9,7 +9,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    // MARK: - Properties
 
+    // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,8 +31,6 @@ class HomeViewController: UIViewController {
         label.font = SFCompactText.regular.of(textStyle: .body, defaultSize: 18)
         self.view.addSubview(label)
     }
-
-    // MARK: - UIViewController lifecycle
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

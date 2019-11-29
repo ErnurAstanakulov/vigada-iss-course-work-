@@ -14,6 +14,7 @@ protocol GithubAuthViewControllerDelegate: class {
 }
 
 final class GithubAuthViewController: UIViewController {
+    // MARK: - Properties
     weak var delegate: GithubAuthViewControllerDelegate?
 
     private let webView = WKWebView()
@@ -33,7 +34,7 @@ final class GithubAuthViewController: UIViewController {
         }
         return URLRequest(url: url)
     }
-
+    // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -44,7 +45,7 @@ final class GithubAuthViewController: UIViewController {
         webView.load(request)
         webView.navigationDelegate = self
     }
-
+    // MARK: Set up
     private func setupViews() {
         view.backgroundColor = .white
 
@@ -58,7 +59,7 @@ final class GithubAuthViewController: UIViewController {
             ])
     }
 }
-
+// MARK: - Extensions
 extension GithubAuthViewController: WKNavigationDelegate {
     func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 

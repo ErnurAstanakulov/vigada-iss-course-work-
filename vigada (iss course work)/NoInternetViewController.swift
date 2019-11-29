@@ -31,7 +31,7 @@ class NoInternetViewController: UIViewController {
                 self?.contentLabel.alpha = 1.0
             })
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) { [weak self] in
             UIView.animate(withDuration: 1.6, delay: 0, options: .curveEaseInOut, animations: {
                 self?.lookStoredButton.alpha = 1.0
             })
@@ -137,9 +137,9 @@ class NoInternetViewController: UIViewController {
     // MARK: - Navigation
     // Переходим на экран с данными из CoreData
     @objc func lookStoredButtonClicked() {
-//        let newViewController = LoaderViewController()
-//        newViewController.modalTransitionStyle = .crossDissolve
-//        self.present(newViewController, animated: true, completion: nil)
+        let nextViewController = FavoritesViewController()
+        nextViewController.modalTransitionStyle = .crossDissolve
+        self.present(nextViewController, animated: true, completion: nil)
 //        UserDefaults.standard.set(true, forKey: "isOnBoardSeen")
         print("click")
     }

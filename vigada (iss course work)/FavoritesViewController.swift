@@ -121,10 +121,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: переход на экран с детальной информацией по игре c передачей модели для отображения
-        let newViewController = GameDetailsViewController()
+        let nextViewController = GameDetailsViewController()
         if let navigator = navigationController {
-            navigator.pushViewController(newViewController, animated: true)
+            navigator.pushViewController(nextViewController, animated: true)
+        } else {
+            nextViewController.modalTransitionStyle = .crossDissolve
+            self.present(nextViewController, animated: true, completion: nil)
         }
+
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

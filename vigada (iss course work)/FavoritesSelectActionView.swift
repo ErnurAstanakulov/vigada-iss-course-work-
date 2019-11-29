@@ -23,6 +23,12 @@ final class FavoritesSelectActionView: UIView {
         self.layer.cornerRadius = 16
         self.layer.masksToBounds = true
 
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(blurEffectView)
+
         addSubview(favoritesIcon)
         NSLayoutConstraint.activate([
             favoritesIcon.heightAnchor.constraint(equalToConstant: 48),

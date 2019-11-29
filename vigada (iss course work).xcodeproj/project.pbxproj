@@ -41,6 +41,7 @@
 		B38788BA238C3E61007C0893 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
 		B3915EC523856B4800C2B0C1 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */; };
 		B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3994AAA2387D2CB000C705A /* PlayGIF.swift */; };
+		B39A32552391C0E500A0CEFE /* GDSplashTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A32542391C0E500A0CEFE /* GDSplashTableViewCell.swift */; };
 		B39C4919238D730700F4B7AC /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C4918238D730700F4B7AC /* FavoritesTableViewCell.swift */; };
 		B39C491D238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C491C238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift */; };
 		B39C491F238DB7D900F4B7AC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */; };
@@ -114,6 +115,7 @@
 		B377190D238840950074E458 /* vgdLoadGIF.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = vgdLoadGIF.gif; sourceTree = "<group>"; };
 		B3915EC423856B4800C2B0C1 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		B3994AAA2387D2CB000C705A /* PlayGIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayGIF.swift; sourceTree = "<group>"; };
+		B39A32542391C0E500A0CEFE /* GDSplashTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDSplashTableViewCell.swift; sourceTree = "<group>"; };
 		B39C4918238D730700F4B7AC /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		B39C491C238D9AE100F4B7AC /* FavoritesSegmentControlsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSegmentControlsModel.swift; sourceTree = "<group>"; };
 		B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				B3FCD19F238D25BD001C9FDE /* SettingActiveTableViewCell.swift */,
 				B39C4918238D730700F4B7AC /* FavoritesTableViewCell.swift */,
 				B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */,
+				B39A32542391C0E500A0CEFE /* GDSplashTableViewCell.swift */,
 				B39C4920238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift */,
 			);
 			name = Cells;
@@ -503,6 +506,7 @@
 				B31F1E282389538B000E4028 /* NoInternetViewController.swift in Sources */,
 				B31F1E2A23896634000E4028 /* UIElemets.swift in Sources */,
 				B3D56EC423911F1900B47B57 /* FavoritesSelectActionView.swift in Sources */,
+				B39A32552391C0E500A0CEFE /* GDSplashTableViewCell.swift in Sources */,
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
 				B3FCD1A2238D3DD3001C9FDE /* SettingView.swift in Sources */,

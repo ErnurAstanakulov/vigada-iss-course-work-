@@ -17,6 +17,9 @@ class GameDetailsViewController: UIViewController {
 
     private let containerViewForTable = UIElements().containerView
     private let viewWithShadowAndCorners = UIElements().containerView
+    private let closeControllerButton = UIElements().imageView
+
+    private var isInternet = false
 
     var tableviewContainerShiftConstraint = NSLayoutConstraint()
     var favorSelectActionViewHeightConstraint = NSLayoutConstraint()
@@ -25,8 +28,13 @@ class GameDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Game Title"
+        title = "Cyberpunk 2077"
         view.backgroundColor = UIColor.VGDColor.white
+
+        let networkManager = NetworkManager()
+        networkManager.delegate = self
+        // Проверяем есть интернет или нет.
+        networkManager.checkInternet()
 
         self.tabBarController?.tabBar.isHidden = true
 
@@ -42,21 +50,34 @@ class GameDetailsViewController: UIViewController {
             favoritesPanelLikeButtonView.categoryPanelStack.arrangedSubviews[index].tag = index
         }
 
+        if !isInternet {
+            closeControllerButton.image = UIImage(named: "close")
+            view.addSubview(closeControllerButton)
+            NSLayoutConstraint.activate([
+                closeControllerButton.widthAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.heightAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                closeControllerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+                ])
+            closeControllerButton.isUserInteractionEnabled = true
+            let gestureTap = UITapGestureRecognizer(target: self, action: #selector(self.closeTapped(_:)))
+            closeControllerButton.addGestureRecognizer(gestureTap)
+        }
+
         // TODO: когда буду показывать инфу, то если игра уже в фаворитсах - показать иконку какую надо, если нет её там, то сердечке в круге
-
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
 
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
-
     }
     // MARK: - Action
+    @objc func closeTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+        print("yf;fk")
+    }
+
     @objc func stackViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         if let stackTag = gestureRecognizer.view?.tag {
             // все делаем черными, потом раскрашиваем какой-то один
@@ -76,7 +97,7 @@ class GameDetailsViewController: UIViewController {
             self.favorSelectActionViewWidthConstraint.constant = 64
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.view.layoutIfNeeded()
-                self.favoritesSelectActionView.alpha = 0.5
+                self.favoritesSelectActionView.alpha = 1
             }, completion: { _ in
                 self.favoritesSelectActionViewHide()
             })
@@ -85,7 +106,7 @@ class GameDetailsViewController: UIViewController {
     @objc func favoritesSelectActionViewHide() {
         self.favorSelectActionViewHeightConstraint.constant = 104
         self.favorSelectActionViewWidthConstraint.constant = 104
-        UIView.animate(withDuration: 0.6, delay: 1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.6, delay: 0.7, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
             self.favoritesSelectActionView.alpha = 0
         }, completion: nil)
@@ -167,8 +188,8 @@ class GameDetailsViewController: UIViewController {
 
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultTableViewCell")
-        tableView.register(SearchRecentTableViewCell.self, forCellReuseIdentifier: "SearchRecentTableViewCell")
+
+        tableView.register(GDSplashTableViewCell.self, forCellReuseIdentifier: "GDSplashTableViewCell")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
@@ -226,8 +247,14 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
+
+
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
+//        cell?.settingView.settingLabel.text = "test"
+//        cell?.selectionStyle = .none
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GDSplashTableViewCell", for: indexPath) as? GDSplashTableViewCell
         cell?.settingView.settingLabel.text = "test"
+        cell?.imageView?.image = UIImage(named: "demo")
         cell?.selectionStyle = .none
         if let cell = cell {
             return cell
@@ -240,8 +267,19 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
 
     // MARK: - UITableViewDelegate
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        // TODO: переход на экран с детальной информацией по игре если результат
-//        // или новый поиск по последним поисковым запросам (может буду хранить выдачу)
+//        
 //    }
 
+}
+
+extension GameDetailsViewController: CheckInternetDelegate {
+    func checkInternet(_ isInternet: Bool) {
+        self.isInternet = isInternet
+
+        if isInternet {
+
+        } else {
+
+        }
+    }
 }

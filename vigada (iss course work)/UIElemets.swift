@@ -10,6 +10,8 @@ import UIKit
 
 final class UIElements {
     // Коллекция базовых элементов UI
+    let favoritesColors = [UIColor.VGDColor.green, UIColor.VGDColor.yellow, UIColor.VGDColor.blue, UIColor.VGDColor.orange]
+
     let button: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = NewYork.black.of(size: 20)
@@ -83,4 +85,36 @@ final class UIElements {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
+    let stackViewVertical: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        stackView.distribution  = UIStackView.Distribution.equalSpacing
+        stackView.alignment = UIStackView.Alignment.center
+        stackView.spacing   = 4.0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    let stackViewHorizontal: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.distribution  = UIStackView.Distribution.equalSpacing
+        stackView.alignment = UIStackView.Alignment.center
+        stackView.spacing   = 4.0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+}
+
+extension UIImage {
+    func tinted(with color: UIColor) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        color.set()
+        withRenderingMode(.alwaysTemplate)
+            .draw(in: CGRect(origin: .zero, size: size))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
 }

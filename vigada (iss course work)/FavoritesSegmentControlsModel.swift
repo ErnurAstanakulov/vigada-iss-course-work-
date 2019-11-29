@@ -14,9 +14,11 @@ enum Favorites {
     case later
     case recent
     case segmentCells
+    case segmentIcons
 
     struct FavoritesSegments {
         let segmentsCells = ["Best", "Wishes", "Later", "Recent"]
+        let segmentsIcons = ["favoritesPlain", "wishes", "later", "unFavoritesFill"]
         let best = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
         let wishes = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
         var later = ["Mini", "Pro", "Mac", "Book", "iMac", "Apple", "TV", "Arcade", "Xcode", "Swift"]
@@ -35,6 +37,8 @@ enum Favorites {
             return FavoritesSegments().recent
         case .segmentCells:
             return FavoritesSegments().segmentsCells
+        case .segmentIcons:
+            return FavoritesSegments().segmentsIcons
         }
     }
 }

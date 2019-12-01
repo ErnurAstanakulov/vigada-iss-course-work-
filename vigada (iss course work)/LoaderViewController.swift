@@ -11,7 +11,7 @@ import UIKit
 class LoaderViewController: UIViewController {
     // MARK: - Properties
     private let loaderView = UIElements().containerView
-    private var isInternet = true
+    private var isInternet = "isInternet"
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -26,24 +26,34 @@ class LoaderViewController: UIViewController {
 
         setupLoaderScreen()
 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loaderView.tag = 99
         self.loaderView.vgdLoader(.start, durationIn: 1.6)
         let time = 2.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + time) { [weak self] in
-            var newViewController: UIViewController
-            if let viewWithTag = self?.view.viewWithTag(42) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + time) { [] in
+            var nextViewController: UIViewController
+            if let viewWithTag = self.view.viewWithTag(42) {
                 viewWithTag.removeFromSuperview()
             } else {
                 print("Гифка загрузки не удалилась с вью")
             }
-            self?.loaderView.vgdLoader(.stop)
-            // Если интернета нет, то будем смотреть данные из базы
-            if self?.isInternet ?? false {
-                newViewController = TabBarController()
+            self.loaderView.vgdLoader(.stop)
+            if let viewWithTag = self.view.viewWithTag(99) {
+                viewWithTag.removeFromSuperview()
             } else {
-                newViewController = NoInternetViewController()
+                print("Колесо загрузки не удалилось с вью")
             }
-            newViewController.modalTransitionStyle = .crossDissolve
-            self?.present(newViewController, animated: true, completion: nil)
+            // Если интернета нет, то будем смотреть данные из базы
+            let connection = UserDefaults.standard.bool(forKey: self.isInternet)
+            if connection {
+                nextViewController = TabBarController()
+            } else {
+                nextViewController = NoInternetViewController()
+            }
+            nextViewController.modalTransitionStyle = .crossDissolve
+            self.present(nextViewController, animated: true, completion: nil)
         }
     }
 
@@ -77,11 +87,14 @@ class LoaderViewController: UIViewController {
 // MARK: - Extensions
 extension LoaderViewController: CheckInternetDelegate {
     func checkInternet(_ isInternet: Bool) {
-        self.isInternet = isInternet
+        UserDefaults.standard.set(isInternet, forKey: self.isInternet)
 
         // Если интернет есть, сделаем предзагрузку контента
         if isInternet {
+            //UserDefaults.standard.set(true, forKey: "isInternet")
             //TODO: Добавить вызов метода предзагрузки контента из сети
+        } else {
+            //UserDefaults.standard.set(false, forKey: "isInternet")
         }
     }
 }

@@ -14,5 +14,3 @@ struct GithubConstants {
     let authorizationLink = "https://github.com/login/oauth/authorize"
     let tokenLink = "https://github.com/login/oauth/access_token"
 }
-
-

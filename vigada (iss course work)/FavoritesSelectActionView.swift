@@ -10,24 +10,14 @@ import UIKit
 
 final class FavoritesSelectActionView: UIView {
      // MARK: - Properties
-    let containerView = UIElements().containerView
     let favoritesIcon = UIElements().imageView
      // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor.VGDColor.green
-
-        self.backgroundColor = UIColor.VGDColor.darkGray
         self.layer.cornerRadius = 16
         self.layer.masksToBounds = true
-
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(blurEffectView)
 
         addSubview(favoritesIcon)
         NSLayoutConstraint.activate([

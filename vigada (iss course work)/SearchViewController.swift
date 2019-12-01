@@ -69,12 +69,13 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
         cell?.settingView.settingLabel.text = "test"
+        cell?.selectionStyle = .none
         if let cell = cell {
             return cell
         } else {
@@ -88,6 +89,16 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: переход на экран с детальной информацией по игре если результат
         // или новый поиск по последним поисковым запросам (может буду хранить выдачу)
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 35, 0)
+        cell.layer.transform = rotationTransform
+        cell.alpha = 0.3
+        UIView.animate(withDuration: 0.55) {
+            cell.layer.transform = CATransform3DIdentity
+            cell.alpha = 1
+        }
     }
 
 }
@@ -122,8 +133,7 @@ extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
             pendingRequestWorkItem = requestWorkItem
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay), execute: requestWorkItem)
         } else {
-            //searchBar.resignFirstResponder()
-            print("YES 3")
+            print("поле поиска не активно")
         }
     }
 }

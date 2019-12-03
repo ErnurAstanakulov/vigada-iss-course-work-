@@ -24,6 +24,7 @@ class GDDescriptionTableViewCell: UITableViewCell {
             сontainerGameDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0)
             ])
 
+        gameDescription.textAlignment = .left
         сontainerGameDescription.addSubview(gameDescription)
         NSLayoutConstraint.activate([
             gameDescription.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -31,7 +32,6 @@ class GDDescriptionTableViewCell: UITableViewCell {
             gameDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             gameDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
             ])
-
     }
 
     required init?(coder _: NSCoder) {

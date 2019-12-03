@@ -70,6 +70,7 @@ class TabBarController: UITabBarController {
     func navigationControllerLargeTitles(navigationController: UINavigationController) {
         navigationController.navigationItem.largeTitleDisplayMode = .always
         navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.tintColor = UIColor.VGDColor.blue
         if let font = NewYork.black.of(size: 34) {
             navigationController.navigationBar.largeTitleTextAttributes =
                 [NSAttributedString.Key.font: font]
@@ -78,6 +79,10 @@ class TabBarController: UITabBarController {
             navigationController.navigationBar.titleTextAttributes =
                 [NSAttributedString.Key.font: font]
         }
+        // кроме больших тайтлов, делаем навбар прозрачным
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController.navigationBar.shadowImage = UIImage()
+        navigationController.navigationBar.isTranslucent = true
     }
 
     func tabBarControllerTitleFont() {

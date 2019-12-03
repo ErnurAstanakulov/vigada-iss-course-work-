@@ -55,6 +55,17 @@ final class UIElements {
         return label
     }()
 
+    let monoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = SFMono.regular.of(textStyle: .body, defaultSize: 18)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,9 +99,9 @@ final class UIElements {
 
     let stackViewVertical: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = NSLayoutConstraint.Axis.vertical
-        stackView.distribution  = UIStackView.Distribution.equalSpacing
-        stackView.alignment = UIStackView.Alignment.center
+        stackView.axis = .vertical
+        stackView.distribution  = .equalSpacing
+        stackView.alignment = .center
         stackView.spacing   = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -98,9 +109,9 @@ final class UIElements {
 
     let stackViewHorizontal: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = NSLayoutConstraint.Axis.horizontal
-        stackView.distribution  = UIStackView.Distribution.equalSpacing
-        stackView.alignment = UIStackView.Alignment.center
+        stackView.axis = .horizontal
+        stackView.distribution  = .equalSpacing
+        stackView.alignment = .center
         stackView.spacing   = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView

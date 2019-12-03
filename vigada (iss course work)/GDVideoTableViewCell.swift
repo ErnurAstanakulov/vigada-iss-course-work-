@@ -12,6 +12,7 @@ class GDVideoTableViewCell: UITableViewCell {
     private let stubContainer = UIElements().containerView
     private let tintContainer = UIElements().containerView
     private let coverContainer = UIElements().containerView
+    private let allContainer = UIElements().containerView
 
     let gameImagePreview = UIElements().imageView
 
@@ -32,57 +33,61 @@ class GDVideoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        gameImagePreview.contentMode = .scaleAspectFill
-        gameImagePreview.layer.cornerRadius = 16
-        contentView.addSubview(gameImagePreview)
+        allContainer.clipsToBounds = true
+        allContainer.layer.cornerRadius = 16
+        allContainer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+
+        contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
-            gameImagePreview.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            gameImagePreview.heightAnchor.constraint(equalToConstant: 100),
-            gameImagePreview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            gameImagePreview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            allContainer.heightAnchor.constraint(equalToConstant: 248),
+            allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
             ])
 
-        tintContainer.layer.cornerRadius = 16
+        gameImagePreview.contentMode = .scaleAspectFill
+        allContainer.addSubview(gameImagePreview)
+        NSLayoutConstraint.activate([
+            gameImagePreview.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: 0),
+            gameImagePreview.heightAnchor.constraint(equalTo: allContainer.heightAnchor),
+            gameImagePreview.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: 0),
+            gameImagePreview.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: -0)
+            ])
+
         tintContainer.backgroundColor = UIColor.VGDColor.black
         tintContainer.alpha = 0.3
-        contentView.addSubview(tintContainer)
+        gameImagePreview.addSubview(tintContainer)
         NSLayoutConstraint.activate([
-            tintContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            tintContainer.heightAnchor.constraint(equalToConstant: 100),
-            tintContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            tintContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            tintContainer.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: 0),
+            tintContainer.heightAnchor.constraint(equalTo: allContainer.heightAnchor),
+            tintContainer.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: 0),
+            tintContainer.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: -0)
             ])
 
         coverContainer.layer.cornerRadius = 16
-        //tintContainer.backgroundColor = UIColor.VGDColor.black
-        contentView.addSubview(coverContainer)
+        allContainer.addSubview(coverContainer)
         NSLayoutConstraint.activate([
-            coverContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            coverContainer.heightAnchor.constraint(equalToConstant: 100),
-            coverContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            coverContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            coverContainer.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: 0),
+            coverContainer.heightAnchor.constraint(equalTo: allContainer.heightAnchor),
+            coverContainer.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: 0),
+            coverContainer.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: -0)
             ])
 
         coverContainer.addSubview(playButton)
         NSLayoutConstraint.activate([
-            playButton.centerXAnchor.constraint(equalTo: gameImagePreview.centerXAnchor, constant: 0),
-            playButton.centerYAnchor.constraint(equalTo: gameImagePreview.centerYAnchor, constant: 0)
+            playButton.centerXAnchor.constraint(equalTo: allContainer.centerXAnchor, constant: 0),
+            playButton.centerYAnchor.constraint(equalTo: allContainer.centerYAnchor, constant: 0)
             ])
 
-        contentView.addSubview(stubContainer)
-        NSLayoutConstraint.activate([
-            stubContainer.topAnchor.constraint(equalTo: gameImagePreview.bottomAnchor, constant: -0),
-            stubContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            stubContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            stubContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0)
-            ])
-
-        //        label = UILabel(frame: self.frame)
-        //        label.center = self.center
-        //        label.textAlignment = .center
-        //        label.font = NewYork.black.of(size: 34)
-        //        gameImage.mask = label
-
+//        stubContainer.backgroundColor = .white
+//        contentView.addSubview(stubContainer)
+//        NSLayoutConstraint.activate([
+//            stubContainer.topAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8),
+//            stubContainer.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+//            stubContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+//            stubContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0)
+//            ])
     }
 
     required init?(coder _: NSCoder) {

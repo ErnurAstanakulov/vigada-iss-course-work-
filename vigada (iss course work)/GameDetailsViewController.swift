@@ -26,28 +26,33 @@ class GameDetailsViewController: UIViewController {
 
     private let isInternet = "isInternet"
 
-    private var result = [String]()
-
+    // констрейнты для анимации таблиции при смене категории
     private var tableviewContainerShiftConstraint = NSLayoutConstraint()
     private var favorSelectActionViewHeightConstraint = NSLayoutConstraint()
     private var favorSelectActionViewWidthConstraint = NSLayoutConstraint()
 
-    private var favIcon = UIImage(named: "favoritesCircleFill")
+    private var favIcon = UIImage(named: "fav.recent")
     private var favIconTintColor = UIColor.VGDColor.black
-    var storedOffsets = [Int: CGFloat]()
+    //var storedOffsets = [Int: CGFloat]()
+
+    var game: GameModel?
+
+    var gameTempPicture = UIImage()
+    var gameTempDescription = ""
+    var gameTempVideoPreviewImageLink = ""
+    var gameTempVideoClipLink = ""
+    var gameTempScreenShotsImagesArray = [UIImage]()
+
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Cyberpunk 2077"
         view.backgroundColor = UIColor.VGDColor.white
 
         let networkManager = NetworkManager()
         networkManager.delegate = self
         // Проверяем есть интернет или нет.
         networkManager.checkInternet()
-
-        self.tabBarController?.tabBar.isHidden = true
 
         safeFrame = window.safeAreaLayoutGuide.layoutFrame
         bottomSafeAreaHeight = window.frame.maxY - safeFrame.maxY
@@ -60,42 +65,30 @@ class GameDetailsViewController: UIViewController {
             favoritesPanelLikeButtonView.categoryPanelStack.arrangedSubviews[index].tag = index
         }
 
-        if !UserDefaults.standard.bool(forKey: isInternet) {
-            closeControllerButton.image = UIImage(named: "close")
-            view.addSubview(closeControllerButton)
-            NSLayoutConstraint.activate([
-                closeControllerButton.widthAnchor.constraint(equalToConstant: 24),
-                closeControllerButton.heightAnchor.constraint(equalToConstant: 24),
-                closeControllerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-                closeControllerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
-                ])
-            closeControllerButton.isUserInteractionEnabled = true
-            let gestureTap = UITapGestureRecognizer(target: self, action: #selector(self.closeTapped(_:)))
-            closeControllerButton.addGestureRecognizer(gestureTap)
-        }
-
-        let string = """
-Gorky 17 is a role-playing game set in a fictional polish town of Gorky 17.
-The town was attacked by mutants and destroyed. Several years after these events a NATO group disappeared near Gorky 17.
-You take control of the second team sent to find missing allies.
-Another goal of the game is to reveal the reason why monsters appear.\n\nYou manage a group of three people: Cole Sullivan, the operation leader, and his two subordinates.
-The characters can be upgraded; the line-up changes during the game.
-Gorky 17 features several huge locations you can freely explore while some areas require special items to be opened.\n\nThe game features turn-based battles with a heavy tactical accent.
-You are strictly limited in supplies so wise ammo management is a must.
-Sometimes you need to fulfill a certain task during fights, such as protecting someone; some fights are time limited.
-A character’s death leads to restarting the battle.
-"""
-        result = string.components(separatedBy: "\n\n")
-        //result = string.split(separator: "\n\n ")
-        print(result)
-        print(result.count)
-
-        // TODO: когда буду показывать инфу, то если игра уже в фаворитсах - показать иконку какую надо, если нет её там, то сердечке в круге
+        // Если интернета нет, то засетапится эта кнопка
+        setupCloseControllerButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.hidesBarsOnSwipe = true
+        self.tabBarController?.tabBar.isHidden = true
+
+        // TODO: Если попали сюда из фаворитсов, то всё ок. Сохранять модель в кордату будем только при смене категории.
+        // Если попали сюда из любого другого экрана (Поиск, Хоум, Брауз), то качаем из сети инфу по игре. Текст прийдет быстро. Главная картинка уже есть. (релоадим таблицу)
+        // Качаем превью для видео, адрес уже есть, в это время там плейсхордер. Линк на видео тоже есть
+        // По комплишену качаем скриншоты (с задержкой например ). По комплишену релоадим таблицу.
+        // И сохраняем модель в кордату
+        // на случай если кто-то быстро зашел и ушел, то поставим ограничение по времени
+
+        if game == nil {
+            print("Мы пришли откуда-то и модели нет. Возьми временные данные")
+            // и из них инициализируй временную модель 'game'
+            // скачаются скриншоты и по комплишену инициализируем модель, и отдадим её кордате на сохранение
+            // перегрузим таблицу из модели
+        } else {
+            print("Мы пришли из фаворитсов и у нас есть модель!")
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -104,10 +97,12 @@ A character’s death leads to restarting the battle.
     }
 
     // MARK: - Action
+    // close controller method if no internet
     @objc func closeTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         self.dismiss(animated: true, completion: nil)
     }
 
+    // выбрали категорию
     @objc func stackViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         if let stackTag = gestureRecognizer.view?.tag {
             let icon = Favorites.segmentIcons.data[stackTag]
@@ -119,6 +114,19 @@ A character’s death leads to restarting the battle.
             } else {
                 favIcon = UIImage(named: "favoritesCircleFill")
                 favIconTintColor = UIColor.VGDColor.black
+            }
+            //  меняем категорию у модели и сохраняем её в базу
+            switch stackTag {
+            case 0:
+                game?.gameCategory = .best
+            case 1:
+                game?.gameCategory = .wishes
+            case 2:
+                game?.gameCategory = .later
+            case 3:
+                game?.gameCategory = .none
+            default:
+                print("not right category")
             }
 
             favoritesSelectActionView.backgroundColor = color[stackTag]
@@ -135,8 +143,6 @@ A character’s death leads to restarting the battle.
             UIView.transition(with: self.tableView, duration: 0.1, options: .transitionCrossDissolve,
                               animations: {
                                 self.tableView.reloadData()
-//                                let indexPath = IndexPath(row: 0, section: 0)
-//                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
             })
         }
     }
@@ -147,6 +153,10 @@ A character’s death leads to restarting the battle.
             self.view.layoutIfNeeded()
             self.favoritesSelectActionView.alpha = 0
         }, completion: nil)
+    }
+
+    @objc func addFavoritesTapped(_ sender: UIButton) {
+        self.tableViewContainerUp()
     }
 
     private func tableViewContainerUp() {
@@ -162,6 +172,13 @@ A character’s death leads to restarting the battle.
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+
+    @objc func playButtonIsTapped(_ sender: UIButton) {
+        guard let link = game?.gameVideoLink else {
+            return
+        }
+        self.playTrailer(link)
     }
 
     // MARK: - Set up
@@ -226,10 +243,11 @@ A character’s death leads to restarting the battle.
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = UIColor.VGDColor.white
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
+        tableView.bounces = false
 
         viewWithShadowAndCorners.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -240,44 +258,34 @@ A character’s death leads to restarting the battle.
             ])
     }
 
-    @objc func addFavoritesTapped(_ sender: UIButton) {
-        self.tableViewContainerUp()
-    }
-
-    @objc func playButtonIsTapped(_ sender: UIButton) {
-        guard let url = URL(string: "https://media.rawg.io/media/stories/a30/a3017aa7740f387a158cbc343524275b.mp4") else {
-            return
+    func setupCloseControllerButton() {
+        if !UserDefaults.standard.bool(forKey: isInternet) {
+            closeControllerButton.image = UIImage(named: "close")
+            view.addSubview(closeControllerButton)
+            NSLayoutConstraint.activate([
+                closeControllerButton.widthAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.heightAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                closeControllerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+                ])
+            closeControllerButton.isUserInteractionEnabled = true
+            let gestureTap = UITapGestureRecognizer(target: self, action: #selector(self.closeTapped(_:)))
+            closeControllerButton.addGestureRecognizer(gestureTap)
         }
-        let player = AVPlayer(url: url)
-        let controller = AVPlayerViewController()
-        //controller.exitsFullScreenWhenPlaybackEnds = true
-        controller.modalPresentationStyle = .overFullScreen
-        controller.player = player
-        self.present(controller, animated: true) {
-            player.play()
-        }
-
-//        let videoURL = URL(string: "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
-//        let player = AVPlayer(url: videoURL!)
-//        let playerLayer = AVPlayerLayer(player: player)
-//        playerLayer.frame = self.view.bounds
-//        self.view.layer.addSublayer(playerLayer)
-//        player.play()
-
     }
 
 }
 
 // MARK: - Extensions
+// MARK: UITableViewDataSource
 extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 4
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -285,64 +293,95 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         case 0:
             let cell = showSplashCell(indexPath: indexPath)
             return cell
-        case 1...result.count:
+        case 1:
             let cell = showDescriptionCell(indexPath: indexPath)
             return cell
-        case result.count+1:
-            let cell = showVideoCell(indexPath: indexPath)
-            return cell
-        case result.count+2:
+        case 2:
             let cell = showScreenshotsCell(indexPath: indexPath)
             return cell
+        case 3:
+            let cell = showVideoCell(indexPath: indexPath)
+            return cell
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "GDDescriptionTableViewCell", for: indexPath) as? GDDescriptionTableViewCell
-            cell?.gameDescription.text = "test"
-            cell?.сontainerGameDescription.backgroundColor = UIColor.VGDColor.green
-            cell?.selectionStyle = .none
-            return cell!
+            return defaultCell(indexPath: indexPath)
         }
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            let nextViewController = ScreenshotsCollectionViewController()
+            // TODO: подставить сюда массив картинок скачанных из сети
+            // строка временная
+            nextViewController.gameScreenshotsArray = [UIImage](repeating: UIImage(named: "demo")!, count: 15)
+            if let navigator = navigationController {
+                navigator.pushViewController(nextViewController, animated: true)
+            }
+        }
+    }
+
+    func defaultCell(indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
+        cell.textLabel?.text = "Broke 'Settings' table row"
+        return cell
     }
 
     func showSplashCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDSplashTableViewCell", for: indexPath) as? GDSplashTableViewCell
         cell?.selectionStyle = .none
-        cell?.gameImage.image = UIImage(named: "demo")
-        cell?.label.text = title
+        guard let imageData = game?.gameImage else {
+            return defaultCell(indexPath: indexPath)
+        }
+        let image = UIImage(data: imageData) ?? UIImage(named: "demo1")
+        cell?.gameImage.image = image
+        cell?.label.text = game?.gameTitle
+        guard let category = game?.gameCategory else {
+            fatalError("category wtf?")
+        }
+        switch category {
+        case .best:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[0]
+        case .wishes:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[1]
+        case .later:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[2]
+        case .none:
+            favIcon = UIImage(named: category.rawValue)
+        case .recent:
+            favIcon = UIImage(named: category.rawValue)
+        }
         cell?.addFavoritesButton.setImage(favIcon, for: .normal)
-        //cell?.addFavoritesButton.tintColor = favIconTintColor
         cell?.tintContainer.backgroundColor = favIconTintColor
         cell?.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
 
         if let cell = cell {
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
-            cell.textLabel?.text = "Broke 'Settings' table row"
-            return cell
+            return defaultCell(indexPath: indexPath)
         }
     }
 
     func showDescriptionCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDDescriptionTableViewCell", for: indexPath) as? GDDescriptionTableViewCell
         cell?.selectionStyle = .none
-
-        if indexPath.row % 2 == 0 {
-            cell?.сontainerGameDescription.backgroundColor = UIColor.VGDColor.black
-            cell?.gameDescription.textColor = UIColor.VGDColor.white
+        cell?.gameDescription.text = self.game?.gameDescription
+        if let cell = cell {
+            return cell
         } else {
-            cell?.сontainerGameDescription.backgroundColor = UIColor.VGDColor.white
-            cell?.gameDescription.textColor = UIColor.VGDColor.black
+            return defaultCell(indexPath: indexPath)
         }
+    }
 
-        cell?.gameDescription.text = result[indexPath.row - 1]
-        cell?.gameDescription.textAlignment = .left
+    func showScreenshotsCell(indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GDScreenshotsTableViewCell", for: indexPath) as? GDScreenshotsTableViewCell
+        cell?.selectionStyle = .none
 
         if let cell = cell {
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
-            cell.textLabel?.text = "Broke 'Settings' table row"
-            return cell
+            return defaultCell(indexPath: indexPath)
         }
     }
 
@@ -354,34 +393,14 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         if let cell = cell {
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
-            cell.textLabel?.text = "Broke 'Settings' table row"
-            return cell
+            return defaultCell(indexPath: indexPath)
         }
     }
-
-    func showScreenshotsCell(indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GDScreenshotsTableViewCell", for: indexPath) as? GDScreenshotsTableViewCell
-        cell?.selectionStyle = .none
-        if let cell = cell {
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
-            cell.textLabel?.text = "Broke 'Settings' table row"
-            return cell
-        }
-    }
-
-    // MARK: - UITableViewDelegate
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//    }
 
 }
-
+// MARK: Check internet connection
 extension GameDetailsViewController: CheckInternetDelegate {
     func checkInternet(_ isInternet: Bool) {
-
         let connection = UserDefaults.standard.bool(forKey: self.isInternet)
         //Если соединение вдруг появилось, то предложим пользователю перейти на главный экран
         if connection == false && isInternet == true {
@@ -395,6 +414,21 @@ extension GameDetailsViewController: CheckInternetDelegate {
                 alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
+        }
+    }
+}
+// MARK: Video player
+extension GameDetailsViewController {
+    func playTrailer(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        let player = AVPlayer(url: url)
+        let controller = VGDVideoController()
+        controller.modalPresentationStyle = .overFullScreen
+        controller.player = player
+        self.present(controller, animated: true) {
+            player.play()
         }
     }
 }

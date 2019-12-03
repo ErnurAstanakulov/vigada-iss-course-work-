@@ -22,7 +22,7 @@ internal final class CoreDataStack {
         let group = DispatchGroup()
         persistentContainer = NSPersistentContainer(name: "VGDModel")
         group.enter()
-        persistentContainer.loadPersistentStores { storeDescription, error in
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 assertionFailure(error.localizedDescription)
             }

@@ -8,9 +8,11 @@
 
 import Foundation
 import CoreData
+import UIKit
+//TODO удалить потом юайкит отсюда
 
 protocol CoreDataManagerDelegate: class {
-    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [String]])
+    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [GameModel]])
 }
 
 final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
@@ -31,18 +33,46 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
         return fetchedResultsController
     }()
 
+    var gameModels = [GameModel]()
+
     func loadFavoritesFromCoreData() {
         //fetchedResultsController
         print("loading...")
         // тут всё поменяется конечно
-        let responseMessages = [Favorites.segmentCells.data[0]: Favorites.best.data,
-                                Favorites.segmentCells.data[1]: Favorites.wishes.data,
-                                Favorites.segmentCells.data[2]: Favorites.later.data,
-                                Favorites.segmentCells.data[3]: Favorites.recent.data]
+
+        guard let testImage = UIImage(named: "demo") else {
+            print("Картинки Демо нет")
+            return
+        }
+        guard let imageData = testImage.jpegData(compressionQuality: 1) else {
+            print("ошибка jpg")
+            return
+        }
+
+        let link = "https://media.rawg.io/media/stories/a30/a3017aa7740f387a158cbc343524275b.mp4"
+        let gameModel1 = GameModel(gameCategory: .best, gameTitle: "Zelda", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel2 = GameModel(gameCategory: .later, gameTitle: "Cyberpunk 2077", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel3 = GameModel(gameCategory: .none, gameTitle: "Sims", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel4 = GameModel(gameCategory: .recent, gameTitle: "Contra", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel5 = GameModel(gameCategory: .best, gameTitle: "Gorky 17", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel6 = GameModel(gameCategory: .wishes, gameTitle: "Football Manager", gameImage: imageData,
+                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+
+        gameModels = [gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6]
+
+        let responseMessages = [Favorites.segmentCells.data[0]: gameModels.filter { $0.gameCategory == .best },
+                                Favorites.segmentCells.data[1]: gameModels.filter { $0.gameCategory == .wishes },
+                                Favorites.segmentCells.data[2]: gameModels.filter { $0.gameCategory == .later },
+                                Favorites.segmentCells.data[3]: gameModels.filter { $0.gameCategory == .recent }]
         self.delegate?.loadFavoritesFromCoreData(responseMessages)
     }
 
-    func saveGame(_ gameModelForKeeping: GameModelForKeeping) {
+    func saveGame(_ gameModelForKeeping: GameModel) {
         stack.persistentContainer.performBackgroundTask { (context) in
 
             let newGame = NSEntityDescription.insertNewObject(forEntityName: "GameDetails", into: context)
@@ -52,7 +82,6 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
             //                    return
             //                }
             newGame.setValue(gameModelForKeeping.gameUuid, forKey: "gameUuid")
-            newGame.setValue(gameModelForKeeping.gameIndex, forKey: "gameIndex")
             newGame.setValue(gameModelForKeeping.gameCategory, forKey: "gameCategory")
 
             do {

@@ -13,7 +13,6 @@ class FavoritesViewController: UIViewController {
     private let coreDataManager = CoreDataManager()
 
     private let tableView = UITableView(frame: .zero, style: .plain)
-    private let reuseId = "UITableViewCellreuseId"
 
     private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: Favorites.segmentCells.data)
@@ -28,27 +27,39 @@ class FavoritesViewController: UIViewController {
     }()
 
     // TableSource дата
-    lazy var rowsToDisplay = Favorites.best.data
-    var segmentDictionary: [String: [String]]?
+    lazy var rowsToDisplay = [GameModel]()
+    var segmentDictionary: [String: [GameModel]]?
 
     let favoritsColors = UIElements().favoritesColors
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "Favorites"
         view.backgroundColor = .white
-
         coreDataManager.delegate = self
-
         setupUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnSwipe = false
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
 
+        // Данные берем из кордаты каждый раз, когда приходим на экран.
+        // Или только при перевоначальной инициализации экрана. Далее при смене категории от Геймдетеилс возвращаем модель
+        // и тут пересортировываем словарь
+        // TODO скорее всего так и надо сделать, сейчас бывает фатал эрор с рендежем индекса
+        // Дальше со словарем ничего не делаем, кроме текущих изменений в настоящем представлении.
         coreDataManager.loadFavoritesFromCoreData()
-        if let array = segmentDictionary?["best"] {
+        if let array = segmentDictionary?[Favorites.segmentCells.data[0]] {
             rowsToDisplay = array
         }
-        // TODO: настроить вид ячейки(ячеек) favorites
+        // Сохраняем потом только модель индидуально при смене категории
+        // отдаём её кордатаменеджеру он разберется что делать
+        // ниже стоит тудушка в нужном месте
     }
 
     // MARK: - Set up
@@ -64,7 +75,7 @@ class FavoritesViewController: UIViewController {
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 25)
+            segmentedControl.heightAnchor.constraint(equalToConstant: 36)
             ])
 
         view.addSubview(tableView)
@@ -83,11 +94,7 @@ class FavoritesViewController: UIViewController {
         } else {
             rowsToDisplay = []
         }
-        // Анимация сдвига секции
-        // релоад таблицы для убирания артефактов незавершенного свайп экшена
-        // своего рода костыль ;(
         tableView.reloadData()
-        tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .bottom)
     }
 
 }
@@ -106,13 +113,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavoritesTableViewCell", for: indexPath) as? FavoritesTableViewCell
-        cell?.settingView.settingLabel.text = rowsToDisplay[indexPath.row]
-        cell?.settingView.settingNumber.text = "-//1\\-"
+        let imageData = rowsToDisplay[indexPath.row].gameImage
+        cell?.gameImageView.image = UIImage(data: imageData)
+        cell?.gameTitle.text = rowsToDisplay[indexPath.row].gameTitle
         cell?.selectionStyle = .none
         if let cell = cell {
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCellreuseId", for: indexPath)
             cell.textLabel?.text = "Broke 'Settings' table row"
             return cell
         }
@@ -120,12 +128,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: переход на экран с детальной информацией по игре c передачей модели для отображения
         let nextViewController = GameDetailsViewController()
+        // В зависимости от налия интеренета показываем разные представления экранов. С навбаром или без.
         if let navigator = navigationController {
+            nextViewController.game = rowsToDisplay[indexPath.row]
             navigator.pushViewController(nextViewController, animated: true)
         } else {
             nextViewController.modalTransitionStyle = .crossDissolve
+            nextViewController.game = rowsToDisplay[indexPath.row]
             self.present(nextViewController, animated: true, completion: nil)
         }
 
@@ -136,20 +146,38 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func swipeChangeCategory(category: String, indexPath: IndexPath, completion: (Bool) -> Void) {
+        // обновление текущего
         let currentSegment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
         let tempVarForSwipeValue1 = self.segmentDictionary?[currentSegment]
         let tempVarForSwipeValue2 = tempVarForSwipeValue1?.filter { $0 != self.rowsToDisplay[indexPath.row] }
         self.segmentDictionary?[currentSegment] = tempVarForSwipeValue2
 
+        // меняем категорию у модели и добавляем в новый сегмент
+        switch category {
+        case Favorites.segmentCells.data[0]:
+            self.rowsToDisplay[indexPath.row].gameCategory = .best
+        case Favorites.segmentCells.data[1]:
+            self.rowsToDisplay[indexPath.row].gameCategory = .wishes
+        case Favorites.segmentCells.data[2]:
+            self.rowsToDisplay[indexPath.row].gameCategory = .later
+        case Favorites.segmentCells.data[3]:
+            self.rowsToDisplay[indexPath.row].gameCategory = .recent
+        default:
+            print("чот неудачно смена категории прошла")
+        }
+
+        // TODO: отправляем модель на сохранение в кордату
+        // self.rowsToDisplay[indexPath.row] <- save to CoreData
+
+        // формирование нового массива
         var tempVarForSwipeValue = self.segmentDictionary?[category]
         tempVarForSwipeValue?.append(self.rowsToDisplay[indexPath.row])
         self.segmentDictionary?[category] = tempVarForSwipeValue
 
         self.rowsToDisplay.remove(at: indexPath.row)
         self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        //self.tableView.reloadData()
+        self.tableView.reloadData()
         completion(true)
-        // TODO: добавить метод смены категории (нормальный)
     }
 
     func tableView(_: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -164,7 +192,6 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             let action = UIContextualAction(style: .destructive, title: "") { (_, _, completion) in
                 self.swipeChangeCategory(category: cell, indexPath: indexPath, completion: completion)
             }
-
             switch cell {
             case Favorites.segmentCells.data[0]:
                     action.backgroundColor = favoritsColors[0]
@@ -195,12 +222,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             swipeActionConf.performsFirstActionWithFullSwipe = false
             return swipeActionConf
         } else {
-            let actionDelete = UIContextualAction(style: .destructive, title: "Remove from favorites") { _, _, completion in
-                print("index path of delete: \(indexPath)")
-                self.rowsToDisplay.remove(at: indexPath.row)
-                // TODO: Позже, когда будет норм модель, переведем категорию в .none
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                completion(true)
+            let actionDelete = UIContextualAction(style: .destructive, title: "") { _, _, completion in
+                self.swipeChangeCategory(category: GameCategory.recent.rawValue, indexPath: indexPath, completion: completion)
             }
             actionDelete.backgroundColor = favoritsColors[3]
             actionDelete.image = UIImage(named: Favorites.segmentIcons.data[3])
@@ -209,13 +232,12 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             swipeActionConf.performsFirstActionWithFullSwipe = false
             return swipeActionConf
         }
-
     }
 
 }
 
 extension FavoritesViewController: CoreDataManagerDelegate {
-    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [String]]) {
+    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [GameModel]]) {
         self.segmentDictionary = segmentDictionary
         tableView.reloadData()
     }

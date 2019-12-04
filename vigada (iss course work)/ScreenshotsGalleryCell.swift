@@ -16,7 +16,7 @@ final class ScreenshotsCollectionViewCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.borderColor = UIColor.VGDColor.black.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

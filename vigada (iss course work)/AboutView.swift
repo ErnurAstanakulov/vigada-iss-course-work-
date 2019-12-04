@@ -20,7 +20,7 @@ final class AboutView: UIView {
 
     let vgdLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFMono.bold.of(textStyle: .largeTitle, defaultSize: 34)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -31,7 +31,7 @@ final class AboutView: UIView {
 
     let apiLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFMono.regular.of(textStyle: .body, defaultSize: 11)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -42,7 +42,7 @@ final class AboutView: UIView {
 
     let authorLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFCompactText.regular.of(textStyle: .body, defaultSize: 17)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -53,7 +53,7 @@ final class AboutView: UIView {
 
     let workTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFCompactText.regular.of(textStyle: .body, defaultSize: 17)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -64,7 +64,7 @@ final class AboutView: UIView {
 
     let linkLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFMono.regular.of(textStyle: .footnote, defaultSize: 11)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -75,7 +75,7 @@ final class AboutView: UIView {
 
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFMono.bold.of(size: 34)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -89,7 +89,7 @@ final class AboutView: UIView {
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.backgroundColor = .white
+        self.backgroundColor = UIColor.VGDColor.white
 
         addSubview(logoImageView)
         NSLayoutConstraint.activate([

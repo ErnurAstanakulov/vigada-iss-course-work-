@@ -20,7 +20,7 @@ final class UIElements {
         button.backgroundColor = UIColor.VGDColor.black
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 8
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowColor = UIColor.VGDColor.black.cgColor
         button.layer.shadowRadius = 2.0
         button.layer.shadowOpacity = 0.4
         button.layer.shadowOffset = CGSize(width: 2, height: 1)
@@ -30,13 +30,13 @@ final class UIElements {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = NewYork.regular.of(textStyle: .largeTitle, defaultSize: 34)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowColor = UIColor.VGDColor.black.cgColor
         label.layer.shadowRadius = 2.0
         label.layer.shadowOpacity = 0.4
         label.layer.shadowOffset = CGSize(width: 2, height: 1)
@@ -46,7 +46,7 @@ final class UIElements {
 
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFCompactText.regular.of(textStyle: .body, defaultSize: 18)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -57,7 +57,7 @@ final class UIElements {
 
     let monoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.VGDColor.black
         label.font = SFMono.regular.of(textStyle: .body, defaultSize: 18)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -117,15 +117,4 @@ final class UIElements {
         return stackView
     }()
 
-}
-
-extension UIImage {
-    func tinted(with color: UIColor) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        defer { UIGraphicsEndImageContext() }
-        color.set()
-        withRenderingMode(.alwaysTemplate)
-            .draw(in: CGRect(origin: .zero, size: size))
-        return UIGraphicsGetImageFromCurrentImageContext()
-    }
 }

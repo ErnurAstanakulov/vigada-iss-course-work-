@@ -16,7 +16,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Home"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
 
         let font = UIFont.preferredFont(forTextStyle: .largeTitle)
         print(font)

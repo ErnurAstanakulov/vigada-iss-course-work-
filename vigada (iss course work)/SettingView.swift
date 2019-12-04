@@ -19,7 +19,7 @@ class SettingView: UIView {
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.backgroundColor = .white
+        self.backgroundColor = UIColor.VGDColor.white
 
         settingNumber.font = SFCompactText.bold.of(size: 17)
         settingLabel.font = SFCompactText.regular.of(size: 17)

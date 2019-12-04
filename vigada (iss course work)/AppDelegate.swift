@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !UserDefaults.standard.bool(forKey: "isOnBoardSeen") {
             window?.rootViewController = OnBoardViewController()
         }
-        window?.backgroundColor = UIColor.white
+        window?.backgroundColor = UIColor.VGDColor.white
         window?.makeKeyAndVisible()
         return true
     }

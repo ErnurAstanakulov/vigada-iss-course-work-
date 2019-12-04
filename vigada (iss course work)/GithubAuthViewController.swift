@@ -47,7 +47,7 @@ final class GithubAuthViewController: UIViewController {
     }
     // MARK: Set up
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
 
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)

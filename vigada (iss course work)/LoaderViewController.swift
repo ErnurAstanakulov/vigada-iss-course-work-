@@ -17,7 +17,7 @@ class LoaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
 
         let networkManager = NetworkManager()
         networkManager.delegate = self

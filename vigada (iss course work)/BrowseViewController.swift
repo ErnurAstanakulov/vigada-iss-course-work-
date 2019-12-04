@@ -14,17 +14,8 @@ class BrowseViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Browse"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
 
-        //navigationController?.navigationBar.barTintColor = UIColor.black
 
-//        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-//        if let font = NewYork.black.of(size: 34) {
-//            navigationController?.navigationBar.largeTitleTextAttributes =
-//                [NSAttributedString.Key.font: font, .foregroundColor: UIColor.white]
-//        }
-
-//        tabBarController?.tabBar.barTintColor = UIColor.black
-//        tabBarController?.tabBar.tintColor = UIColor.white
     }
 }

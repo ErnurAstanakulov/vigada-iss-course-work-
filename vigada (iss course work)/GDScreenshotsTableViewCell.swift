@@ -36,10 +36,10 @@ class GDScreenshotsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        cell1.backgroundColor = .red
-        cell2.backgroundColor = .yellow
-        cell3.backgroundColor = .green
-        cell4.backgroundColor = .magenta
+        cell1.backgroundColor = UIColor.VGDColor.orange
+        cell2.backgroundColor = UIColor.VGDColor.yellow
+        cell3.backgroundColor = UIColor.VGDColor.green
+        cell4.backgroundColor = UIColor.VGDColor.pink
         screenshotCell1.image = UIImage(named: "demo")
         screenshotCell2.image = UIImage(named: "demo")
         screenshotCell3.image = UIImage(named: "demo")
@@ -49,9 +49,9 @@ class GDScreenshotsTableViewCell: UITableViewCell {
         screenshotCell3.contentMode = .scaleAspectFill
         screenshotCell4.contentMode = .scaleAspectFill
 
-        var dddd = (contentView.frame.width / 4) - (spacing * 4)
-        dddd = 64
-        stackView.backgroundColor = .black
+        var stackCellHeight = (contentView.frame.width / 4) - (spacing * 4)
+        stackCellHeight = 64
+        stackView.backgroundColor = UIColor.VGDColor.black
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             //stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -59,11 +59,11 @@ class GDScreenshotsTableViewCell: UITableViewCell {
             stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            stackView.heightAnchor.constraint(equalToConstant: dddd)
+            stackView.heightAnchor.constraint(equalToConstant: stackCellHeight)
             //stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
             ])
 
-        screenshotsContainer.backgroundColor = .white
+        screenshotsContainer.backgroundColor = UIColor.VGDColor.white
         contentView.addSubview(screenshotsContainer)
         NSLayoutConstraint.activate([
             screenshotsContainer.topAnchor.constraint(equalTo: stackView.bottomAnchor),

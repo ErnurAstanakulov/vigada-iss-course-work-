@@ -20,6 +20,8 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
 
     weak var delegate: CoreDataManagerDelegate?
 
+    var initialState = false
+
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<MOGameDetails> = {
         let fetchRequest = NSFetchRequest<MOGameDetails>()
         fetchRequest.entity = MOGameDetails.entity()
@@ -93,4 +95,23 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
             }
         }
     }
+
+    func saveRecentSearchRequestText(_ resentSearchText: String) {
+        stack.persistentContainer.performBackgroundTask { (context) in
+
+            let newSearchText = NSEntityDescription.insertNewObject(forEntityName: "RecentSearchRequest", into: context)
+            newSearchText.setValue(resentSearchText, forKey: "recentSearchText")
+            let timeRequest = Date().timeIntervalSince1970
+            newSearchText.setValue(timeRequest, forKey: "timeRequest")
+            do {
+                // сохраняем контекст
+                try context.save()
+                print("Контекст успешно сохранен.")
+            } catch {
+                print("Ошибка сохранения: \(error)")
+            }
+        }
+    }
+
+
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchViewController: UIViewController {
     // MARK: - Properties
@@ -17,17 +18,35 @@ class SearchViewController: UIViewController {
     private var searchController: UISearchController?
     private var pendingRequestWorkItem: DispatchWorkItem?
     private var isRecentSearchCalls = true
+    private var isSearch = false
+
+    // Core Data
+    let stackCoreData = CoreDataStack.shared
+    private let coreDataManager = CoreDataManager()
+    fileprivate lazy var searchRequestFRC: NSFetchedResultsController<MORecentSearchRequest> = {
+        let fetchRequest = NSFetchRequest<MORecentSearchRequest>()
+        fetchRequest.entity = MORecentSearchRequest.entity()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timeRequest", ascending: false)]
+        fetchRequest.fetchBatchSize = 24
+        let frcontroller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: stackCoreData.persistentContainer.viewContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+        frcontroller.delegate = self
+        return frcontroller
+    }()
 
     var gameModels = [GameModel]()
-    let testSearchRecent = ["zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims"]
+//    let testSearchRecent = ["zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims"]
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Search"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
 
         // TODO: загрузить список прошлых поисковых запросов из кордаты
+        loadRecentSearchRequestText()
 
         // Временные данные для тестирования ЮАЙ
         // Будут удалены, как только пойдем за ними в сеть. Это будет скоро.
@@ -68,6 +87,7 @@ class SearchViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
+        tableView.keyboardDismissMode = .onDrag
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -90,8 +110,8 @@ class SearchViewController: UIViewController {
         NSLayoutConstraint.activate([
             loaderView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
             loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            loaderView.widthAnchor.constraint(equalToConstant: 60),
-            loaderView.heightAnchor.constraint(equalToConstant: 60)
+            loaderView.widthAnchor.constraint(equalToConstant: 40),
+            loaderView.heightAnchor.constraint(equalToConstant: 40)
             ])
 
         searchController = UISearchController(searchResultsController: nil)
@@ -113,17 +133,31 @@ class SearchViewController: UIViewController {
         textFieldInsideUISearchBar?.font = SFMono.regular.of(size: 14)
     }
 
-    func searchGame(searchText: String, delay: Int = 1250) {
+    func searchGame(searchText: String, delay: Int = 1550) {
         let delay = delay
         if searchText.count > 2 {
             pendingRequestWorkItem?.cancel()
             let requestWorkItem = DispatchWorkItem { [weak self] in
                 print("ищу \(searchText)...")
-                // TODO: сохранить эту строчку в кордату
+                self?.isSearch = true
+                // сохраняю эту строчку в кордату
+                guard let sections = self?.searchRequestFRC.sections else {
+                    fatalError("Секции нет")
+                }
+                let section = sections[0]
+                guard let itemsInSection = section.objects as? [MORecentSearchRequest] else {
+                    fatalError("Объектов нет")
+                }
+                let isExist = itemsInSection.filter { $0.recentSearchText == searchText }
+                if isExist.isEmpty {
+                     self?.coreDataManager.saveRecentSearchRequestText(searchText)
+                } else {
+                    print("было уже")
+                }
 
                 self?.loaderView.vgdLoader(.start, durationIn: 1.6)
-                UIView.animate(withDuration: 0.8) {
-                    self?.loaderTintView.alpha = 0.7
+                UIView.animate(withDuration: 1.4) {
+                    self?.loaderTintView.alpha = 0.4
                 }
 
                 // очищаем массив моделей и буфер картинок, чтобы показывать только ответ последнего поискового запроса (обнуляем состояние)
@@ -141,6 +175,7 @@ class SearchViewController: UIViewController {
                     self?.loaderTintView.alpha = 0
                     self?.isRecentSearchCalls = false
                     self?.tableView.reloadData()
+                    self?.tableView.scrollToTop()
                 }
             }
             pendingRequestWorkItem = requestWorkItem
@@ -149,19 +184,28 @@ class SearchViewController: UIViewController {
             print("поле поиска не активно")
         }
     }
+
+    func loadRecentSearchRequestText() {
+        print("грузим из кордаты")
+        do {
+            try searchRequestFRC.performFetch()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 // MARK: - Extensions
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate {
 
     // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return searchRequestFRC.sections?.count ?? 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isRecentSearchCalls {
-            return testSearchRecent.count
+            return searchRequestFRC.sections?[section].numberOfObjects ?? 0
         } else {
             return gameModels.count // колво игр в выдаче из сети
         }
@@ -171,7 +215,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isRecentSearchCalls {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchRecentTableViewCell", for: indexPath) as? SearchRecentTableViewCell
-            cell?.settingView.settingLabel.text = testSearchRecent[indexPath.row]
+            let model = modelFromCoreData(indexPath: indexPath)
+            cell?.settingView.settingLabel.text = model.recentSearchText
             cell?.selectionStyle = .none
             if let cell = cell {
                 return cell
@@ -201,15 +246,13 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: переход на экран с детальной информацией по игре если результат
-        // или новый поиск по последним поисковым запросам (может буду хранить выдачу)
         if isRecentSearchCalls {
-            let text = testSearchRecent[indexPath.row]
+            let model = modelFromCoreData(indexPath: indexPath)
+            let text = model.recentSearchText
             searchGame(searchText: text, delay: 0)
         } else {
             print("переход на экран с инфой по игре")
             searchController?.searchBar.resignFirstResponder()
-            //searchController?.searchBar.isHidden = true
             let nextViewController = GameDetailsViewController()
             nextViewController.game = gameModels[indexPath.row]
             if let navigator = navigationController {
@@ -221,9 +264,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if !isRecentSearchCalls {
-            let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 35, 0)
+            let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 15, 0)
             cell.layer.transform = rotationTransform
-            cell.alpha = 0.3
+            cell.alpha = 0.5
             UIView.animate(withDuration: 0.55) {
                 cell.layer.transform = CATransform3DIdentity
                 cell.alpha = 1
@@ -231,11 +274,31 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    func modelFromCoreData(indexPath: IndexPath) -> MORecentSearchRequest {
+        guard let sections = searchRequestFRC.sections else {
+            fatalError("Секции нет")
+        }
+
+        let section = sections[indexPath.section]
+        guard let itemsInSection = section.objects as? [MORecentSearchRequest] else {
+            fatalError("Объектов нет")
+        }
+
+        let model = itemsInSection[indexPath.row]
+        return model
+    }
+
 }
 
 extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         print("update")
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("BeginEditing")
+        if isSearch {
+            loadRecentSearchRequestText()
+        }
         isRecentSearchCalls = true
         tableView.reloadData()
     }
@@ -243,12 +306,14 @@ extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         print("cancel")
-        // Тут сделаем так, чтобы показывать последние поисковые запросы снова
-        isRecentSearchCalls = false
-        tableView.reloadData()
+        if isSearch {
+            isRecentSearchCalls = false
+            let sectionToReload = 0
+            let indexSet: IndexSet = [sectionToReload]
+            tableView.reloadSections(indexSet, with: .automatic)
+        }
     }
 
-    // задержку поискового запроса устанавливаем через DispatchWorkItem в 1 секунду
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchGame(searchText: searchText)
     }

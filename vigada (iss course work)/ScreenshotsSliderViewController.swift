@@ -22,9 +22,12 @@ class ScreenshotsSliderViewController: UIViewController {
         return collection
     }()
 
+    private let closeControllerButton = UIElements().imageView
+
     private let countCells: CGFloat = 1
     var indexPath: IndexPath?
     var screenshotsArraySlider: [UIImage]?
+    var isInternetSS = true
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +36,7 @@ class ScreenshotsSliderViewController: UIViewController {
 
         setupCollectionView()
     }
+
     // MARK: - Set up
     private func setupCollectionView() {
         screenshotSliderCollectionView.dataSource = self
@@ -56,6 +60,26 @@ class ScreenshotsSliderViewController: UIViewController {
                 self.screenshotSliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
         }
+    }
+
+    func setupCloseControllerButton() {
+        if !isInternetSS {
+            closeControllerButton.image = UIImage(named: "close")?.tinted(with: UIColor.VGDColor.white)
+            view.addSubview(closeControllerButton)
+            NSLayoutConstraint.activate([
+                closeControllerButton.widthAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.heightAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                closeControllerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+                ])
+            closeControllerButton.isUserInteractionEnabled = true
+            let gestureTap = UITapGestureRecognizer(target: self, action: #selector(self.closeTapped(_:)))
+            closeControllerButton.addGestureRecognizer(gestureTap)
+        }
+    }
+
+    @objc func closeTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        self.dismiss(animated: false, completion: nil)
     }
 
 }
@@ -134,6 +158,7 @@ extension ScreenshotsSliderViewController {
         self.tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.tintColor = UIColor.VGDColor.white
         allRotateStateForDevice()
+        setupCloseControllerButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

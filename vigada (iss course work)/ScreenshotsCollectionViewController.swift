@@ -19,10 +19,13 @@ class ScreenshotsCollectionViewController: UIViewController {
         return collection
     }()
 
+    private let closeControllerButton = UIElements().imageView
+
     private let countCells: CGFloat = 3
     private let spacingSize: CGFloat = 8
 
     var gameScreenshotsArray: [UIImage]?
+    var isInternetSG = true
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -40,6 +43,8 @@ class ScreenshotsCollectionViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.tintColor = UIColor.VGDColor.white
+
+        setupCloseControllerButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -65,6 +70,27 @@ class ScreenshotsCollectionViewController: UIViewController {
             screenshotsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
             ])
     }
+
+    func setupCloseControllerButton() {
+        if !isInternetSG {
+            closeControllerButton.image = UIImage(named: "close")
+            view.addSubview(closeControllerButton)
+            NSLayoutConstraint.activate([
+                closeControllerButton.widthAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.heightAnchor.constraint(equalToConstant: 24),
+                closeControllerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                closeControllerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+                ])
+            closeControllerButton.isUserInteractionEnabled = true
+            let gestureTap = UITapGestureRecognizer(target: self, action: #selector(self.closeTapped(_:)))
+            closeControllerButton.addGestureRecognizer(gestureTap)
+        }
+    }
+
+    @objc func closeTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
+
 
 }
 // MARK: - Extensions
@@ -97,10 +123,15 @@ extension ScreenshotsCollectionViewController: UICollectionViewDataSource, UICol
 
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let nextViewController = ScreenshotsSliderViewController()
+        nextViewController.screenshotsArraySlider = self.gameScreenshotsArray
+        nextViewController.indexPath = indexPath
         if let navigator = navigationController {
-            nextViewController.screenshotsArraySlider = self.gameScreenshotsArray
-            nextViewController.indexPath = indexPath
+            nextViewController.isInternetSS = true
             navigator.pushViewController(nextViewController, animated: true)
+        } else {
+            nextViewController.isInternetSS = false
+            nextViewController.modalTransitionStyle = .crossDissolve
+            self.present(nextViewController, animated: false, completion: nil)
         }
     }
 }

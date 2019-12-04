@@ -32,7 +32,7 @@ class FavoritesTableViewCell: UITableViewCell {
             gameImageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
             gameImageView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -0),
             gameImageView.topAnchor.constraint(equalTo: container.topAnchor, constant: 0),
-            gameImageView.heightAnchor.constraint(equalToConstant: 100),
+            gameImageView.heightAnchor.constraint(equalToConstant: 80),
             gameImageView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -0)
             ])
 
@@ -43,7 +43,7 @@ class FavoritesTableViewCell: UITableViewCell {
         container.addSubview(gameTitle)
         NSLayoutConstraint.activate([
             gameTitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-            gameTitle.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -16),
+            gameTitle.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8),
             gameTitle.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -16)
             ])
     }

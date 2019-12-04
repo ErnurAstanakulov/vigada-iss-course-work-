@@ -14,6 +14,7 @@ class FavoritesViewController: UIViewController {
 
     private let tableView = UITableView(frame: .zero, style: .plain)
 
+    private let segmentedContainer = UIElements().containerView
     private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: Favorites.segmentCells.data)
         segmentedControl.selectedSegmentIndex = 0
@@ -36,7 +37,7 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Favorites"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.VGDColor.white
         coreDataManager.delegate = self
         setupUI()
     }
@@ -49,17 +50,10 @@ class FavoritesViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
 
         // Данные берем из кордаты каждый раз, когда приходим на экран.
-        // Или только при перевоначальной инициализации экрана. Далее при смене категории от Геймдетеилс возвращаем модель
-        // и тут пересортировываем словарь
-        // TODO скорее всего так и надо сделать, сейчас бывает фатал эрор с рендежем индекса
-        // Дальше со словарем ничего не делаем, кроме текущих изменений в настоящем представлении.
         coreDataManager.loadFavoritesFromCoreData()
         if let array = segmentDictionary?[Favorites.segmentCells.data[0]] {
             rowsToDisplay = array
         }
-        // Сохраняем потом только модель индидуально при смене категории
-        // отдаём её кордатаменеджеру он разберется что делать
-        // ниже стоит тудушка в нужном месте
     }
 
     // MARK: - Set up
@@ -70,19 +64,27 @@ class FavoritesViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
 
-        view.addSubview(segmentedControl)
+        view.addSubview(segmentedContainer)
         NSLayoutConstraint.activate([
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 36)
+            segmentedContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            segmentedContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            segmentedContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            segmentedContainer.heightAnchor.constraint(equalToConstant: 44)
+            ])
+
+        segmentedContainer.addSubview(segmentedControl)
+        NSLayoutConstraint.activate([
+            segmentedControl.leadingAnchor.constraint(equalTo: segmentedContainer.leadingAnchor, constant: 0),
+            segmentedControl.trailingAnchor.constraint(equalTo: segmentedContainer.trailingAnchor, constant: -0),
+            segmentedControl.centerYAnchor.constraint(equalTo: segmentedContainer.centerYAnchor, constant: 0),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 28)
             ])
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
-            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8),
+            tableView.topAnchor.constraint(equalTo: segmentedContainer.bottomAnchor, constant: 8),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
             ])
     }

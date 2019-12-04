@@ -26,14 +26,18 @@ class GameDetailsViewController: UIViewController {
 
     private let isInternet = "isInternet"
 
+    private let strechyContainerHeaderView = UIView()
+    private let strechyView = StrechyHeaderView()
+    private let strechyShift: CGFloat = 300
+    private let strechyShiftMax: CGFloat = 700
+
     // констрейнты для анимации таблиции при смене категории
     private var tableviewContainerShiftConstraint = NSLayoutConstraint()
     private var favorSelectActionViewHeightConstraint = NSLayoutConstraint()
     private var favorSelectActionViewWidthConstraint = NSLayoutConstraint()
 
-    private var favIcon = UIImage(named: "fav.recent")
+    private var favIcon = UIImage(named: "fav.add")
     private var favIconTintColor = UIColor.VGDColor.black
-    //var storedOffsets = [Int: CGFloat]()
 
     var game: GameModel?
 
@@ -105,17 +109,11 @@ class GameDetailsViewController: UIViewController {
     // выбрали категорию
     @objc func stackViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         if let stackTag = gestureRecognizer.view?.tag {
-            let icon = Favorites.segmentIcons.data[stackTag]
-            let color = UIElements().favoritesColors
-            favoritesSelectActionView.favoritesIcon.image = UIImage(named: icon)?.tinted(with: UIColor.VGDColor.white)
-            if stackTag != 3 {
-                favIcon = UIImage(named: icon)
-                favIconTintColor = color[stackTag]
-            } else {
-                favIcon = UIImage(named: "favoritesCircleFill")
-                favIconTintColor = UIColor.VGDColor.black
-            }
+            var icon = Favorites.segmentIcons.data[stackTag]
+            var color = UIElements().favoritesColors[stackTag]
+
             //  меняем категорию у модели и сохраняем её в базу
+            // TODO сохранить в базу
             switch stackTag {
             case 0:
                 game?.gameCategory = .best
@@ -124,12 +122,15 @@ class GameDetailsViewController: UIViewController {
             case 2:
                 game?.gameCategory = .later
             case 3:
-                game?.gameCategory = .none
+                game?.gameCategory = .recent
             default:
                 print("not right category")
             }
 
-            favoritesSelectActionView.backgroundColor = color[stackTag]
+            // тинт иконки на стике
+            favoritesSelectActionView.favoritesIcon.image = UIImage(named: icon)?.tinted(with: UIColor.VGDColor.white)
+
+            favoritesSelectActionView.backgroundColor = color
             tableviewContainerDown()
 
             self.favorSelectActionViewHeightConstraint.constant = 64
@@ -142,10 +143,17 @@ class GameDetailsViewController: UIViewController {
             })
             UIView.transition(with: self.tableView, duration: 0.1, options: .transitionCrossDissolve,
                               animations: {
-                                self.tableView.reloadData()
+                                //self.tableView.reloadData()
+                                if stackTag == 3 {
+                                    icon = "fav.add"
+                                    color = UIColor.VGDColor.black
+                                }
+                                self.strechyView.addFavoritesButton.setImage(UIImage(named: icon), for: .normal)
+                                self.strechyView.tintContainer.backgroundColor = color
             })
         }
     }
+
     @objc func favoritesSelectActionViewHide() {
         self.favorSelectActionViewHeightConstraint.constant = 104
         self.favorSelectActionViewWidthConstraint.constant = 104
@@ -221,6 +229,7 @@ class GameDetailsViewController: UIViewController {
             ])
 
         setupTableView()
+        setupStrechyHeader()
 
         favoritesSelectActionView.alpha = 0
         containerViewForTable.addSubview(favoritesSelectActionView)
@@ -235,8 +244,8 @@ class GameDetailsViewController: UIViewController {
     }
 
     private func setupTableView() {
+        tableView.contentInset = UIEdgeInsets(top: strechyShift, left: 0, bottom: 0, right: 0)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(GDSplashTableViewCell.self, forCellReuseIdentifier: "GDSplashTableViewCell")
         tableView.register(GDDescriptionTableViewCell.self, forCellReuseIdentifier: "GDDescriptionTableViewCell")
         tableView.register(GDVideoTableViewCell.self, forCellReuseIdentifier: "GDVideoTableViewCell")
         tableView.register(GDScreenshotsTableViewCell.self, forCellReuseIdentifier: "GDScreenshotsTableViewCell")
@@ -247,7 +256,6 @@ class GameDetailsViewController: UIViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.bounces = false
 
         viewWithShadowAndCorners.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -256,6 +264,49 @@ class GameDetailsViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: containerViewForTable.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: containerViewForTable.bottomAnchor, constant: 0)
             ])
+    }
+
+    func setupStrechyHeader() {
+        strechyContainerHeaderView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: strechyShift)
+        strechyContainerHeaderView.contentMode = .scaleAspectFill
+        strechyContainerHeaderView.clipsToBounds = true
+        containerViewForTable.addSubview(strechyContainerHeaderView)
+
+        guard let imageData = game?.gameImage else {
+            return
+        }
+        let image = UIImage(data: imageData) ?? UIImage(named: "demo1")
+        strechyView.strechyImage.image = image
+        strechyView.titleGame.text = game?.gameTitle
+        strechyContainerHeaderView.addSubview(strechyView)
+        NSLayoutConstraint.activate([
+            strechyView.leadingAnchor.constraint(equalTo: strechyContainerHeaderView.leadingAnchor, constant: 0),
+            strechyView.trailingAnchor.constraint(equalTo: strechyContainerHeaderView.trailingAnchor, constant: -0),
+            strechyView.topAnchor.constraint(equalTo: strechyContainerHeaderView.topAnchor, constant: 0),
+            strechyView.bottomAnchor.constraint(equalTo: strechyContainerHeaderView.bottomAnchor, constant: 0)
+            ])
+
+        guard let category = game?.gameCategory else {
+            fatalError("category wtf?")
+        }
+        switch category {
+        case .best:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[0]
+        case .wishes:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[1]
+        case .later:
+            favIcon = UIImage(named: "fav.\(category.rawValue)")
+            favIconTintColor = UIElements().favoritesColors[2]
+        case .none:
+            favIcon = UIImage(named: "fav.add")
+        case .recent:
+            favIcon = UIImage(named: "fav.add")
+        }
+        strechyView.addFavoritesButton.setImage(favIcon, for: .normal)
+        strechyView.tintContainer.backgroundColor = favIconTintColor
+        strechyView.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
     }
 
     func setupCloseControllerButton() {
@@ -285,21 +336,18 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 3
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell = showSplashCell(indexPath: indexPath)
-            return cell
-        case 1:
             let cell = showDescriptionCell(indexPath: indexPath)
             return cell
-        case 2:
+        case 1:
             let cell = showScreenshotsCell(indexPath: indexPath)
             return cell
-        case 3:
+        case 2:
             let cell = showVideoCell(indexPath: indexPath)
             return cell
         default:
@@ -308,14 +356,35 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
+        if indexPath.row == 1 {
             let nextViewController = ScreenshotsCollectionViewController()
             // TODO: подставить сюда массив картинок скачанных из сети
             // строка временная
-            nextViewController.gameScreenshotsArray = [UIImage](repeating: UIImage(named: "demo")!, count: 15)
+            nextViewController.gameScreenshotsArray = [UIImage](repeating: UIImage(named: "demo")!, count: 25)
             if let navigator = navigationController {
                 navigator.pushViewController(nextViewController, animated: true)
+            } else {
+                nextViewController.isInternetSG = false
+                nextViewController.modalTransitionStyle = .crossDissolve
+                self.present(nextViewController, animated: false, completion: nil)
             }
+        }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yCoordinate = strechyShift - (scrollView.contentOffset.y + strechyShift)
+        let height = min(max(yCoordinate, 0), strechyShiftMax)
+        strechyContainerHeaderView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
+        if (scrollView.contentOffset.y >= 0) && (scrollView.contentOffset.y <= strechyShift) {
+            self.strechyView.addFavoritesButton.alpha = 0
+//        } else if scrollView.contentOffset.y > strechyShift {
+//            print("больше")
+//            let percent: CGFloat = scrollView.contentOffset.y / strechyShift
+//            print(percent)
+        } else if scrollView.contentOffset.y < 0 {
+            let percent: CGFloat = scrollView.contentOffset.y / strechyShift
+            self.strechyView.addFavoritesButton.alpha = abs(percent)
+            self.strechyView.tintContainer.alpha = 0.6*abs(percent)
         }
     }
 
@@ -323,44 +392,6 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
         cell.textLabel?.text = "Broke 'Settings' table row"
         return cell
-    }
-
-    func showSplashCell(indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GDSplashTableViewCell", for: indexPath) as? GDSplashTableViewCell
-        cell?.selectionStyle = .none
-        guard let imageData = game?.gameImage else {
-            return defaultCell(indexPath: indexPath)
-        }
-        let image = UIImage(data: imageData) ?? UIImage(named: "demo1")
-        cell?.gameImage.image = image
-        cell?.label.text = game?.gameTitle
-        guard let category = game?.gameCategory else {
-            fatalError("category wtf?")
-        }
-        switch category {
-        case .best:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[0]
-        case .wishes:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[1]
-        case .later:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[2]
-        case .none:
-            favIcon = UIImage(named: category.rawValue)
-        case .recent:
-            favIcon = UIImage(named: category.rawValue)
-        }
-        cell?.addFavoritesButton.setImage(favIcon, for: .normal)
-        cell?.tintContainer.backgroundColor = favIconTintColor
-        cell?.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
-
-        if let cell = cell {
-            return cell
-        } else {
-            return defaultCell(indexPath: indexPath)
-        }
     }
 
     func showDescriptionCell(indexPath: IndexPath) -> UITableViewCell {

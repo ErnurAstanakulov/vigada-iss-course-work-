@@ -79,15 +79,6 @@ class GDVideoTableViewCell: UITableViewCell {
             playButton.centerXAnchor.constraint(equalTo: allContainer.centerXAnchor, constant: 0),
             playButton.centerYAnchor.constraint(equalTo: allContainer.centerYAnchor, constant: 0)
             ])
-
-//        stubContainer.backgroundColor = .white
-//        contentView.addSubview(stubContainer)
-//        NSLayoutConstraint.activate([
-//            stubContainer.topAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8),
-//            stubContainer.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-//            stubContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-//            stubContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0)
-//            ])
     }
 
     required init?(coder _: NSCoder) {

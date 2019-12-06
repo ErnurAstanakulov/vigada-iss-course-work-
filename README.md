@@ -7,17 +7,17 @@ VIGADA: Video Games Data.
 Навигация и поиск по крупнейшему каталогу видео игр (https://rawg.io)
 
 1. Интерфейс выполнен кодом
-2. MVC
-3. ~~Паттерны проектирования (Builder, ..., ..., ...)~~
-4. ~~URLSession~~
-5. Multithreading
-6. CoreData
-7. Core Animation
-8. ~~Core Graphics~~
-9. Autolayout
-10. ~~JSON~~
-11. ~~UICollection~~
-12. UITableView
-13. ~~AVFoundation~~
-14. Восемь? экранов
+2. Восемь экранов
+3. MVC
+4. ~~Паттерны проектирования (Builder, ..., ..., ...)~~
+5. ~~URLSession~~
+6. ~~JSON~~
+7. CoreData
+8. Multithreading
+9. Core Animation
+10. ~~Core Graphics~~
+11. Autolayout
+12. UICollection
+13. UITableView
+14. AVKit
 15. ~~Модульные тесты~~

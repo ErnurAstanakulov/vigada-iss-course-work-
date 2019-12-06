@@ -26,7 +26,7 @@ class ScreenshotsSliderViewController: UIViewController {
 
     private let countCells: CGFloat = 1
     var indexPath: IndexPath?
-    var screenshotsArraySlider: [UIImage]?
+    var screenshotsArraySlider: [Data]?
     var isInternetSS = true
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -91,7 +91,10 @@ extension ScreenshotsSliderViewController: UICollectionViewDataSource, UICollect
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScreenshotsSlideCell", for: indexPath) as? ScreenshotsSlideCell
-        cell?.screenshotSlideImageView.image = screenshotsArraySlider?[indexPath.item]
+        guard let imageData = screenshotsArraySlider?[indexPath.item] else {
+            fatalError("плейсхолдер покажи!")
+        }
+        cell?.screenshotSlideImageView.image = UIImage(data: imageData)
         cell?.layer.cornerRadius = 0
         if let cell = cell {
             return cell

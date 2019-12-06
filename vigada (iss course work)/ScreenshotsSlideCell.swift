@@ -19,7 +19,7 @@ class ScreenshotsSlideCell: UICollectionViewCell, UIScrollViewDelegate {
         self.layoutMargins = .zero
 
         contentView.backgroundColor = UIColor.VGDColor.black
-
+        screenshotSlideImageView.image = UIImage(named: "placeholder3")
         screenshotSlideImageView.backgroundColor = UIColor.VGDColor.black
         screenshotSlideImageView.contentMode = .scaleAspectFit
 

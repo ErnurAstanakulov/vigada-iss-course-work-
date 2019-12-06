@@ -25,6 +25,7 @@ final class ScreenshotsCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         screenshot.layer.cornerRadius = 0
         screenshot.clipsToBounds = true
+        screenshot.image = UIImage(named: "placeholder4")
         contentView.addSubview(screenshot)
         NSLayoutConstraint.activate([
             screenshot.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),

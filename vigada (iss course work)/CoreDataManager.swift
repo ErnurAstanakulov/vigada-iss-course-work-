@@ -8,88 +8,104 @@
 
 import Foundation
 import CoreData
-import UIKit
-//TODO удалить потом юайкит отсюда
-
-protocol CoreDataManagerDelegate: class {
-    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [GameModel]])
-}
 
 final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
     let stack = CoreDataStack.shared
 
-    weak var delegate: CoreDataManagerDelegate?
-
-    var initialState = false
-
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<MOGameDetails> = {
-        let fetchRequest = NSFetchRequest<MOGameDetails>()
-        fetchRequest.entity = MOGameDetails.entity()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
-        //fetchRequest.fetchBatchSize = 14
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                             managedObjectContext: stack.persistentContainer.viewContext,
-                                             sectionNameKeyPath: nil,
-                                             cacheName: nil)
-        fetchedResultsController.delegate = self
-        return fetchedResultsController
-    }()
+    //var initialState = false
+//
+//    fileprivate lazy var gameDetailsFRC: NSFetchedResultsController<MOGameDetails> = {
+//        let fetchRequest = NSFetchRequest<MOGameDetails>()
+//        fetchRequest.entity = MOGameDetails.entity()
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "gameNoteCreateTime", ascending: true)]
+//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+//                                             managedObjectContext: stack.persistentContainer.viewContext,
+//                                             sectionNameKeyPath: nil,
+//                                             cacheName: nil)
+//        fetchedResultsController.delegate = self
+//        return fetchedResultsController
+//    }()
 
     var gameModels = [GameModel]()
 
-    func loadFavoritesFromCoreData() {
-        //fetchedResultsController
-        print("loading...")
-        // тут всё поменяется конечно
+    func loadFavoritesFromCoreData(completion: @escaping (_ dictionary: [String: [GameModel]]) -> Void) {
+        gameModels.removeAll()
+        stack.persistentContainer.performBackgroundTask { (context) in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "GameDetails")
+            request.returnsObjectsAsFaults = false
+            do {
+                let result = try context.fetch(request) as? [MOGameDetails]
 
-        guard let testImage = UIImage(named: "demo") else {
-            print("Картинки Демо нет")
-            return
+                guard let games = result else {
+                    fatalError("не скастовалося")
+                }
+                for game in games {
+                    guard let category = GameCategory(rawValue: game.gameCategory) else {
+                        fatalError("с категориями из кор даты что-то")
+                    }
+                    let gameModel = GameModel(gameUuid: game.gameUuid,
+                                         gameCategory: category,
+                                         gameNoteCreateTime: game.gameNoteCreateTime,
+                                         gameId: game.gameId,
+                                         gameTitle: game.gameTitle,
+                                         gameImage: game.gameImage,
+                                         gameImageLink: game.gameImageLink,
+                                         gameDescription: game.gameDescription,
+                                         gameScreenshots: game.gameScreenshots,
+                                         gameScreenshotsLinks: game.gameScreenshotsLinks,
+                                         gameVideoPreviewImage: game.gameVideoPreviewImage,
+                                         gameVideoPreviewImageLink: game.gameVideoPreviewImageLink,
+                                         gameVideoLink: game.gameVideoLink)
+                    self.gameModels.append(gameModel)
+                }
+
+                let favoritesDictionary = [Favorites.segmentCells.data[0]: self.gameModels.filter { $0.gameCategory == .best },
+                                           Favorites.segmentCells.data[1]: self.gameModels.filter { $0.gameCategory == .wishes },
+                                           Favorites.segmentCells.data[2]: self.gameModels.filter { $0.gameCategory == .later },
+                                           Favorites.segmentCells.data[3]: self.gameModels.filter { $0.gameCategory == .recent }]
+                completion(favoritesDictionary)
+
+            } catch {
+                print("Ашипкафечареквестафаворе")
+            }
         }
-        guard let imageData = testImage.jpegData(compressionQuality: 1) else {
-            print("ошибка jpg")
-            return
-        }
-
-        let link = "https://media.rawg.io/media/stories/a30/a3017aa7740f387a158cbc343524275b.mp4"
-        let gameModel1 = GameModel(gameCategory: .best, gameTitle: "Zelda", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel2 = GameModel(gameCategory: .later, gameTitle: "Cyberpunk 2077", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel3 = GameModel(gameCategory: .none, gameTitle: "Sims", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel4 = GameModel(gameCategory: .recent, gameTitle: "Contra", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel5 = GameModel(gameCategory: .best, gameTitle: "Gorky 17", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel6 = GameModel(gameCategory: .wishes, gameTitle: "Football Manager", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-
-        gameModels = [gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6]
-
-        let responseMessages = [Favorites.segmentCells.data[0]: gameModels.filter { $0.gameCategory == .best },
-                                Favorites.segmentCells.data[1]: gameModels.filter { $0.gameCategory == .wishes },
-                                Favorites.segmentCells.data[2]: gameModels.filter { $0.gameCategory == .later },
-                                Favorites.segmentCells.data[3]: gameModels.filter { $0.gameCategory == .recent }]
-        self.delegate?.loadFavoritesFromCoreData(responseMessages)
     }
 
     func saveGame(_ gameModelForKeeping: GameModel) {
         stack.persistentContainer.performBackgroundTask { (context) in
 
-            let newGame = NSEntityDescription.insertNewObject(forEntityName: "GameDetails", into: context)
-            //переводим картинку в binary data
-            //                guard let imageData = .image.jpegData(compressionQuality: 1) else {
-            //                    print("ошибка jpg")
-            //                    return
-            //                }
-            newGame.setValue(gameModelForKeeping.gameUuid, forKey: "gameUuid")
-            newGame.setValue(gameModelForKeeping.gameCategory, forKey: "gameCategory")
+            // ищем игру по уиду в базе, если есть, то апдейтим ей только категорию
+            // если нет, то создаем новую игру в базе
+            let fetchRequest: NSFetchRequest<MOGameDetails> = NSFetchRequest(entityName: "GameDetails")
+            fetchRequest.predicate = NSPredicate(format: "gameUuid == %@", gameModelForKeeping.gameUuid as NSUUID)
+            do {
+                let game = try context.fetch(fetchRequest)
+                if let gameUpdate = game.first {
+                    gameUpdate.setValue(gameModelForKeeping.gameCategory.rawValue, forKey: "gameCategory")
+                } else {
+                    let newGame = NSEntityDescription.insertNewObject(forEntityName: "GameDetails", into: context)
+                    newGame.setValue(gameModelForKeeping.gameUuid, forKey: "gameUuid")
+                    newGame.setValue(gameModelForKeeping.gameCategory.rawValue, forKey: "gameCategory")
+                    newGame.setValue(gameModelForKeeping.gameNoteCreateTime, forKey: "gameNoteCreateTime")
+                    newGame.setValue(gameModelForKeeping.gameId, forKey: "gameId")
+                    newGame.setValue(gameModelForKeeping.gameTitle, forKey: "gameTitle")
+                    newGame.setValue(gameModelForKeeping.gameImage, forKey: "gameImage")
+                    newGame.setValue(gameModelForKeeping.gameImageLink, forKey: "gameImageLink")
+                    newGame.setValue(gameModelForKeeping.gameDescription, forKey: "gameDescription")
+                    newGame.setValue(gameModelForKeeping.gameScreenshots, forKey: "gameScreenshots")
+                    newGame.setValue(gameModelForKeeping.gameScreenshotsLinks, forKey: "gameScreenshotsLinks")
+                    newGame.setValue(gameModelForKeeping.gameVideoPreviewImage, forKey: "gameVideoPreviewImage")
+                    newGame.setValue(gameModelForKeeping.gameVideoPreviewImageLink, forKey: "gameVideoPreviewImageLink")
+                    newGame.setValue(gameModelForKeeping.gameVideoLink, forKey: "gameVideoLink")
+                }
+            } catch {
+                print("Ошибка фетча gameUuid: \(error)")
+            }
 
             do {
                 // сохраняем контекст
                 try context.save()
-                print("Контекст успешно сохранен.")
+                print("Контекст c моделью успешно сохранен или обновлён")
             } catch {
                 print("Ошибка сохранения: \(error)")
             }
@@ -106,12 +122,11 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
             do {
                 // сохраняем контекст
                 try context.save()
-                print("Контекст успешно сохранен.")
+                print("Контекст с поисковым запросом успешно сохранен.")
             } catch {
                 print("Ошибка сохранения: \(error)")
             }
         }
     }
-
 
 }

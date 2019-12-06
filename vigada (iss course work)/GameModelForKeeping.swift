@@ -13,37 +13,48 @@ enum GameCategory: String {
     case wishes
     case later
     case recent
-    case none
 }
 
 struct GameModel: Hashable {
     let gameUuid: UUID
     var gameCategory: GameCategory
-    let gameCreateInfoTime: Double
+    let gameNoteCreateTime: Double
+    let gameId: String
     let gameTitle: String
     let gameImage: Data
+    let gameImageLink: String
     let gameDescription: String
-    let gameScreenshots: [Data]?
-    let gameVideoPreviewImage: Data?
+    let gameScreenshots: [Data]
+    let gameScreenshotsLinks: [String]
+    let gameVideoPreviewImage: Data
+    let gameVideoPreviewImageLink: String
     let gameVideoLink: String
 
     init(gameUuid: UUID = UUID(),
          gameCategory: GameCategory = .recent,
-         gameCreateInfoTime: Double = Date().timeIntervalSince1970,
+         gameNoteCreateTime: Double = Date().timeIntervalSince1970,
+         gameId: String,
          gameTitle: String,
          gameImage: Data,
+         gameImageLink: String,
          gameDescription: String,
-         gameScreenshots: [Data]?,
-         gameVideoPreviewImage: Data?,
+         gameScreenshots: [Data],
+         gameScreenshotsLinks: [String],
+         gameVideoPreviewImage: Data,
+         gameVideoPreviewImageLink: String,
          gameVideoLink: String) {
         self.gameUuid = gameUuid
         self.gameCategory = gameCategory
-        self.gameCreateInfoTime = gameCreateInfoTime
+        self.gameNoteCreateTime = gameNoteCreateTime
+        self.gameId = gameId
         self.gameTitle = gameTitle
         self.gameImage = gameImage
+        self.gameImageLink = gameImageLink
         self.gameDescription = gameDescription
         self.gameScreenshots = gameScreenshots
+        self.gameScreenshotsLinks = gameScreenshotsLinks
         self.gameVideoPreviewImage = gameVideoPreviewImage
+        self.gameVideoPreviewImageLink = gameVideoPreviewImageLink
         self.gameVideoLink = gameVideoLink
     }
 }

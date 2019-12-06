@@ -11,6 +11,10 @@ import AVKit
 
 class GameDetailsViewController: UIViewController {
     // MARK: - Properties
+    // Core Data
+    let stackCoreData = CoreDataStack.shared
+    private let coreDataManager = CoreDataManager()
+
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let reuseId = "UITableViewCellreuseId"
     private let favoritesPanelLikeButtonView = FavoritesPanelLikeButtonView()
@@ -41,21 +45,15 @@ class GameDetailsViewController: UIViewController {
 
     var game: GameModel?
 
-    var gameTempPicture = UIImage()
-    var gameTempDescription = ""
-    var gameTempVideoPreviewImageLink = ""
-    var gameTempVideoClipLink = ""
-    var gameTempScreenShotsImagesArray = [UIImage]()
+    var gameTemp: GameModel?
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = UIColor.VGDColor.white
-
+        // Проверяем есть интернет или нет.
         let networkManager = NetworkManager()
         networkManager.delegate = self
-        // Проверяем есть интернет или нет.
         networkManager.checkInternet()
 
         safeFrame = window.safeAreaLayoutGuide.layoutFrame
@@ -87,6 +85,7 @@ class GameDetailsViewController: UIViewController {
 
         if game == nil {
             print("Мы пришли откуда-то и модели нет. Возьми временные данные")
+            // TODO сделать поисх по gameId в кордате и если найдна запись, то показать из кордаты инфу
             // и из них инициализируй временную модель 'game'
             // скачаются скриншоты и по комплишену инициализируем модель, и отдадим её кордате на сохранение
             // перегрузим таблицу из модели
@@ -112,8 +111,7 @@ class GameDetailsViewController: UIViewController {
             var icon = Favorites.segmentIcons.data[stackTag]
             var color = UIElements().favoritesColors[stackTag]
 
-            //  меняем категорию у модели и сохраняем её в базу
-            // TODO сохранить в базу
+            //  меняем категорию у модели(игры) и сохраняем её в базу
             switch stackTag {
             case 0:
                 game?.gameCategory = .best
@@ -125,6 +123,13 @@ class GameDetailsViewController: UIViewController {
                 game?.gameCategory = .recent
             default:
                 print("not right category")
+            }
+
+            // Сохраняем игру в Core Data
+            if let game = game {
+                coreDataManager.saveGame(game)
+            } else {
+                print("сохранялка в базу данных не прошла. Модель nil")
             }
 
             // тинт иконки на стике
@@ -230,17 +235,7 @@ class GameDetailsViewController: UIViewController {
 
         setupTableView()
         setupStrechyHeader()
-
-        favoritesSelectActionView.alpha = 0
-        containerViewForTable.addSubview(favoritesSelectActionView)
-        favorSelectActionViewHeightConstraint = favoritesSelectActionView.heightAnchor.constraint(equalToConstant: 88)
-        favorSelectActionViewWidthConstraint = favoritesSelectActionView.widthAnchor.constraint(equalToConstant: 88)
-        NSLayoutConstraint.activate([
-            favoritesSelectActionView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            favoritesSelectActionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
-            favorSelectActionViewHeightConstraint,
-            favorSelectActionViewWidthConstraint
-            ])
+        setupFavSelectStick()
     }
 
     private func setupTableView() {
@@ -272,11 +267,12 @@ class GameDetailsViewController: UIViewController {
         strechyContainerHeaderView.clipsToBounds = true
         containerViewForTable.addSubview(strechyContainerHeaderView)
 
-        guard let imageData = game?.gameImage else {
-            return
+        if let imageData = game?.gameImage {
+            let image = UIImage(data: imageData) ?? UIImage(named: "placeholder1")
+            strechyView.strechyImage.image = image
+        } else {
+            strechyView.strechyImage.image = UIImage(named: "placeholder1")
         }
-        let image = UIImage(data: imageData) ?? UIImage(named: "demo1")
-        strechyView.strechyImage.image = image
         strechyView.titleGame.text = game?.gameTitle
         strechyContainerHeaderView.addSubview(strechyView)
         NSLayoutConstraint.activate([
@@ -286,27 +282,40 @@ class GameDetailsViewController: UIViewController {
             strechyView.bottomAnchor.constraint(equalTo: strechyContainerHeaderView.bottomAnchor, constant: 0)
             ])
 
-        guard let category = game?.gameCategory else {
-            fatalError("category wtf?")
-        }
-        switch category {
-        case .best:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[0]
-        case .wishes:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[1]
-        case .later:
-            favIcon = UIImage(named: "fav.\(category.rawValue)")
-            favIconTintColor = UIElements().favoritesColors[2]
-        case .none:
+        if let category = game?.gameCategory {
+            switch category {
+            case .best:
+                favIcon = UIImage(named: "fav.\(category.rawValue)")
+                favIconTintColor = UIElements().favoritesColors[0]
+            case .wishes:
+                favIcon = UIImage(named: "fav.\(category.rawValue)")
+                favIconTintColor = UIElements().favoritesColors[1]
+            case .later:
+                favIcon = UIImage(named: "fav.\(category.rawValue)")
+                favIconTintColor = UIElements().favoritesColors[2]
+            case .recent:
+                favIcon = UIImage(named: "fav.add")
+            }
+        } else {
             favIcon = UIImage(named: "fav.add")
-        case .recent:
-            favIcon = UIImage(named: "fav.add")
         }
+
         strechyView.addFavoritesButton.setImage(favIcon, for: .normal)
         strechyView.tintContainer.backgroundColor = favIconTintColor
         strechyView.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
+    }
+
+    func setupFavSelectStick() {
+        favoritesSelectActionView.alpha = 0
+        containerViewForTable.addSubview(favoritesSelectActionView)
+        favorSelectActionViewHeightConstraint = favoritesSelectActionView.heightAnchor.constraint(equalToConstant: 88)
+        favorSelectActionViewWidthConstraint = favoritesSelectActionView.widthAnchor.constraint(equalToConstant: 88)
+        NSLayoutConstraint.activate([
+            favoritesSelectActionView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            favoritesSelectActionView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            favorSelectActionViewHeightConstraint,
+            favorSelectActionViewWidthConstraint
+            ])
     }
 
     func setupCloseControllerButton() {
@@ -358,13 +367,12 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
             let nextViewController = ScreenshotsCollectionViewController()
-            // TODO: подставить сюда массив картинок скачанных из сети
-            // строка временная
-            nextViewController.gameScreenshotsArray = [UIImage](repeating: UIImage(named: "demo")!, count: 25)
+            nextViewController.gameScreenshotsArray = game?.gameScreenshots
             if let navigator = navigationController {
                 navigator.pushViewController(nextViewController, animated: true)
             } else {
                 nextViewController.isInternetSG = false
+                nextViewController.gameScreenshotsArray = game?.gameScreenshots
                 nextViewController.modalTransitionStyle = .crossDissolve
                 self.present(nextViewController, animated: false, completion: nil)
             }
@@ -377,10 +385,6 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         strechyContainerHeaderView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
         if (scrollView.contentOffset.y >= 0) && (scrollView.contentOffset.y <= strechyShift) {
             self.strechyView.addFavoritesButton.alpha = 0
-//        } else if scrollView.contentOffset.y > strechyShift {
-//            print("больше")
-//            let percent: CGFloat = scrollView.contentOffset.y / strechyShift
-//            print(percent)
         } else if scrollView.contentOffset.y < 0 {
             let percent: CGFloat = scrollView.contentOffset.y / strechyShift
             self.strechyView.addFavoritesButton.alpha = abs(percent)
@@ -409,6 +413,13 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDScreenshotsTableViewCell", for: indexPath) as? GDScreenshotsTableViewCell
         cell?.selectionStyle = .none
 
+        if let game = self.game {
+            cell?.screenshotCell1.image = UIImage(data: game.gameScreenshots[0])
+            cell?.screenshotCell2.image = UIImage(data: game.gameScreenshots[1])
+            cell?.screenshotCell3.image = UIImage(data: game.gameScreenshots[2])
+            cell?.screenshotCell4.image = UIImage(data: game.gameScreenshots[3])
+        }
+
         if let cell = cell {
             return cell
         } else {
@@ -419,7 +430,9 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     func showVideoCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDVideoTableViewCell", for: indexPath) as? GDVideoTableViewCell
         cell?.selectionStyle = .none
-        cell?.gameImagePreview.image = UIImage(named: "demo")
+        if let previewData = self.game?.gameVideoPreviewImage {
+            cell?.gameImagePreview.image = UIImage(data: previewData)
+        }
         cell?.playButton.addTarget(self, action: #selector(self.playButtonIsTapped(_:)), for: .touchUpInside)
         if let cell = cell {
             return cell

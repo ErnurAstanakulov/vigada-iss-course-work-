@@ -32,13 +32,13 @@ class FavoritesViewController: UIViewController {
     var segmentDictionary: [String: [GameModel]]?
 
     let favoritsColors = UIElements().favoritesColors
+    private let addFavoritesStick = AddToFavoritesStubView()
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Favorites"
         view.backgroundColor = UIColor.VGDColor.white
-        coreDataManager.delegate = self
         setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -49,11 +49,25 @@ class FavoritesViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
 
-        // Данные берем из кордаты каждый раз, когда приходим на экран.
-        coreDataManager.loadFavoritesFromCoreData()
-        if let array = segmentDictionary?[Favorites.segmentCells.data[0]] {
-            rowsToDisplay = array
-        }
+        coreDataManager.loadFavoritesFromCoreData(completion: { dictionary in
+            DispatchQueue.main.async {
+                self.segmentDictionary = nil
+                let segment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
+                if let array = dictionary[segment] {
+                    let allEmpty = dictionary.allSatisfy({ $0.value.isEmpty })
+                    if allEmpty {
+                        self.setupAddFavoritesStick()
+                    } else {
+                        if let viewWithTag = self.view.viewWithTag(666) {
+                            viewWithTag.removeFromSuperview()
+                        }
+                        self.segmentDictionary = dictionary
+                        self.rowsToDisplay = array
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        })
     }
 
     // MARK: - Set up
@@ -86,6 +100,18 @@ class FavoritesViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
             tableView.topAnchor.constraint(equalTo: segmentedContainer.bottomAnchor, constant: 8),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
+            ])
+    }
+
+    func setupAddFavoritesStick() {
+        addFavoritesStick.tag = 666
+        addFavoritesStick.rotate(degrees: -2)
+        view.addSubview(addFavoritesStick)
+        NSLayoutConstraint.activate([
+            addFavoritesStick.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            addFavoritesStick.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -16),
+            addFavoritesStick.heightAnchor.constraint(equalToConstant: 176),
+            addFavoritesStick.widthAnchor.constraint(equalToConstant: 176)
             ])
     }
 
@@ -131,7 +157,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nextViewController = GameDetailsViewController()
-        // В зависимости от налия интеренета показываем разные представления экранов. С навбаром или без.
+        // В зависимости от наличия интеренета показываем разные представления экранов. С навбаром или без.
         if let navigator = navigationController {
             nextViewController.game = rowsToDisplay[indexPath.row]
             navigator.pushViewController(nextViewController, animated: true)
@@ -148,7 +174,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func swipeChangeCategory(category: String, indexPath: IndexPath, completion: (Bool) -> Void) {
-        // обновление текущего
+        // обновление текущего словаря (исключаем переходящий, в другую категорию, элемент)
         let currentSegment = Favorites.segmentCells.data[self.segmentedControl.selectedSegmentIndex]
         let tempVarForSwipeValue1 = self.segmentDictionary?[currentSegment]
         let tempVarForSwipeValue2 = tempVarForSwipeValue1?.filter { $0 != self.rowsToDisplay[indexPath.row] }
@@ -168,8 +194,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             print("чот неудачно смена категории прошла")
         }
 
-        // TODO: отправляем модель на сохранение в кордату
-        // self.rowsToDisplay[indexPath.row] <- save to CoreData
+        //  Сохраняем модель игру в кордату
+        coreDataManager.saveGame(self.rowsToDisplay[indexPath.row])
 
         // формирование нового массива
         var tempVarForSwipeValue = self.segmentDictionary?[category]
@@ -225,7 +251,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             return swipeActionConf
         } else {
             let actionDelete = UIContextualAction(style: .destructive, title: "") { _, _, completion in
-                self.swipeChangeCategory(category: GameCategory.recent.rawValue, indexPath: indexPath, completion: completion)
+                self.swipeChangeCategory(category: Favorites.segmentCells.data[3], indexPath: indexPath, completion: completion)
             }
             actionDelete.backgroundColor = favoritsColors[3]
             actionDelete.image = UIImage(named: Favorites.segmentIcons.data[3])
@@ -236,11 +262,4 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-}
-
-extension FavoritesViewController: CoreDataManagerDelegate {
-    func loadFavoritesFromCoreData(_ segmentDictionary: [String: [GameModel]]) {
-        self.segmentDictionary = segmentDictionary
-        tableView.reloadData()
-    }
 }

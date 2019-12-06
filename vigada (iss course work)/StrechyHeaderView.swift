@@ -30,9 +30,9 @@ class StrechyHeaderView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         self.translatesAutoresizingMaskIntoConstraints = false
 
+        strechyImage.image = UIImage(named: "placeholder2")
         strechyImage.contentMode = .scaleAspectFill
         addSubview(strechyImage)
         NSLayoutConstraint.activate([
@@ -47,7 +47,6 @@ class StrechyHeaderView: UIView {
         tintContainer.alpha = 0.6
         addSubview(tintContainer)
         NSLayoutConstraint.activate([
-            //tintContainer.bottomAnchor.constraint(equalTo: strechyImage.bottomAnchor, constant: -8),
             tintContainer.centerYAnchor.constraint(equalTo: strechyImage.centerYAnchor, constant: 118),
             tintContainer.heightAnchor.constraint(equalToConstant: 48),
             tintContainer.widthAnchor.constraint(equalToConstant: 48),
@@ -58,13 +57,17 @@ class StrechyHeaderView: UIView {
         coverContainer.backgroundColor = UIColor.VGDColor.clear
         addSubview(coverContainer)
         NSLayoutConstraint.activate([
-            //coverContainer.bottomAnchor.constraint(equalTo: strechyImage.bottomAnchor, constant: -8),
             coverContainer.centerYAnchor.constraint(equalTo: strechyImage.centerYAnchor, constant: 118),
             coverContainer.heightAnchor.constraint(equalToConstant: 48),
             coverContainer.widthAnchor.constraint(equalToConstant: 48),
             coverContainer.trailingAnchor.constraint(equalTo: strechyImage.trailingAnchor, constant: -8)
             ])
 
+        addFavButtonAndTitleLabel()
+
+    }
+
+    private func addFavButtonAndTitleLabel() {
         addFavoritesButton.contentMode = .center
         coverContainer.addSubview(addFavoritesButton)
         NSLayoutConstraint.activate([
@@ -83,7 +86,6 @@ class StrechyHeaderView: UIView {
             titleGame.leadingAnchor.constraint(equalTo: strechyImage.leadingAnchor, constant: 8),
             titleGame.trailingAnchor.constraint(lessThanOrEqualTo: coverContainer.leadingAnchor, constant: -8)
             ])
-
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

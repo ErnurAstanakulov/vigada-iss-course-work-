@@ -40,10 +40,10 @@ class GDScreenshotsTableViewCell: UITableViewCell {
         cell2.backgroundColor = UIColor.VGDColor.yellow
         cell3.backgroundColor = UIColor.VGDColor.green
         cell4.backgroundColor = UIColor.VGDColor.pink
-        screenshotCell1.image = UIImage(named: "demo")
-        screenshotCell2.image = UIImage(named: "demo")
-        screenshotCell3.image = UIImage(named: "demo")
-        screenshotCell4.image = UIImage(named: "demo")
+        screenshotCell1.image = UIImage(named: "placeholder1")
+        screenshotCell2.image = UIImage(named: "placeholder2")
+        screenshotCell3.image = UIImage(named: "placeholder3")
+        screenshotCell4.image = UIImage(named: "placeholder4")
         screenshotCell1.contentMode = .scaleAspectFill
         screenshotCell2.contentMode = .scaleAspectFill
         screenshotCell3.contentMode = .scaleAspectFill

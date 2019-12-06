@@ -37,7 +37,7 @@ class SearchViewController: UIViewController {
     }()
 
     var gameModels = [GameModel]()
-//    let testSearchRecent = ["zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims", "zelda", "mario", "cs", "contra", "sims"]
+
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +45,13 @@ class SearchViewController: UIViewController {
         title = "Search"
         view.backgroundColor = UIColor.VGDColor.white
 
-        // TODO: загрузить список прошлых поисковых запросов из кордаты
         loadRecentSearchRequestText()
+
+        navigationItem.hidesSearchBarWhenScrolling = false
 
         // Временные данные для тестирования ЮАЙ
         // Будут удалены, как только пойдем за ними в сеть. Это будет скоро.
-        guard let testImage = UIImage(named: "demo") else {
+        guard let testImage = UIImage(named: "placeholder1") else {
             print("Картинки Демо нет")
             return
         }
@@ -58,19 +59,29 @@ class SearchViewController: UIViewController {
             print("ошибка jpg")
             return
         }
+        let gameId = "12354"
+        let gameImageLink = "blah"
+        let gameScreenshotsLinks = ["placeholder1", "placeholder2", "placeholder3", "placeholder4"]
+        let gameVideoPreviewImageLink = "blah"
         let link = "https://media.rawg.io/media/stories/a30/a3017aa7740f387a158cbc343524275b.mp4"
-        let gameModel1 = GameModel(gameCategory: .best, gameTitle: "Zelda", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel2 = GameModel(gameCategory: .later, gameTitle: "Cyberpunk 2077", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel3 = GameModel(gameCategory: .none, gameTitle: "Sims", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel4 = GameModel(gameCategory: .recent, gameTitle: "Contra", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel5 = GameModel(gameCategory: .best, gameTitle: "Gorky 17", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
-        let gameModel6 = GameModel(gameCategory: .wishes, gameTitle: "Football ManagerЖ Football Manager чего-то там", gameImage: imageData,
-                                   gameDescription: string, gameScreenshots: [], gameVideoPreviewImage: nil, gameVideoLink: link)
+        let gameModel1 = GameModel(gameCategory: .best, gameId: gameId, gameTitle: "Zelda", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
+        let gameModel2 = GameModel(gameCategory: .later, gameId: gameId, gameTitle: "Cyberpunk 2077", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
+        let gameModel3 = GameModel(gameCategory: .recent, gameId: gameId, gameTitle: "Sims", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
+        let gameModel4 = GameModel(gameCategory: .recent, gameId: gameId, gameTitle: "Contra", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
+        let gameModel5 = GameModel(gameCategory: .best, gameId: gameId, gameTitle: "Gorky 17", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
+        let gameModel6 = GameModel(gameCategory: .wishes, gameId: gameId, gameTitle: "Football Manager", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
+                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
+                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
 
         gameModels = [gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6, gameModel1, gameModel2,
                       gameModel3, gameModel4, gameModel5, gameModel6, gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6]
@@ -114,6 +125,10 @@ class SearchViewController: UIViewController {
             loaderView.heightAnchor.constraint(equalToConstant: 40)
             ])
 
+        setupsearchController()
+    }
+
+    func setupsearchController() {
         searchController = UISearchController(searchResultsController: nil)
         searchController?.searchResultsUpdater = self
         searchController?.dimsBackgroundDuringPresentation = false
@@ -186,7 +201,7 @@ class SearchViewController: UIViewController {
     }
 
     func loadRecentSearchRequestText() {
-        print("грузим из кордаты")
+        print("грузим из кордаты поисковую строку")
         do {
             try searchRequestFRC.performFetch()
         } catch {
@@ -226,7 +241,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
             let imageData = gameModels[indexPath.row].gameImage
-            let image = UIImage(data: imageData) ?? UIImage(named: "demo1")
+            let image = UIImage(data: imageData) ?? UIImage(named: "placeholder3")
             cell?.gameImageView.image = image
             cell?.gameTitle.text = gameModels[indexPath.row].gameTitle
             cell?.selectionStyle = .none
@@ -254,11 +269,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
             print("переход на экран с инфой по игре")
             searchController?.searchBar.resignFirstResponder()
             let nextViewController = GameDetailsViewController()
+            //nextViewController.gameTemp = gameModels[indexPath.row]
             nextViewController.game = gameModels[indexPath.row]
             if let navigator = navigationController {
                 navigator.pushViewController(nextViewController, animated: true)
             }
-
         }
     }
 
@@ -296,6 +311,7 @@ extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
     }
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("BeginEditing")
+        navigationItem.hidesSearchBarWhenScrolling = true
         if isSearch {
             loadRecentSearchRequestText()
         }

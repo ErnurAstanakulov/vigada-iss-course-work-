@@ -41,11 +41,12 @@ class GDVideoTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            allContainer.heightAnchor.constraint(equalToConstant: 248),
+            allContainer.heightAnchor.constraint(equalToConstant: 144),
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
             ])
 
+        gameImagePreview.image = UIImage(named: "placeholder4")
         gameImagePreview.contentMode = .scaleAspectFill
         allContainer.addSubview(gameImagePreview)
         NSLayoutConstraint.activate([

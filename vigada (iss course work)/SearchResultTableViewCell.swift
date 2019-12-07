@@ -42,11 +42,14 @@ class SearchResultTableViewCell: UITableViewCell {
         gameTitle.backgroundColor = UIColor.VGDColor.black
         gameTitle.numberOfLines = 1
         container.addSubview(gameTitle)
+        let randomInt = Int.random(in: 8...16)
         NSLayoutConstraint.activate([
             gameTitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-            gameTitle.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8),
+            gameTitle.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -CGFloat(randomInt)),
             gameTitle.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -16)
             ])
+        let randomFloat = CGFloat.random(in: -1.5...2)
+        gameTitle.rotate(degrees: randomFloat)
     }
 
     required init?(coder _: NSCoder) {

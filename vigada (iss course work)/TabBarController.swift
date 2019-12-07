@@ -71,7 +71,7 @@ class TabBarController: UITabBarController {
         navigationController.navigationItem.largeTitleDisplayMode = .always
         navigationController.navigationBar.prefersLargeTitles = true
         navigationController.navigationBar.tintColor = UIColor.VGDColor.blue
-        if let font = NewYork.black.of(size: 34) {
+        if let font = SFMono.light.of(size: 34) {
             navigationController.navigationBar.largeTitleTextAttributes =
                 [NSAttributedString.Key.font: font]
         }

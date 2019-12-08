@@ -24,11 +24,11 @@ struct GameModel: Hashable {
     let gameImage: Data
     let gameImageLink: String
     let gameDescription: String
-    let gameScreenshots: [Data]
-    let gameScreenshotsLinks: [String]
-    let gameVideoPreviewImage: Data
-    let gameVideoPreviewImageLink: String
-    let gameVideoLink: String
+    let gameScreenshots: [Data?]
+    let gameScreenshotsLinks: [String?]
+    let gameVideoPreviewImage: Data?
+    let gameVideoPreviewImageLink: String?
+    let gameVideoLink: String?
 
     init(gameUuid: UUID = UUID(),
          gameCategory: GameCategory = .recent,
@@ -38,11 +38,11 @@ struct GameModel: Hashable {
          gameImage: Data,
          gameImageLink: String,
          gameDescription: String,
-         gameScreenshots: [Data],
-         gameScreenshotsLinks: [String],
-         gameVideoPreviewImage: Data,
-         gameVideoPreviewImageLink: String,
-         gameVideoLink: String) {
+         gameScreenshots: [Data?],
+         gameScreenshotsLinks: [String?],
+         gameVideoPreviewImage: Data?,
+         gameVideoPreviewImageLink: String?,
+         gameVideoLink: String?) {
         self.gameUuid = gameUuid
         self.gameCategory = gameCategory
         self.gameNoteCreateTime = gameNoteCreateTime

@@ -78,6 +78,22 @@ class NetworkManager {
         })
     }
 
+    func getGamesDescription(url: String, completion: @escaping (_ gamesList: GamesSearchGamesDescription?, _ error: String?) -> Void) {
+        networkService.getData(at: url, completion: { data, _ in
+            guard let data = data else {
+                completion(nil, nil)
+                return
+            }
+            do {
+                let vGDModelGamesRequest = try JSONDecoder().decode(GamesSearchGamesDescription.self, from: data)
+                completion(vGDModelGamesRequest, nil)
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+
+        })
+    }
+
     func getImageByStringUrl(url: String, completion: @escaping (_ gameImageData: Data?, _ error: String?) -> Void) {
         networkService.getData(at: url, completion: {data, _ in
             guard let data = data else {

@@ -26,7 +26,7 @@ class ScreenshotsSliderViewController: UIViewController {
 
     private let countCells: CGFloat = 1
     var indexPath: IndexPath?
-    var screenshotsArraySlider: [Data]?
+    var screenshotsArraySlider = [Data?]()
     var isInternetSS = true
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -86,12 +86,12 @@ class ScreenshotsSliderViewController: UIViewController {
 // MARK: - Extensions
 extension ScreenshotsSliderViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return screenshotsArraySlider?.count ?? 0
+        return screenshotsArraySlider.count 
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScreenshotsSlideCell", for: indexPath) as? ScreenshotsSlideCell
-        guard let imageData = screenshotsArraySlider?[indexPath.item] else {
+        guard let imageData = screenshotsArraySlider[indexPath.item] else {
             fatalError("плейсхолдер покажи!")
         }
         cell?.screenshotSlideImageView.image = UIImage(data: imageData)

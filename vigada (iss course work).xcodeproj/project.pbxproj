@@ -74,6 +74,8 @@
 		B3B6F509238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */; };
 		B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */; };
 		B3BF66CB239CE679008A653E /* GameModelTemporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66CA239CE679008A653E /* GameModelTemporary.swift */; };
+		B3BF66CF239D5FD5008A653E /* UserDefaultsFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */; };
+		B3BF66D1239D8988008A653E /* GameDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66D0239D8988008A653E /* GameDescription.swift */; };
 		B3D56EC423911F1900B47B57 /* FavoritesSelectActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D56EC323911F1900B47B57 /* FavoritesSelectActionView.swift */; };
 		B3DB661F238A7F21008265A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB661E238A7F21008265A7 /* NetworkManager.swift */; };
 		B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
@@ -170,6 +172,8 @@
 		B3BA3B22238BCEC400B9C08D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeepingTest.swift; sourceTree = "<group>"; };
 		B3BF66CA239CE679008A653E /* GameModelTemporary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTemporary.swift; sourceTree = "<group>"; };
+		B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsFacade.swift; sourceTree = "<group>"; };
+		B3BF66D0239D8988008A653E /* GameDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDescription.swift; sourceTree = "<group>"; };
 		B3D56EC323911F1900B47B57 /* FavoritesSelectActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSelectActionView.swift; sourceTree = "<group>"; };
 		B3DB661E238A7F21008265A7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeeping.swift; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 				B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */,
 				B3BF66CA239CE679008A653E /* GameModelTemporary.swift */,
 				B3067280239C3C90003DF7E2 /* GamesListModel.swift */,
+				B3BF66D0239D8988008A653E /* GameDescription.swift */,
 				B39C491C238D9AE100F4B7AC /* FavoritesSegmentControls.swift */,
 				B3FCD19B238D0E67001C9FDE /* SettingModel.swift */,
 			);
@@ -407,6 +412,7 @@
 				B3B6F506238FE1760034AE3F /* PrintLog.swift */,
 				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
+				B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */,
 				B3A75B7F239806C700A94F9E /* Extensions.swift */,
 			);
 			name = Utils;
@@ -547,6 +553,7 @@
 				B32674312385532500B2E45E /* SearchViewController.swift in Sources */,
 				B39C491D238D9AE100F4B7AC /* FavoritesSegmentControls.swift in Sources */,
 				B3B6F505238FB9490034AE3F /* GithubAuthorizationConstants.swift in Sources */,
+				B3BF66D1239D8988008A653E /* GameDescription.swift in Sources */,
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
 				B31FF2602395734E002747E3 /* ScreenshotsGalleryCell.swift in Sources */,
@@ -557,6 +564,7 @@
 				B3B6F507238FE1760034AE3F /* PrintLog.swift in Sources */,
 				B31FF25E23957321002747E3 /* ScreenshotsCollectionViewController.swift in Sources */,
 				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
+				B3BF66CF239D5FD5008A653E /* UserDefaultsFacade.swift in Sources */,
 				B3067275239BAD59003DF7E2 /* HomeCollectionTableviewCell.swift in Sources */,
 				B32E9D6C239B0567005FE0B3 /* GamesViewController.swift in Sources */,
 				B3FCD19E238D252C001C9FDE /* SettingViewActive.swift in Sources */,

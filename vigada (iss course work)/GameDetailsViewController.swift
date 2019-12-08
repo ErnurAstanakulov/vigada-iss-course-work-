@@ -14,6 +14,8 @@ class GameDetailsViewController: UIViewController {
     // Core Data
     let stackCoreData = CoreDataStack.shared
     private let coreDataManager = CoreDataManager()
+    // Network
+    private let networkManager = NetworkManager()
 
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let reuseId = "UITableViewCellreuseId"
@@ -46,6 +48,7 @@ class GameDetailsViewController: UIViewController {
     var game: GameModel?
 
     var gameTemp: VGDModelResult?
+    var gameBackgroundImageTemp: Data?
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -77,9 +80,6 @@ class GameDetailsViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
 
         // TODO: Если попали сюда из фаворитсов, то всё ок. Сохранять модель в кордату будем только при смене категории.
-        // Если попали сюда из любого другого экрана (Поиск, Хоум, Брауз), то качаем из сети инфу по игре. Текст прийдет быстро. Главная картинка уже есть. (релоадим таблицу)
-        // Качаем превью для видео, адрес уже есть, в это время там плейсхордер. Линк на видео тоже есть
-        // По комплишену качаем скриншоты (с задержкой например ). По комплишену релоадим таблицу.
         // И сохраняем модель в кордату
         // на случай если кто-то быстро зашел и ушел, то поставим ограничение по времени
 
@@ -87,9 +87,91 @@ class GameDetailsViewController: UIViewController {
             print("Мы пришли откуда-то и модели нет. Возьми временные данные")
             print(gameTemp)
             // TODO сделать поисх по gameId в кордате и если найдна запись, то показать из кордаты инфу
-            // и из них инициализируй временную модель 'game'
-            // скачаются скриншоты и по комплишену инициализируем модель, и отдадим её кордате на сохранение
-            // перегрузим таблицу из модели
+
+            guard let gameTitle = gameTemp?.name,
+                let gameImage = gameBackgroundImageTemp,
+                let gameImageLink = gameTemp?.backgroundImage,
+                let gameId = gameTemp?.id else {
+                return
+            }
+
+            strechyView.strechyImage.image = UIImage(data: gameImage)
+            strechyView.titleGame.text = gameTitle
+
+            var gameDescription = ""
+            var gameScreenshots: [Data?] = [nil]
+
+            var gameScreenshotsLinks = [String?]()
+            if let screenshots = gameTemp?.shortScreenshots {
+                for index in 0..<screenshots.count {
+                    gameScreenshotsLinks.append(screenshots[index].image)
+                }
+            } else {
+                gameScreenshotsLinks = [nil]
+            }
+
+            var gameVideoPreviewImage: Data?
+            let gameVideoPreviewImageLink = gameTemp?.clip?.preview
+            let gameVideoLink = gameTemp?.clip?.clips?.full
+
+            let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
+            game = gameTest
+
+            // тут запускаем качалку с диспатчгрупп и релоадим таблицу
+            let group = DispatchGroup()
+            let queueDetails = DispatchQueue(label: "com.GameDetails")
+
+            group.enter()
+            queueDetails.async(group: group) {
+                let gameDetailsLink = "https://api.rawg.io/api/games/\(gameId)"
+                self.networkManager.getGamesDescription(url: gameDetailsLink, completion: { description, _ in
+                    gameDescription = description?.descriptionRaw ?? ""
+                    group.leave()
+                })
+            }
+
+            group.enter()
+            queueDetails.async(group: group) {
+                if let previewLink = gameVideoPreviewImageLink {
+                    self.networkManager.getImageByStringUrl(url: previewLink, completion: { (image, _) in
+                        gameVideoPreviewImage = image
+                        group.leave()
+                    })
+                } else {
+                    group.leave()
+                }
+            }
+
+            group.enter()
+            if !gameScreenshotsLinks.isEmpty {
+                let groupScreenshots = DispatchGroup()
+                for url in gameScreenshotsLinks {
+                    if let url = url {
+                        groupScreenshots.enter()
+                        self.networkManager.getImageByStringUrl(url: url, completion: { (image, _) in
+                            gameScreenshots.append(image)
+                            print("качнул из урлa \(url)")
+                            groupScreenshots.leave()
+                        })
+                    }
+                }
+
+                groupScreenshots.notify(queue: .main) {
+                    group.leave()
+                }
+            } else {
+                group.leave()
+            }
+
+            group.notify(queue: .main) {
+                gameScreenshots.removeFirst()
+                let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
+                self.game = gameTest
+                self.tableView.reloadData()
+                // Сохраняем игру в Core Data
+                self.saveGameToCoreData()
+            }
+
         } else {
             print("Мы пришли из фаворитсов и у нас есть модель!")
         }
@@ -127,11 +209,7 @@ class GameDetailsViewController: UIViewController {
             }
 
             // Сохраняем игру в Core Data
-            if let game = game {
-                coreDataManager.saveGame(game)
-            } else {
-                print("сохранялка в базу данных не прошла. Модель nil")
-            }
+            saveGameToCoreData()
 
             // тинт иконки на стике
             favoritesSelectActionView.favoritesIcon.image = UIImage(named: icon)?.tinted(with: UIColor.VGDColor.white)
@@ -171,6 +249,15 @@ class GameDetailsViewController: UIViewController {
 
     @objc func addFavoritesTapped(_ sender: UIButton) {
         self.tableViewContainerUp()
+    }
+
+    private func saveGameToCoreData() {
+        // Сохраняем игру в Core Data
+        if let game = game {
+            coreDataManager.saveGame(game)
+        } else {
+            print("сохранялка в базу данных не прошла. Модель nil")
+        }
     }
 
     private func tableViewContainerUp() {
@@ -368,15 +455,17 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
             let nextViewController = ScreenshotsCollectionViewController()
-            nextViewController.gameScreenshotsArray = game?.gameScreenshots
-            if let navigator = navigationController {
-                navigator.pushViewController(nextViewController, animated: true)
-            } else {
-                nextViewController.isInternetSG = false
-                //nextViewController.gameScreenshotsArray = game?.gameScreenshots
-                nextViewController.modalTransitionStyle = .crossDissolve
-                self.present(nextViewController, animated: false, completion: nil)
+            if let gameGameScreenshots = game?.gameScreenshots {
+                nextViewController.gameScreenshotsArray = gameGameScreenshots
+                if let navigator = navigationController {
+                    navigator.pushViewController(nextViewController, animated: true)
+                } else {
+                    nextViewController.isInternetSG = false
+                    nextViewController.modalTransitionStyle = .crossDissolve
+                    self.present(nextViewController, animated: false, completion: nil)
+                }
             }
+
         }
     }
 
@@ -413,12 +502,17 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     func showScreenshotsCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDScreenshotsTableViewCell", for: indexPath) as? GDScreenshotsTableViewCell
         cell?.selectionStyle = .none
-
-        if let game = self.game {
-            cell?.screenshotCell1.image = UIImage(data: game.gameScreenshots[0])
-            cell?.screenshotCell2.image = UIImage(data: game.gameScreenshots[1])
-            cell?.screenshotCell3.image = UIImage(data: game.gameScreenshots[2])
-            cell?.screenshotCell4.image = UIImage(data: game.gameScreenshots[3])
+        
+        if let gameScreenshots = self.game?.gameScreenshots {
+            if let image1 = gameScreenshots[0],
+                let image2 = gameScreenshots[1],
+                let image3 = gameScreenshots[2],
+                let image4 = gameScreenshots[3] {
+                cell?.screenshotCell1.image = UIImage(data: image1)
+                cell?.screenshotCell2.image = UIImage(data: image2)
+                cell?.screenshotCell3.image = UIImage(data: image3)
+                cell?.screenshotCell4.image = UIImage(data: image4)
+            }
         }
 
         if let cell = cell {

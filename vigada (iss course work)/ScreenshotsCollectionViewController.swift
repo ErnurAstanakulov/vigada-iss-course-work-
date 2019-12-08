@@ -21,10 +21,10 @@ class ScreenshotsCollectionViewController: UIViewController {
 
     private let closeControllerButton = UIElements().imageView
 
-    private let countCells: CGFloat = 3
+    private let countCells: CGFloat = 2
     private let spacingSize: CGFloat = 8
 
-    var gameScreenshotsArray: [Data]?
+    var gameScreenshotsArray = [Data?]()
     var isInternetSG = true
 
     // MARK: UIViewController lifecycle
@@ -95,15 +95,15 @@ class ScreenshotsCollectionViewController: UIViewController {
 // MARK: - Extensions
 extension ScreenshotsCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gameScreenshotsArray?.count ?? 0
+        return gameScreenshotsArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = screenshotsCollectionView.dequeueReusableCell(withReuseIdentifier: "ScreenshotsCollectionViewCell", for: indexPath) as? ScreenshotsCollectionViewCell
-        guard let imageData = gameScreenshotsArray?[indexPath.item] else {
-            fatalError("плейсхолдер покажи!")
+        if let imageData = gameScreenshotsArray[indexPath.item] {
+            cell?.screenshot.image = UIImage(data: imageData)
         }
-        cell?.screenshot.image = UIImage(data: imageData)
+
         if let cell = cell {
             return cell
         } else {

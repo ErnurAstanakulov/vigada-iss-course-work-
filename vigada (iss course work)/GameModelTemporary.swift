@@ -15,7 +15,7 @@ struct GameModelTemporary: Hashable {
     let gameImageLink: String
     let gameDescription: String?
     let gameScreenshots: [Data?]
-    let gameScreenshotsLinks: [String]
+    let gameScreenshotsLinks: [String?]
     let gameVideoPreviewImage: Data?
     let gameVideoPreviewImageLink: String?
     let gameVideoLink: String?

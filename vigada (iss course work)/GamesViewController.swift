@@ -166,6 +166,7 @@ extension GamesViewController: UITableViewDataSource, UITableViewDelegate {
         let nextViewController = GameDetailsViewController()
         let game = gamesCollection[indexPath.row]
         nextViewController.gameTemp = game
+        nextViewController.gameBackgroundImageTemp = gamesImagesbuffer[indexPath.row]
         if let navigator = navigationController {
             navigator.pushViewController(nextViewController, animated: true)
         }

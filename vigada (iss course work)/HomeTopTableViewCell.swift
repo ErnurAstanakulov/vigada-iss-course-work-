@@ -55,7 +55,6 @@ class HomeTopTableViewCell: UITableViewCell {
         title.textAlignment = .right
         title.numberOfLines = 0
         let randomInt = Int.random(in: 18...30)
-        print(randomInt)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         title.alpha = 0.8

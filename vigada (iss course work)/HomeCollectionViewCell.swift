@@ -51,7 +51,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
         title.numberOfLines = 0
         title.alpha = 0.8
         let randomInt = Int.random(in: 18...36)
-        print(randomInt)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         allContainer.addSubview(title)

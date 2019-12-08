@@ -56,7 +56,6 @@ class HomeThirdTableViewCell: UITableViewCell {
         title.numberOfLines = 0
         title.alpha = 0.8
         let randomInt = Int.random(in: 18...30)
-        print(randomInt)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         topImage.addSubview(title)

@@ -26,6 +26,7 @@ class SearchResultTableViewCell: UITableViewCell {
             container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             ])
 
+        gameImageView.image = UIImage(named: "placeholder2")
         gameImageView.contentMode = .scaleAspectFill
         container.addSubview(gameImageView)
         NSLayoutConstraint.activate([

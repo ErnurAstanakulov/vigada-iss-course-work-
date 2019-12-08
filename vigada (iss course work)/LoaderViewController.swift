@@ -12,6 +12,8 @@ class LoaderViewController: UIViewController {
     // MARK: - Properties
     private let loaderView = UIElements().containerView
     private var isInternet = "isInternet"
+    let urlBuilder = URLBuilder()
+    let networkManager = NetworkManager()
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -19,7 +21,6 @@ class LoaderViewController: UIViewController {
 
         view.backgroundColor = UIColor.VGDColor.white
 
-        let networkManager = NetworkManager()
         networkManager.delegate = self
         // Проверяем есть интернет или нет.
         networkManager.checkInternet()
@@ -29,32 +30,93 @@ class LoaderViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loaderView.tag = 99
-        self.loaderView.vgdLoader(.start, durationIn: 1.6)
-        let time = 2.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + time) { [] in
-            var nextViewController: UIViewController
-            if let viewWithTag = self.view.viewWithTag(42) {
-                viewWithTag.removeFromSuperview()
-            } else {
-                print("Гифка загрузки не удалилась с вью")
-            }
-            self.loaderView.vgdLoader(.stop)
-            if let viewWithTag = self.view.viewWithTag(99) {
-                viewWithTag.removeFromSuperview()
-            } else {
-                print("Колесо загрузки не удалилось с вью")
-            }
-            // Если интернета нет, то будем смотреть данные из базы
-            let connection = UserDefaults.standard.bool(forKey: self.isInternet)
-            if connection {
+
+        let connection = UserDefaults.standard.bool(forKey: self.isInternet)
+
+        if connection {
+            self.loaderView.tag = 99
+            self.loaderView.vgdLoader(.start, durationIn: 1.6)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [] in
+                if let viewWithTag = self.view.viewWithTag(42) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("Гифка загрузки не удалилась с вью")
+                }
+                self.loaderView.vgdLoader(.stop)
+                if let viewWithTag = self.view.viewWithTag(99) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("Колесо загрузки не удалилось с вью")
+                }
+                var nextViewController: UIViewController
                 nextViewController = TabBarController()
-            } else {
-                nextViewController = NoInternetViewController()
+                nextViewController.modalTransitionStyle = .crossDissolve
+                self.present(nextViewController, animated: true, completion: nil)
             }
-            nextViewController.modalTransitionStyle = .crossDissolve
-            self.present(nextViewController, animated: true, completion: nil)
+//            let urlGameList = urlBuilder.addPath(path: .games).result()
+//            networkManager.getGamesList(url: urlGameList, completion: { gamesList, _ in
+//                DispatchQueue.main.async {
+//                    print("Recieve")
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [] in
+//                        if let viewWithTag = self.view.viewWithTag(42) {
+//                            viewWithTag.removeFromSuperview()
+//                        } else {
+//                            print("Гифка загрузки не удалилась с вью")
+//                        }
+//                        self.loaderView.vgdLoader(.stop)
+//                        if let viewWithTag = self.view.viewWithTag(99) {
+//                            viewWithTag.removeFromSuperview()
+//                        } else {
+//                            print("Колесо загрузки не удалилось с вью")
+//                        }
+//                        var nextViewController: UIViewController
+//                        nextViewController = TabBarController()
+//                        nextViewController.modalTransitionStyle = .crossDissolve
+//                        self.present(nextViewController, animated: true, completion: nil)
+//                    }
+//
+//                }
+//            })
+
+        } else {
+            // Если интернета нет, то будем смотреть данные из базы
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [] in
+                var nextViewController: UIViewController
+                nextViewController = NoInternetViewController()
+                nextViewController.modalTransitionStyle = .crossDissolve
+                self.present(nextViewController, animated: true, completion: nil)
+            }
+
         }
+
+
+
+
+//        let time = 2.5
+//        DispatchQueue.main.asyncAfter(deadline: .now() + time) { [] in
+//            var nextViewController: UIViewController
+//            if let viewWithTag = self.view.viewWithTag(42) {
+//                viewWithTag.removeFromSuperview()
+//            } else {
+//                print("Гифка загрузки не удалилась с вью")
+//            }
+//            self.loaderView.vgdLoader(.stop)
+//            if let viewWithTag = self.view.viewWithTag(99) {
+//                viewWithTag.removeFromSuperview()
+//            } else {
+//                print("Колесо загрузки не удалилось с вью")
+//            }
+//            // Если интернета нет, то будем смотреть данные из базы
+//            let connection = UserDefaults.standard.bool(forKey: self.isInternet)
+//            if connection {
+//                nextViewController = TabBarController()
+//            } else {
+//                nextViewController = NoInternetViewController()
+//            }
+//            nextViewController.modalTransitionStyle = .crossDissolve
+//            self.present(nextViewController, animated: true, completion: nil)
+//        }
     }
 
     // MARK: - Set up

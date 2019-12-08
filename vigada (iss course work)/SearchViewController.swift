@@ -20,6 +20,9 @@ class SearchViewController: UIViewController {
     private var isRecentSearchCalls = true
     private var isSearch = false
 
+    private let urlBuilder = URLBuilder()
+    private let networkManager = NetworkManager()
+
     // Core Data
     let stackCoreData = CoreDataStack.shared
     private let coreDataManager = CoreDataManager()
@@ -36,7 +39,12 @@ class SearchViewController: UIViewController {
         return frcontroller
     }()
 
-    var gameModels = [GameModel]()
+    // буферные переменные
+    var gameListCount = 1
+    var gamesInet = [VGDModelResult]()
+    var gamesImagesbuffer = [Int: Data]()
+    var page = 1
+    var searchText = ""
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -48,44 +56,6 @@ class SearchViewController: UIViewController {
         loadRecentSearchRequestText()
 
         navigationItem.hidesSearchBarWhenScrolling = false
-
-        // Временные данные для тестирования ЮАЙ
-        // Будут удалены, как только пойдем за ними в сеть. Это будет скоро.
-        guard let testImage = UIImage(named: "placeholder1") else {
-            print("Картинки Демо нет")
-            return
-        }
-        guard let imageData = testImage.jpegData(compressionQuality: 1) else {
-            print("ошибка jpg")
-            return
-        }
-        let gameId = "12354"
-        let gameImageLink = "blah"
-        let gameScreenshotsLinks = ["placeholder1", "placeholder2", "placeholder3", "placeholder4"]
-        let gameVideoPreviewImageLink = "blah"
-        let link = "https://media.rawg.io/media/stories/a30/a3017aa7740f387a158cbc343524275b.mp4"
-        let gameModel1 = GameModel(gameCategory: .best, gameId: gameId, gameTitle: "Zelda", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-        let gameModel2 = GameModel(gameCategory: .later, gameId: gameId, gameTitle: "Cyberpunk 2077", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-        let gameModel3 = GameModel(gameCategory: .recent, gameId: gameId, gameTitle: "Sims", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-        let gameModel4 = GameModel(gameCategory: .recent, gameId: gameId, gameTitle: "Contra", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-        let gameModel5 = GameModel(gameCategory: .best, gameId: gameId, gameTitle: "Gorky 17", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-        let gameModel6 = GameModel(gameCategory: .wishes, gameId: gameId, gameTitle: "Football Manager", gameImage: imageData, gameImageLink: gameImageLink, gameDescription: string,
-                                   gameScreenshots: [imageData, imageData, imageData, imageData, imageData], gameScreenshotsLinks: gameScreenshotsLinks,
-                                   gameVideoPreviewImage: imageData, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: link)
-
-        gameModels = [gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6, gameModel1, gameModel2,
-                      gameModel3, gameModel4, gameModel5, gameModel6, gameModel1, gameModel2, gameModel3, gameModel4, gameModel5, gameModel6]
-        //
 
         setupTableView()
     }
@@ -170,34 +140,53 @@ class SearchViewController: UIViewController {
                     print("было уже")
                 }
 
-                self?.loaderView.vgdLoader(.start, durationIn: 1.6)
-                UIView.animate(withDuration: 1.4) {
-                    self?.loaderTintView.alpha = 0.4
-                }
+                self?.startLoader()
+                // очищаем буферные переменные
+                self?.gameListCount = 1
+                self?.page = 1
+                self?.searchText = searchText
+                self?.gamesImagesbuffer.removeAll()
+                self?.gamesInet.removeAll()
+                self?.searchGames()
 
-                // очищаем массив моделей и буфер картинок, чтобы показывать только ответ последнего поискового запроса (обнуляем состояние)
-                //            self?.globalModels.removeAll()
-                //            self?.imagesBuffer.removeAll()
-                //            self?.page = 1
-                // вызов метода поиска
-                //            self?.search(by: "\(searchText)")
-                // запоминание поискового запроса для последующих постраничных вызовов
-                //            self?.searchTextGlobal = searchText
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [] in
-                    //типа пришел результат. Отключаем лоадер и обновляем таблицу
-                    self?.loaderView.vgdLoader(.stop)
-                    self?.loaderTintView.alpha = 0
-                    self?.isRecentSearchCalls = false
-                    self?.tableView.reloadData()
-                    self?.tableView.scrollToTop()
-                }
             }
             pendingRequestWorkItem = requestWorkItem
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay), execute: requestWorkItem)
         } else {
             print("поле поиска не активно")
         }
+    }
+
+    func startLoader() {
+        self.loaderView.vgdLoader(.start, durationIn: 1.6)
+        UIView.animate(withDuration: 1.4) {
+            self.loaderTintView.alpha = 0.4
+        }
+    }
+
+    func searchGames() {
+        let pageTemp = self.page
+        var searchGameURL = self.urlBuilder.reset().result()
+        searchGameURL = self.urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .search, value: searchText)
+            .addQuery(query: .pageSize, value: "50")
+            .addQuery(query: .page, value: "\(pageTemp)")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+        print(searchGameURL)
+
+        self.networkManager.getGamesList(url: searchGameURL, completion: { gamesList, _ in
+            DispatchQueue.main.async {
+                self.gameListCount = gamesList?.count ?? 1
+                self.gamesInet += gamesList?.results ?? []
+                self.loaderView.vgdLoader(.stop)
+                self.loaderTintView.alpha = 0
+                self.isRecentSearchCalls = false
+                self.tableView.reloadData()
+                self.page += 1
+            }
+        })
     }
 
     func loadRecentSearchRequestText() {
@@ -222,7 +211,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
         if isRecentSearchCalls {
             return searchRequestFRC.sections?[section].numberOfObjects ?? 0
         } else {
-            return gameModels.count // колво игр в выдаче из сети
+            return gamesInet.count
         }
 
     }
@@ -239,11 +228,45 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
                 return defaultCell(indexPath: indexPath)
             }
         } else {
+            // Постраничная загрузка из сети
+            if (indexPath.row == gamesInet.count - 1) && (gamesInet.count < gameListCount) {
+                print("Загружаем \(page) страницу")
+                startLoader()
+                searchGames()
+            }
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
-            let imageData = gameModels[indexPath.row].gameImage
-            let image = UIImage(data: imageData) ?? UIImage(named: "placeholder3")
-            cell?.gameImageView.image = image
-            cell?.gameTitle.text = gameModels[indexPath.row].gameTitle
+
+            let game = gamesInet[indexPath.row]
+
+            cell?.gameTitle.text = game.name
+            //если картинки нет в буфере, то грузим её из сети
+            if self.gamesImagesbuffer[indexPath.row] == nil {
+                if let imageLink = game.backgroundImage {
+                    networkManager.getImageByStringUrl(url: imageLink, completion: { data, _ in
+                        guard let data = data else {
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.gamesImagesbuffer[indexPath.row] = data
+                            let image = UIImage(data: data) ?? UIImage(named: "placeholder3")
+                            guard let imageInCell = cell?.gameImageView else {
+                                fatalError("тут у пал и отжался")
+                            }
+                            UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
+                                cell?.gameImageView.image = image
+                            }, completion: nil)
+
+                        }
+                    })
+                }
+            } else {
+                guard let data = self.gamesImagesbuffer[indexPath.row] else {
+                    fatalError("а где же картинка в буфере?")
+                }
+                let image = UIImage(data: data) ?? UIImage(named: "placeholder4")
+                cell?.gameImageView.image = image
+            }
+
             cell?.selectionStyle = .none
             if let cell = cell {
                 return cell
@@ -269,8 +292,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
             print("переход на экран с инфой по игре")
             searchController?.searchBar.resignFirstResponder()
             let nextViewController = GameDetailsViewController()
-            //nextViewController.gameTemp = gameModels[indexPath.row]
-            nextViewController.game = gameModels[indexPath.row]
+            let game = gamesInet[indexPath.row]
+            nextViewController.gameTemp = game
             if let navigator = navigationController {
                 navigator.pushViewController(nextViewController, animated: true)
             }

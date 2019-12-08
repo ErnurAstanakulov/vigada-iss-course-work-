@@ -45,7 +45,7 @@ class GameDetailsViewController: UIViewController {
 
     var game: GameModel?
 
-    var gameTemp: GameModel?
+    var gameTemp: VGDModelResult?
 
     // MARK: UIViewController lifecycle
     override func viewDidLoad() {
@@ -85,6 +85,7 @@ class GameDetailsViewController: UIViewController {
 
         if game == nil {
             print("Мы пришли откуда-то и модели нет. Возьми временные данные")
+            print(gameTemp)
             // TODO сделать поисх по gameId в кордате и если найдна запись, то показать из кордаты инфу
             // и из них инициализируй временную модель 'game'
             // скачаются скриншоты и по комплишену инициализируем модель, и отдадим её кордате на сохранение
@@ -372,7 +373,7 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
                 navigator.pushViewController(nextViewController, animated: true)
             } else {
                 nextViewController.isInternetSG = false
-                nextViewController.gameScreenshotsArray = game?.gameScreenshots
+                //nextViewController.gameScreenshotsArray = game?.gameScreenshots
                 nextViewController.modalTransitionStyle = .crossDissolve
                 self.present(nextViewController, animated: false, completion: nil)
             }

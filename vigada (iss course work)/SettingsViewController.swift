@@ -26,6 +26,11 @@ class SettingsViewController: UIViewController {
 
         tableViewSetup()
         tableSourceSetup()
+
+        // хотелось бы конечно LargeTitles, но из-за них краш, про скролвью драггинг
+        // wtf?
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
     }
 
     // MARK: - Set up
@@ -195,6 +200,8 @@ extension SettingsViewController: GithubAuthViewControllerDelegate {
             // сохраняем токен
             self.githubTokenStoreManager.saveGithubToken(value: token)
             // меняем элементы интерфейса
+            self.tableSource.removeAll()
+            self.tableSourceSetup()
             self.tableView.reloadData()
         }
     }

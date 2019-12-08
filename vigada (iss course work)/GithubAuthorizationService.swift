@@ -11,8 +11,16 @@ import Foundation
 final class GithubAuthorizationService {
 
     private let githubConstants = GithubConstants()
+    private let networkService = NetworkService()
+    let session: URLSession
+
+    init() {
+        let urlSession = URLSessionFactory()
+        self.session = urlSession.createDefaultSession()
+    }
 
     func getTokenBy(authViewController: GithubAuthViewController, code: String, completion: @escaping (_ token: String?, _ error: String?) -> Void) {
+
         var components = URLComponents(string: githubConstants.tokenLink)
         components?.queryItems = [
             URLQueryItem(name: "client_id", value: "\(githubConstants.clientId)"),
@@ -26,7 +34,7 @@ final class GithubAuthorizationService {
         request.httpMethod = HTTPMethod.postData.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
+         let dataTask = session.dataTask(with: request) { data, response, error in
             defer {
                 DispatchQueue.main.async {
                     authViewController.dismiss(animated: true, completion: nil)
@@ -38,7 +46,7 @@ final class GithubAuthorizationService {
             }
 
             if let response = response as? HTTPURLResponse {
-                let result = handleNetworkResponse(response)
+                let result = self.networkService.handleNetworkResponse(response)
                 switch result {
                 case .success:
                     guard let responseData = data else {
@@ -61,6 +69,7 @@ final class GithubAuthorizationService {
                 }
             }
 
-        }.resume()
+        }
+        dataTask.resume()
     }
 }

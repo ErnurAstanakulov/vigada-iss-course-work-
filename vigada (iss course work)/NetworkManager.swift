@@ -13,38 +13,10 @@ protocol CheckInternetDelegate: class {
     func checkInternet(_ isInternet: Bool)
 }
 
-enum NetworkResponse: String {
-    case success
-    case authenticationError = "Сначала вам нужно пройти аутентификацию."
-    case badRequest = "Неудачный запрос"
-    case outdated = "Запрошенный вами URL устарел."
-    case failed = "Сбой сетевого запроса."
-    case noData = "Ответ вернулся без данных для декодирования."
-    case unableToDecode = "Не получилось декодировать ответ."
-}
-
-enum Result<String> {
-    case success
-    case failure(String)
-}
-
-func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String> {
-    switch response.statusCode {
-    case 200...299:
-        return .success
-    case 401...500:
-        return .failure(NetworkResponse.authenticationError.rawValue)
-    case 501...599:
-        return .failure(NetworkResponse.badRequest.rawValue)
-    case 600:
-        return .failure(NetworkResponse.outdated.rawValue)
-    default:
-        return .failure(NetworkResponse.failed.rawValue)
-    }
-}
-
 class NetworkManager {
     weak var delegate: CheckInternetDelegate?
+
+    let networkService = NetworkService()
 
     func checkInternet() {
         self.delegate?.checkInternet(isConnectedToNetwork())
@@ -73,4 +45,31 @@ class NetworkManager {
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         return (isReachable && !needsConnection)
     }
+
+    func getGamesList(url: URL, completion: @escaping (_ gamesList: VGDModelGamesRequest?, _ error: String?) -> Void) {
+        networkService.getData(at: url) { data, _  in
+            guard let data = data else {
+                completion(nil, nil)
+                return
+            }
+            do {
+                let vGDModelGamesRequest = try JSONDecoder().decode(VGDModelGamesRequest.self, from: data)
+                completion(vGDModelGamesRequest, nil)
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+
+        }
+    }
+
+    func getImageByStringUrl(url: String, completion: @escaping (_ gameImageData: Data?, _ error: String?) -> Void) {
+        networkService.getData(at: url, completion: {data, _ in
+            guard let data = data else {
+                completion(nil, nil)
+                return
+            }
+            completion(data, nil)
+        })
+    }
+
 }

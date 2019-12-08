@@ -14,6 +14,8 @@ class HomeViewController: UIViewController {
     private let reuseId = "UITableViewCellreuseId"
     private let titleCyka = UIElements().titleLabel
     private let titleBlyat = UIElements().titleLabel
+
+    var gameList: VGDModelGamesRequest?
     // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

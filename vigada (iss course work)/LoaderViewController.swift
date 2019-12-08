@@ -30,93 +30,8 @@ class LoaderViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        let connection = UserDefaults.standard.bool(forKey: self.isInternet)
-
-        if connection {
-            self.loaderView.tag = 99
-            self.loaderView.vgdLoader(.start, durationIn: 1.6)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [] in
-                if let viewWithTag = self.view.viewWithTag(42) {
-                    viewWithTag.removeFromSuperview()
-                } else {
-                    print("Гифка загрузки не удалилась с вью")
-                }
-                self.loaderView.vgdLoader(.stop)
-                if let viewWithTag = self.view.viewWithTag(99) {
-                    viewWithTag.removeFromSuperview()
-                } else {
-                    print("Колесо загрузки не удалилось с вью")
-                }
-                var nextViewController: UIViewController
-                nextViewController = TabBarController()
-                nextViewController.modalTransitionStyle = .crossDissolve
-                self.present(nextViewController, animated: true, completion: nil)
-            }
-//            let urlGameList = urlBuilder.addPath(path: .games).result()
-//            networkManager.getGamesList(url: urlGameList, completion: { gamesList, _ in
-//                DispatchQueue.main.async {
-//                    print("Recieve")
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [] in
-//                        if let viewWithTag = self.view.viewWithTag(42) {
-//                            viewWithTag.removeFromSuperview()
-//                        } else {
-//                            print("Гифка загрузки не удалилась с вью")
-//                        }
-//                        self.loaderView.vgdLoader(.stop)
-//                        if let viewWithTag = self.view.viewWithTag(99) {
-//                            viewWithTag.removeFromSuperview()
-//                        } else {
-//                            print("Колесо загрузки не удалилось с вью")
-//                        }
-//                        var nextViewController: UIViewController
-//                        nextViewController = TabBarController()
-//                        nextViewController.modalTransitionStyle = .crossDissolve
-//                        self.present(nextViewController, animated: true, completion: nil)
-//                    }
-//
-//                }
-//            })
-
-        } else {
-            // Если интернета нет, то будем смотреть данные из базы
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [] in
-                var nextViewController: UIViewController
-                nextViewController = NoInternetViewController()
-                nextViewController.modalTransitionStyle = .crossDissolve
-                self.present(nextViewController, animated: true, completion: nil)
-            }
-
-        }
-
-
-
-
-//        let time = 2.5
-//        DispatchQueue.main.asyncAfter(deadline: .now() + time) { [] in
-//            var nextViewController: UIViewController
-//            if let viewWithTag = self.view.viewWithTag(42) {
-//                viewWithTag.removeFromSuperview()
-//            } else {
-//                print("Гифка загрузки не удалилась с вью")
-//            }
-//            self.loaderView.vgdLoader(.stop)
-//            if let viewWithTag = self.view.viewWithTag(99) {
-//                viewWithTag.removeFromSuperview()
-//            } else {
-//                print("Колесо загрузки не удалилось с вью")
-//            }
-//            // Если интернета нет, то будем смотреть данные из базы
-//            let connection = UserDefaults.standard.bool(forKey: self.isInternet)
-//            if connection {
-//                nextViewController = TabBarController()
-//            } else {
-//                nextViewController = NoInternetViewController()
-//            }
-//            nextViewController.modalTransitionStyle = .crossDissolve
-//            self.present(nextViewController, animated: true, completion: nil)
-//        }
+        self.loaderView.tag = 99
+        self.loaderView.vgdLoader(.start, durationIn: 1.6)
     }
 
     // MARK: - Set up
@@ -144,6 +59,91 @@ class LoaderViewController: UIViewController {
             ])
     }
 
+    func preLoadNetworkData() {
+
+        var preLoadDictionary = [String: VGDModelGamesRequest]()
+
+        let top70yearsRequestTitle = "top 70 years"
+        let top70yearsRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "1970-01-01,1979-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let best2019RequestTitle = "best 2019"
+        let best2019Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "2019-01-01,2019-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+        let releaseLastMonthTitle = "Release Last Month"
+        let releaseLastMonthRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "2019-12-01,2019-12-31")
+            .addOrderingAscending(value: .released, order: .descending)
+            .result()
+
+        let group = DispatchGroup()
+        let queueRelease = DispatchQueue(label: "com.release")
+        let queueBest = DispatchQueue(label: "com.best")
+        let queue70 = DispatchQueue(label: "com.70")
+
+        group.enter()
+        queueRelease.async(group: group) {
+            self.networkManager.getGamesList(url: top70yearsRequest, completion: { gamesList, _ in
+                if let list = gamesList {
+                    preLoadDictionary[top70yearsRequestTitle] = list
+                }
+            group.leave()
+            })
+        }
+
+        group.enter()
+        queueBest.async(group: group) {
+            self.networkManager.getGamesList(url: best2019Request, completion: { gamesList, _ in
+                if let list = gamesList {
+                    preLoadDictionary[best2019RequestTitle] = list
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queue70.async(group: group) {
+            self.networkManager.getGamesList(url: releaseLastMonthRequest, completion: { gamesList, _ in
+                if let list = gamesList {
+                    preLoadDictionary[releaseLastMonthTitle] = list
+                }
+                group.leave()
+            })
+        }
+
+        // как всё скачали переходим на главный экран
+        group.notify(queue: .main) {
+            if let viewWithTag = self.view.viewWithTag(42) {
+                viewWithTag.removeFromSuperview()
+            } else {
+                print("Гифка загрузки не удалилась с вью")
+            }
+            self.loaderView.vgdLoader(.stop)
+            if let viewWithTag = self.view.viewWithTag(99) {
+                viewWithTag.removeFromSuperview()
+            } else {
+                print("Колесо загрузки не удалилось с вью")
+            }
+            var nextViewController: UITabBarController
+
+            nextViewController = TabBarController()
+            if let tabbarViewcontrollers = nextViewController.viewControllers {
+                if let homeViewController = tabbarViewcontrollers[0].children[0] as? HomeViewController {
+                    homeViewController.preLoadDictionary = preLoadDictionary
+                }
+            }
+            nextViewController.modalTransitionStyle = .crossDissolve
+            self.present(nextViewController, animated: true, completion: nil)
+        }
+    }
+
 }
 
 // MARK: - Extensions
@@ -153,10 +153,15 @@ extension LoaderViewController: CheckInternetDelegate {
 
         // Если интернет есть, сделаем предзагрузку контента
         if isInternet {
-            //UserDefaults.standard.set(true, forKey: "isInternet")
-            //TODO: Добавить вызов метода предзагрузки контента из сети
+            preLoadNetworkData()
         } else {
-            //UserDefaults.standard.set(false, forKey: "isInternet")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [] in
+                self.loaderView.vgdLoader(.stop)
+                var nextViewController: UIViewController
+                nextViewController = NoInternetViewController()
+                nextViewController.modalTransitionStyle = .crossDissolve
+                self.present(nextViewController, animated: true, completion: nil)
+            }
         }
     }
 }

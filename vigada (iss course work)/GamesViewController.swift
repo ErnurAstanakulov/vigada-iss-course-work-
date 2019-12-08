@@ -14,35 +14,26 @@ class GamesViewController: UIViewController {
     private let reuseId = "UITableViewCellreuseId"
     private let loaderView = UIElements().containerView
     private let loaderTintView = UIElements().containerView
+
+    private let urlBuilder = URLBuilder()
+
+    private let networkManager = NetworkManager()
+    // буферные переменные
+    var gameLink = ""
+    var gameListCount = 1
+    var gamesCollection = [VGDModelResult]()
+    var gamesImagesbuffer = [Int: Data]()
+    var page = 1
+    var titleScreen: String?
+
     // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Games"
+        title = titleScreen ?? "Games"
         view.backgroundColor = UIColor.VGDColor.white
 
         setupTableView()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.loaderView.vgdLoader(.start, durationIn: 1.6)
-        UIView.animate(withDuration: 1.4) {
-            self.loaderTintView.alpha = 0.4
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [] in
-            //типа пришел результат. Отключаем лоадер и обновляем таблицу
-            self.loaderView.vgdLoader(.stop)
-            self.loaderTintView.alpha = 0
-            self.tableView.reloadData()
-            self.tableView.scrollToTop()
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
     }
 
     // MARK: - Set up
@@ -55,7 +46,7 @@ class GamesViewController: UIViewController {
         tableView.separatorColor = UIColor.VGDColor.clear
         tableView.keyboardDismissMode = .onDrag
 
-        tableView.backgroundColor = .yellow
+        tableView.backgroundColor = UIColor.VGDColor.white
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
@@ -82,6 +73,26 @@ class GamesViewController: UIViewController {
             ])
     }
 
+    func startLoader() {
+        self.loaderView.vgdLoader(.start, durationIn: 1.6)
+        UIView.animate(withDuration: 1.4) {
+            self.loaderTintView.alpha = 0.4
+        }
+    }
+
+    func searchGames() {
+        self.networkManager.getGamesListByStringUrl(url: gameLink, completion: {gamesList, _ in
+            DispatchQueue.main.async {
+                self.gameListCount = gamesList?.count ?? 1
+                self.gamesCollection += gamesList?.results ?? []
+                self.loaderView.vgdLoader(.stop)
+                self.loaderTintView.alpha = 0
+                self.tableView.reloadData()
+                self.gameLink = gamesList?.next ?? ""
+            }
+        })
+    }
+
 }
 
 // MARK: - Extensions
@@ -93,12 +104,48 @@ extension GamesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return gamesCollection.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchRecentTableViewCell", for: indexPath) as? SearchRecentTableViewCell
-        cell?.settingView.settingLabel.text = "игры..."
+        // Постраничная загрузка из сети
+        if (indexPath.row == gamesCollection.count - 1) && (gamesCollection.count < gameListCount) {
+            startLoader()
+            searchGames()
+        }
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
+
+        let game = gamesCollection[indexPath.row]
+        cell?.gameTitle.text = game.name
+        //если картинки нет в буфере, то грузим её из сети
+        if self.gamesImagesbuffer[indexPath.row] == nil {
+            if let imageLink = game.backgroundImage {
+                networkManager.getImageByStringUrl(url: imageLink, completion: { data, _ in
+                    guard let data = data else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.gamesImagesbuffer[indexPath.row] = data
+                        let image = UIImage(data: data) ?? UIImage(named: "placeholder3")
+                        guard let imageInCell = cell?.gameImageView else {
+                            fatalError("тут у пал и отжался")
+                        }
+                        UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
+                            cell?.gameImageView.image = image
+                        }, completion: nil)
+
+                    }
+                })
+            }
+        } else {
+            guard let data = self.gamesImagesbuffer[indexPath.row] else {
+                fatalError("а где же картинка в буфере?")
+            }
+            let image = UIImage(data: data) ?? UIImage(named: "placeholder4")
+            cell?.gameImageView.image = image
+        }
+
         cell?.selectionStyle = .none
         if let cell = cell {
             return cell
@@ -115,6 +162,12 @@ extension GamesViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("нажал")
+        print("переход на экран с инфой по игре")
+        let nextViewController = GameDetailsViewController()
+        let game = gamesCollection[indexPath.row]
+        nextViewController.gameTemp = game
+        if let navigator = navigationController {
+            navigator.pushViewController(nextViewController, animated: true)
+        }
     }
 }

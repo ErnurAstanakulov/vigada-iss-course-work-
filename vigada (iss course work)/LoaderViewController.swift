@@ -15,10 +15,20 @@ class LoaderViewController: UIViewController {
     let urlBuilder = URLBuilder()
     let networkManager = NetworkManager()
 
+    var top70yearsRequestTitle = "top 70 years"
+    var top70yearsRequest = URL(string: "")
+    var best2019RequestTitle = "best 2019"
+    var best2019Request = URL(string: "")
+    var releaseLastMonthTitle = "Release Last Month"
+    var releaseLastMonthRequest = URL(string: "")
+    var mostAnticipatedUpcomingTitle = "What are the most anticipated upcoming games?"
+    var mostAnticipatedUpcomingRequest = URL(string: "")
+
+    var preLoadDictionary = [String: VGDModelGamesRequest]()
+
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = UIColor.VGDColor.white
 
         networkManager.delegate = self
@@ -59,29 +69,45 @@ class LoaderViewController: UIViewController {
             ])
     }
 
-    func preLoadNetworkData() {
-
-        var preLoadDictionary = [String: VGDModelGamesRequest]()
-
-        let top70yearsRequestTitle = "top 70 years"
-        let top70yearsRequest = urlBuilder
+    func setupURLsAndTitles() {
+        top70yearsRequestTitle = "top 70 years"
+        top70yearsRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "1970-01-01,1979-12-31")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
 
-        let best2019RequestTitle = "best 2019"
-        let best2019Request = urlBuilder
+        best2019RequestTitle = "best 2019"
+        best2019Request = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "2019-01-01,2019-12-31")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
-        let releaseLastMonthTitle = "Release Last Month"
-        let releaseLastMonthRequest = urlBuilder
+        releaseLastMonthTitle = "Release Last Month"
+        releaseLastMonthRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "2019-12-01,2019-12-31")
             .addOrderingAscending(value: .released, order: .descending)
             .result()
+
+        mostAnticipatedUpcomingTitle = "What are the most anticipated upcoming games?"
+        mostAnticipatedUpcomingRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "2019-12-10,2020-10-10")
+            .addOrderingAscending(value: .added, order: .descending)
+            .result()
+    }
+
+    func preLoadNetworkData() {
+
+        setupURLsAndTitles()
+
+        guard let top70yearsRequest = top70yearsRequest,
+            let best2019Request = best2019Request,
+            let releaseLastMonthRequest = releaseLastMonthRequest,
+            let mostAnticipatedUpcomingRequest = mostAnticipatedUpcomingRequest else {
+            return
+        }
 
         let group = DispatchGroup()
         let queueRelease = DispatchQueue(label: "com.release")
@@ -92,7 +118,7 @@ class LoaderViewController: UIViewController {
         queueRelease.async(group: group) {
             self.networkManager.getGamesList(url: top70yearsRequest, completion: { gamesList, _ in
                 if let list = gamesList {
-                    preLoadDictionary[top70yearsRequestTitle] = list
+                    self.preLoadDictionary[self.top70yearsRequestTitle] = list
                 }
             group.leave()
             })
@@ -102,7 +128,7 @@ class LoaderViewController: UIViewController {
         queueBest.async(group: group) {
             self.networkManager.getGamesList(url: best2019Request, completion: { gamesList, _ in
                 if let list = gamesList {
-                    preLoadDictionary[best2019RequestTitle] = list
+                    self.preLoadDictionary[self.best2019RequestTitle] = list
                 }
                 group.leave()
             })
@@ -112,7 +138,17 @@ class LoaderViewController: UIViewController {
         queue70.async(group: group) {
             self.networkManager.getGamesList(url: releaseLastMonthRequest, completion: { gamesList, _ in
                 if let list = gamesList {
-                    preLoadDictionary[releaseLastMonthTitle] = list
+                    self.preLoadDictionary[self.releaseLastMonthTitle] = list
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queue70.async(group: group) {
+            self.networkManager.getGamesList(url: mostAnticipatedUpcomingRequest, completion: { gamesList, _ in
+                if let list = gamesList {
+                    self.preLoadDictionary[self.mostAnticipatedUpcomingTitle] = list
                 }
                 group.leave()
             })
@@ -120,28 +156,32 @@ class LoaderViewController: UIViewController {
 
         // как всё скачали переходим на главный экран
         group.notify(queue: .main) {
-            if let viewWithTag = self.view.viewWithTag(42) {
-                viewWithTag.removeFromSuperview()
-            } else {
-                print("Гифка загрузки не удалилась с вью")
-            }
-            self.loaderView.vgdLoader(.stop)
-            if let viewWithTag = self.view.viewWithTag(99) {
-                viewWithTag.removeFromSuperview()
-            } else {
-                print("Колесо загрузки не удалилось с вью")
-            }
-            var nextViewController: UITabBarController
-
-            nextViewController = TabBarController()
-            if let tabbarViewcontrollers = nextViewController.viewControllers {
-                if let homeViewController = tabbarViewcontrollers[0].children[0] as? HomeViewController {
-                    homeViewController.preLoadDictionary = preLoadDictionary
-                }
-            }
-            nextViewController.modalTransitionStyle = .crossDissolve
-            self.present(nextViewController, animated: true, completion: nil)
+            self.navigationToHome()
         }
+    }
+
+    func navigationToHome() {
+        if let viewWithTag = self.view.viewWithTag(42) {
+            viewWithTag.removeFromSuperview()
+        } else {
+            print("Гифка загрузки не удалилась с вью")
+        }
+        self.loaderView.vgdLoader(.stop)
+        if let viewWithTag = self.view.viewWithTag(99) {
+            viewWithTag.removeFromSuperview()
+        } else {
+            print("Колесо загрузки не удалилось с вью")
+        }
+        var nextViewController: UITabBarController
+
+        nextViewController = TabBarController()
+        if let tabbarViewcontrollers = nextViewController.viewControllers {
+            if let homeViewController = tabbarViewcontrollers[0].children[0] as? HomeViewController {
+                homeViewController.preLoadDictionary = self.preLoadDictionary
+            }
+        }
+        nextViewController.modalTransitionStyle = .crossDissolve
+        self.present(nextViewController, animated: true, completion: nil)
     }
 
 }

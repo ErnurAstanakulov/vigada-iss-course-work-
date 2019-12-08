@@ -38,8 +38,11 @@ class HomeViewController: UIViewController {
         }
 
         for element in preLoadDictionary {
-            let range = element.value.results?.count ?? 2
-            let randomInt = Int.random(in: 1...range)
+            var randomInt = 0
+            if let range = element.value.results?.count {
+                randomInt = Int.random(in: 0..<range)
+            }
+
             let title = element.key
             guard let imageLink = element.value.results?[randomInt].backgroundImage else {
                 return
@@ -108,11 +111,14 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cell.count
+        var numbers = 0
+        if !cell.isEmpty {
+            numbers = cell.count + 1
+        }
+        return numbers
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(cell)
         switch indexPath.row {
         case 0:
             let text = cell[indexPath.row].text
@@ -122,15 +128,19 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             let text = cell[indexPath.row].text
             let imageLink = cell[indexPath.row].imageLink
             return secondCell(indexPath: indexPath, text: text, imageLink: imageLink)
-        case 2:
-            let text = cell[indexPath.row].text
-            let imageLink = cell[indexPath.row].imageLink
-            return thirdCell(indexPath: indexPath, text: text, imageLink: imageLink)
-        case 3:
-            let text = cell[indexPath.row].text
-            let imageLink = cell[indexPath.row].imageLink
-            return secondCell(indexPath: indexPath, text: text, imageLink: imageLink)
         case 4:
+            let rowNumber = indexPath.row
+            let newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
+            let text = cell[newIndexPath.row].text
+            let imageLink = cell[newIndexPath.row].imageLink
+            return thirdCell(indexPath: newIndexPath, text: text, imageLink: imageLink)
+        case 3:
+            let rowNumber = indexPath.row
+            let newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
+            let text = cell[newIndexPath.row].text
+            let imageLink = cell[newIndexPath.row].imageLink
+            return secondCell(indexPath: newIndexPath, text: text, imageLink: imageLink)
+        case 2:
             return collectionCell(indexPath: indexPath, text: "highest rated game by Electronic Arts")
         default:
             let text = "cyka blyat"
@@ -218,6 +228,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     func collectionCell(indexPath: IndexPath, text: String) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCollectionTableviewCell", for: indexPath) as? HomeCollectionTableviewCell
+
+        cell?.delegate = self
         cell?.selectionStyle = .none
         let cellImage = ["placeholder4", "placeholder3", "placeholder2", "placeholder1", "placeholder4", "placeholder3", "placeholder2", "placeholder1"]
         let cellText = ["Cyka Blyat01", "Cyka Blyat02", "Cyka Blyat03", "Cyka Blyat04", "Cyka Blyat01", "Cyka Blyat02", "Cyka Blyat03", "Cyka Blyat04"]
@@ -238,15 +250,37 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("нажал")
+        var newIndexPath = IndexPath(row: 0, section: 0)
+        switch indexPath.row {
+        case 0:
+            newIndexPath = indexPath
+        case 1:
+            newIndexPath = indexPath
+        case 4:
+            let rowNumber = indexPath.row
+            newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
+        case 3:
+            let rowNumber = indexPath.row
+            newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
+        case 2:
+            print("Collection")
+        default:
+            print("default indexPath")
+        }
         let nextViewController = GamesViewController()
-        nextViewController.gameLink = preLoadDictionary?[cell[indexPath.row].text]?.next ?? ""
-        nextViewController.gameListCount = preLoadDictionary?[cell[indexPath.row].text]?.count ?? 1
-        nextViewController.gamesCollection = preLoadDictionary?[cell[indexPath.row].text]?.results ?? []
-        nextViewController.titleScreen = cell[indexPath.row].text
+        nextViewController.gameLink = preLoadDictionary?[cell[newIndexPath.row].text]?.next ?? ""
+        nextViewController.gameListCount = preLoadDictionary?[cell[newIndexPath.row].text]?.count ?? 1
+        nextViewController.gamesCollection = preLoadDictionary?[cell[newIndexPath.row].text]?.results ?? []
+        nextViewController.titleScreen = cell[newIndexPath.row].text
         if let navigator = navigationController {
             navigator.pushViewController(nextViewController, animated: true)
         }
     }
 
+}
+
+extension HomeViewController: CollectionCellTapDelegate {
+    func collectionCellTapped(_ numberCell: Int) {
+        print("нажал на \(numberCell) ячейку")
+    }
 }

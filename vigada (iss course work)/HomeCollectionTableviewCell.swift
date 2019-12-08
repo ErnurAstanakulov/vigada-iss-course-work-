@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol CollectionCellTapDelegate: class {
+    func collectionCellTapped(_ numberCell: Int)
+}
+
 class HomeCollectionTableviewCell: UITableViewCell {
+
+    weak var delegate: CollectionCellTapDelegate?
 
     private let allContainer = UIElements().containerView
     fileprivate let collectionView: UICollectionView = {
@@ -103,6 +109,10 @@ extension HomeCollectionTableviewCell: UICollectionViewDelegateFlowLayout, UICol
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 32
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.collectionCellTapped(indexPath.item)
     }
 }
 

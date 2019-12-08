@@ -79,13 +79,7 @@ class GameDetailsViewController: UIViewController {
         navigationController?.hidesBarsOnSwipe = true
         self.tabBarController?.tabBar.isHidden = true
 
-        // TODO: Если попали сюда из фаворитсов, то всё ок. Сохранять модель в кордату будем только при смене категории.
-        // И сохраняем модель в кордату
-        // на случай если кто-то быстро зашел и ушел, то поставим ограничение по времени
-
         if game == nil {
-            print("Мы пришли откуда-то и модели нет. Возьми временные данные")
-            print(gameTemp)
             // TODO сделать поисх по gameId в кордате и если найдна запись, то показать из кордаты инфу
 
             guard let gameTitle = gameTemp?.name,

@@ -9,9 +9,9 @@ VIGADA: Video Games Data.
 1. Интерфейс выполнен кодом
 2. Восемь экранов
 3. MVC
-4. ~~Паттерны проектирования (Builder, ..., ..., ...)~~
-5. ~~URLSession~~
-6. ~~JSON~~
+4. Паттерны проектирования (Builder, ..., ..., ...)
+5. URLSession
+6. JSON
 7. CoreData
 8. Multithreading
 9. Core Animation

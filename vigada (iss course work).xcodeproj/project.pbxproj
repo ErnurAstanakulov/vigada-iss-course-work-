@@ -83,6 +83,8 @@
 		B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
 		B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */; };
 		B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */; };
+		B3DF37CC239ECF2D00B46D85 /* BrowseTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DF37CB239ECF2D00B46D85 /* BrowseTopTableViewCell.swift */; };
+		B3DF37CE239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DF37CD239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift */; };
 		B3E352CA239E74CE00C5C34F /* UIBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352C9239E74CE00C5C34F /* UIBezierPath.swift */; };
 		B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */; };
 		B3E352CE239E83F400C5C34F /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */; };
@@ -187,6 +189,8 @@
 		B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeeping.swift; sourceTree = "<group>"; };
 		B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthViewController.swift; sourceTree = "<group>"; };
 		B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenHelpers.swift; sourceTree = "<group>"; };
+		B3DF37CB239ECF2D00B46D85 /* BrowseTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseTopTableViewCell.swift; sourceTree = "<group>"; };
+		B3DF37CD239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseTopCollectionViewCell.swift; sourceTree = "<group>"; };
 		B3E352C9239E74CE00C5C34F /* UIBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath.swift; sourceTree = "<group>"; };
 		B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWindowView.swift; sourceTree = "<group>"; };
 		B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 				B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */,
 				B3067274239BAD59003DF7E2 /* HomeCollectionTableviewCell.swift */,
 				B3067276239BBE0E003DF7E2 /* HomeCollectionViewCell.swift */,
+				B3DF37CB239ECF2D00B46D85 /* BrowseTopTableViewCell.swift */,
+				B3DF37CD239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift */,
 				B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */,
 				B39C4920238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift */,
 				B39C4918238D730700F4B7AC /* FavoritesTableViewCell.swift */,
@@ -616,6 +622,7 @@
 				B3067281239C3C90003DF7E2 /* GamesListModel.swift in Sources */,
 				B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */,
 				B306727D239BE9C3003DF7E2 /* NetworkService.swift in Sources */,
+				B3DF37CC239ECF2D00B46D85 /* BrowseTopTableViewCell.swift in Sources */,
 				B3E352CE239E83F400C5C34F /* UIBezierPathExtension.swift in Sources */,
 				B3751795239A9EEE00C83078 /* HomeTopTableViewCell.swift in Sources */,
 				B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */,
@@ -639,6 +646,7 @@
 				B361A3C72392EF2000002647 /* GDVideoTableViewCell.swift in Sources */,
 				B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
+				B3DF37CE239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift in Sources */,
 				B31D682D239A467000576ED9 /* AddToFavoritesStubView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

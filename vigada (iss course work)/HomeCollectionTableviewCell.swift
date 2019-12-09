@@ -25,8 +25,8 @@ class HomeCollectionTableviewCell: UITableViewCell {
         return collectionView
     }()
 
-    var cellImage = ["placeholder1", "placeholder2", "placeholder3", "placeholder4"]
-    var cellText = ["Cyka Blyat1", "Cyka Blyat2", "Cyka Blyat3", "Cyka Blyat4"]
+    var cellImage = [Data?]()
+    var cellText = [String]()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -93,7 +93,11 @@ extension HomeCollectionTableviewCell: UICollectionViewDelegateFlowLayout, UICol
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell
-        cell?.topImage.image = UIImage(named: cellImage[indexPath.item])
+        if let imageData = cellImage[indexPath.item] {
+            cell?.topImage.image = UIImage(data: imageData)
+        } else {
+            cell?.topImage.image = UIImage(named: "placeholder4")
+        }
         let textUpp = cellText[indexPath.item].uppercased()
         cell?.title.text = textUpp
         if let cell = cell {

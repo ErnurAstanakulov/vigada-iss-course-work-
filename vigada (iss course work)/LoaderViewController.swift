@@ -15,16 +15,13 @@ class LoaderViewController: UIViewController {
     let urlBuilder = URLBuilder()
     let networkManager = NetworkManager()
 
-    var top70yearsRequestTitle = "top 70 years"
-    var top70yearsRequest = URL(string: "")
-    var best2019RequestTitle = "best 2019"
-    var best2019Request = URL(string: "")
-    var releaseLastMonthTitle = "Release Last Month"
-    var releaseLastMonthRequest = URL(string: "")
-    var mostAnticipatedUpcomingTitle = "What are the most anticipated upcoming games?"
-    var mostAnticipatedUpcomingRequest = URL(string: "")
+    let apiCollectionData = APICollectionData()
+    let preLoader = PreLoader()
 
     var preLoadDictionary = [String: VGDModelGamesRequest]()
+    var preLoadCollection = [String: VGDModelGamesRequest]()
+
+    var loaded = false
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -69,94 +66,38 @@ class LoaderViewController: UIViewController {
             ])
     }
 
-    func setupURLsAndTitles() {
-        top70yearsRequestTitle = "top 70 years"
-        top70yearsRequest = urlBuilder
-            .addPath(path: .games)
-            .addQuery(query: .dates, value: "1970-01-01,1979-12-31")
-            .addOrderingAscending(value: .rating, order: .descending)
-            .result()
-
-        best2019RequestTitle = "best 2019"
-        best2019Request = urlBuilder
-            .addPath(path: .games)
-            .addQuery(query: .dates, value: "2019-01-01,2019-12-31")
-            .addOrderingAscending(value: .rating, order: .descending)
-            .result()
-        releaseLastMonthTitle = "Release Last Month"
-        releaseLastMonthRequest = urlBuilder
-            .addPath(path: .games)
-            .addQuery(query: .dates, value: "2019-12-01,2019-12-31")
-            .addOrderingAscending(value: .released, order: .descending)
-            .result()
-
-        mostAnticipatedUpcomingTitle = "What are the most anticipated upcoming games?"
-        mostAnticipatedUpcomingRequest = urlBuilder
-            .addPath(path: .games)
-            .addQuery(query: .dates, value: "2019-12-10,2020-10-10")
-            .addOrderingAscending(value: .added, order: .descending)
-            .result()
-    }
-
     func preLoadNetworkData() {
 
-        setupURLsAndTitles()
-
-        guard let top70yearsRequest = top70yearsRequest,
-            let best2019Request = best2019Request,
-            let releaseLastMonthRequest = releaseLastMonthRequest,
-            let mostAnticipatedUpcomingRequest = mostAnticipatedUpcomingRequest else {
-            return
-        }
-
         let group = DispatchGroup()
-        let queueRelease = DispatchQueue(label: "com.release")
-        let queueBest = DispatchQueue(label: "com.best")
-        let queue70 = DispatchQueue(label: "com.70")
+        let queuePreLoader = DispatchQueue(label: "com.preLoader")
+        //let queueBest = DispatchQueue(label: "com.best")
+
+        let tableFirstScreenData = apiCollectionData.tableFirstScreen()
+        let collectionFirstScreenData = apiCollectionData.collectionFirstScreen()
 
         group.enter()
-        queueRelease.async(group: group) {
-            self.networkManager.getGamesList(url: top70yearsRequest, completion: { gamesList, _ in
-                if let list = gamesList {
-                    self.preLoadDictionary[self.top70yearsRequestTitle] = list
-                }
-            group.leave()
-            })
-        }
-
-        group.enter()
-        queueBest.async(group: group) {
-            self.networkManager.getGamesList(url: best2019Request, completion: { gamesList, _ in
-                if let list = gamesList {
-                    self.preLoadDictionary[self.best2019RequestTitle] = list
-                }
+        queuePreLoader.async(group: group) {
+            self.preLoader.preLoadDictionary(title: tableFirstScreenData.titles,
+                                             urls: tableFirstScreenData.urls,
+                                             completion: { tableDictionary in
+                self.preLoadDictionary = tableDictionary
                 group.leave()
             })
         }
 
         group.enter()
-        queue70.async(group: group) {
-            self.networkManager.getGamesList(url: releaseLastMonthRequest, completion: { gamesList, _ in
-                if let list = gamesList {
-                    self.preLoadDictionary[self.releaseLastMonthTitle] = list
-                }
-                group.leave()
-            })
-        }
-
-        group.enter()
-        queue70.async(group: group) {
-            self.networkManager.getGamesList(url: mostAnticipatedUpcomingRequest, completion: { gamesList, _ in
-                if let list = gamesList {
-                    self.preLoadDictionary[self.mostAnticipatedUpcomingTitle] = list
-                }
-                group.leave()
+        queuePreLoader.async(group: group) {
+            self.preLoader.preLoadDictionary(title: collectionFirstScreenData.titles,
+                                             urls: collectionFirstScreenData.urls,
+                                             completion: { tableDictionary in
+                                                self.preLoadCollection = tableDictionary
+                                                group.leave()
             })
         }
 
         // как всё скачали переходим на главный экран
         group.notify(queue: .main) {
-            self.navigationToHome()
+            self.loaded = true
         }
     }
 
@@ -178,6 +119,7 @@ class LoaderViewController: UIViewController {
         if let tabbarViewcontrollers = nextViewController.viewControllers {
             if let homeViewController = tabbarViewcontrollers[0].children[0] as? HomeViewController {
                 homeViewController.preLoadDictionary = self.preLoadDictionary
+                homeViewController.preLoadCollection = self.preLoadCollection
             }
         }
         nextViewController.modalTransitionStyle = .crossDissolve
@@ -194,6 +136,18 @@ extension LoaderViewController: CheckInternetDelegate {
         // Если интернет есть, сделаем предзагрузку контента
         if isInternet {
             preLoadNetworkData()
+            var seconds = 0
+            // таймер на 2 секунды, чтобы посмотреть красивый лоадер ;)
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                seconds += 1
+                if self.loaded {
+                    if seconds > 2 {
+                        self.navigationToHome()
+                        timer.invalidate()
+                    }
+                }
+            }
+
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [] in
                 self.loaderView.vgdLoader(.stop)

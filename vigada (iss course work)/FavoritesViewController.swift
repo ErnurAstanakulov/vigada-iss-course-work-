@@ -62,7 +62,8 @@ class FavoritesViewController: UIViewController {
                             viewWithTag.removeFromSuperview()
                         }
                         self.segmentDictionary = dictionary
-                        self.rowsToDisplay = array
+                        let sortedArray = array.sorted(by: { $0.gameNoteCreateTime > $1.gameNoteCreateTime })
+                        self.rowsToDisplay = sortedArray
                         self.tableView.reloadData()
                     }
                 }
@@ -118,7 +119,8 @@ class FavoritesViewController: UIViewController {
     @objc fileprivate func handleSegmentChange() {
         let segment = Favorites.segmentCells.data[segmentedControl.selectedSegmentIndex]
         if let array = segmentDictionary?[segment] {
-            rowsToDisplay = array
+            let sortedArray = array.sorted(by: { $0.gameNoteCreateTime > $1.gameNoteCreateTime })
+            rowsToDisplay = sortedArray
         } else {
             rowsToDisplay = []
         }

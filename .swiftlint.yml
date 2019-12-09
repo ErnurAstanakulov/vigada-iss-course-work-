@@ -79,3 +79,5 @@ variable_name:
     - lhs
     - rhs
     - arr
+    - x
+    - y

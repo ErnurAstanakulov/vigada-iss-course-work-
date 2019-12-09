@@ -38,6 +38,8 @@
 		B32A3872239676FA00445901 /* ScreenshotsSlideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32A3871239676FA00445901 /* ScreenshotsSlideCell.swift */; };
 		B32E9D6C239B0567005FE0B3 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32E9D6B239B0567005FE0B3 /* GamesViewController.swift */; };
 		B32E9D6E239B21CA005FE0B3 /* HomeThirdTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */; };
+		B33D1E01239EC44800507264 /* PreLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D1E00239EC44800507264 /* PreLoader.swift */; };
+		B33D1E05239EC68600507264 /* APICollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D1E04239EC68600507264 /* APICollectionData.swift */; };
 		B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3490295238669AF000EF110 /* GameDetailsViewController.swift */; };
 		B349029823866B44000EF110 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349029723866B44000EF110 /* Fonts.swift */; };
 		B349029923867684000EF110 /* NewYorkExtraLarge-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */; };
@@ -81,6 +83,10 @@
 		B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */; };
 		B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */; };
 		B3DB6628238AB45C008265A7 /* GithubTokenHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */; };
+		B3E352CA239E74CE00C5C34F /* UIBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352C9239E74CE00C5C34F /* UIBezierPath.swift */; };
+		B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */; };
+		B3E352CE239E83F400C5C34F /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */; };
+		B3E352D0239E86B300C5C34F /* AngularWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CF239E86B300C5C34F /* AngularWindowView.swift */; };
 		B3FCD194238CFA5F001C9FDE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */; };
 		B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */; };
 		B3FCD198238D0000001C9FDE /* SettingNormalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */; };
@@ -135,6 +141,8 @@
 		B32A3871239676FA00445901 /* ScreenshotsSlideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsSlideCell.swift; sourceTree = "<group>"; };
 		B32E9D6B239B0567005FE0B3 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThirdTableViewCell.swift; sourceTree = "<group>"; };
+		B33D1E00239EC44800507264 /* PreLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLoader.swift; sourceTree = "<group>"; };
+		B33D1E04239EC68600507264 /* APICollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICollectionData.swift; sourceTree = "<group>"; };
 		B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Black.otf"; sourceTree = "<group>"; };
 		B349028B2386683E000EF110 /* NewYorkExtraLarge-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Bold.otf"; sourceTree = "<group>"; };
 		B349028D2386683E000EF110 /* NewYorkExtraLarge-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Regular.otf"; sourceTree = "<group>"; };
@@ -179,6 +187,10 @@
 		B3DB6621238A8079008265A7 /* GameModelForKeeping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeeping.swift; sourceTree = "<group>"; };
 		B3DB6625238A8F7D008265A7 /* GithubAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAuthViewController.swift; sourceTree = "<group>"; };
 		B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenHelpers.swift; sourceTree = "<group>"; };
+		B3E352C9239E74CE00C5C34F /* UIBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath.swift; sourceTree = "<group>"; };
+		B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWindowView.swift; sourceTree = "<group>"; };
+		B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
+		B3E352CF239E86B300C5C34F /* AngularWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularWindowView.swift; sourceTree = "<group>"; };
 		B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewCell.swift; sourceTree = "<group>"; };
 		B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNormalTableViewCell.swift; sourceTree = "<group>"; };
@@ -314,6 +326,8 @@
 				B3FCD199238D0365001C9FDE /* SettingViewNormal.swift */,
 				B3FCD19D238D252C001C9FDE /* SettingViewActive.swift */,
 				B34902C72386D487000EF110 /* AboutView.swift */,
+				B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */,
+				B3E352CF239E86B300C5C34F /* AngularWindowView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -375,6 +389,8 @@
 				B306727A239BE723003DF7E2 /* URLSessionFactory.swift */,
 				B306727C239BE9C3003DF7E2 /* NetworkService.swift */,
 				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
+				B33D1E00239EC44800507264 /* PreLoader.swift */,
+				B33D1E04239EC68600507264 /* APICollectionData.swift */,
 				B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */,
 				B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */,
 			);
@@ -411,6 +427,8 @@
 			children = (
 				B3B6F506238FE1760034AE3F /* PrintLog.swift */,
 				B3DB6627238AB45C008265A7 /* GithubTokenHelpers.swift */,
+				B3E352C9239E74CE00C5C34F /* UIBezierPath.swift */,
+				B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */,
 				B3267438238559A200B2E45E /* VGDLoader.swift */,
 				B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */,
 				B3A75B7F239806C700A94F9E /* Extensions.swift */,
@@ -556,6 +574,7 @@
 				B3BF66D1239D8988008A653E /* GameDescription.swift in Sources */,
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
+				B3E352D0239E86B300C5C34F /* AngularWindowView.swift in Sources */,
 				B31FF2602395734E002747E3 /* ScreenshotsGalleryCell.swift in Sources */,
 				B3994AAB2387D2CB000C705A /* PlayGIF.swift in Sources */,
 				B3FCD19A238D0365001C9FDE /* SettingViewNormal.swift in Sources */,
@@ -566,6 +585,7 @@
 				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
 				B3BF66CF239D5FD5008A653E /* UserDefaultsFacade.swift in Sources */,
 				B3067275239BAD59003DF7E2 /* HomeCollectionTableviewCell.swift in Sources */,
+				B3E352CA239E74CE00C5C34F /* UIBezierPath.swift in Sources */,
 				B32E9D6C239B0567005FE0B3 /* GamesViewController.swift in Sources */,
 				B3FCD19E238D252C001C9FDE /* SettingViewActive.swift in Sources */,
 				B3FCD19C238D0E67001C9FDE /* SettingModel.swift in Sources */,
@@ -579,6 +599,7 @@
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
 				B3A75B80239806C700A94F9E /* Extensions.swift in Sources */,
+				B33D1E01239EC44800507264 /* PreLoader.swift in Sources */,
 				B3FCD1A2238D3DD3001C9FDE /* SettingView.swift in Sources */,
 				B306727F239BF591003DF7E2 /* URLBuilder.swift in Sources */,
 				B39C491F238DB7D900F4B7AC /* SearchResultTableViewCell.swift in Sources */,
@@ -595,6 +616,7 @@
 				B3067281239C3C90003DF7E2 /* GamesListModel.swift in Sources */,
 				B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */,
 				B306727D239BE9C3003DF7E2 /* NetworkService.swift in Sources */,
+				B3E352CE239E83F400C5C34F /* UIBezierPathExtension.swift in Sources */,
 				B3751795239A9EEE00C83078 /* HomeTopTableViewCell.swift in Sources */,
 				B3DB6622238A8079008265A7 /* GameModelForKeeping.swift in Sources */,
 				B399019B23930BDB00E2AB2A /* GDScreenshotsTableViewCell.swift in Sources */,
@@ -602,6 +624,7 @@
 				B3A75B7E2397D7DF00A94F9E /* MORecentSearchRequest.swift in Sources */,
 				B3FCD194238CFA5F001C9FDE /* SettingsViewController.swift in Sources */,
 				B3FCD198238D0000001C9FDE /* SettingNormalTableViewCell.swift in Sources */,
+				B33D1E05239EC68600507264 /* APICollectionData.swift in Sources */,
 				B321C7D0238AB76100821B73 /* VGDModel.xcdatamodeld in Sources */,
 				B32A3870239675BB00445901 /* ScreenshotsSliderViewController.swift in Sources */,
 				B32E9D6E239B21CA005FE0B3 /* HomeThirdTableViewCell.swift in Sources */,
@@ -614,6 +637,7 @@
 				B39C4921238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift in Sources */,
 				B3BF66CB239CE679008A653E /* GameModelTemporary.swift in Sources */,
 				B361A3C72392EF2000002647 /* GDVideoTableViewCell.swift in Sources */,
+				B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
 				B31D682D239A467000576ED9 /* AddToFavoritesStubView.swift in Sources */,
 			);

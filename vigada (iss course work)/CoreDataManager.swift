@@ -115,4 +115,37 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
 
+    func checkAndLoadGame(gameId: String, completion: @escaping (_ game: GameModel?) -> Void) {
+        stack.persistentContainer.performBackgroundTask { (context) in
+            let fetchRequest: NSFetchRequest<MOGameDetails> = NSFetchRequest(entityName: "GameDetails")
+            fetchRequest.predicate = NSPredicate(format: "gameId == %@", gameId)
+            do {
+                let game = try context.fetch(fetchRequest)
+                if let game = game.first {
+                    guard let category = GameCategory(rawValue: game.gameCategory) else {
+                        fatalError("с категориями из кор даты что-то")
+                    }
+                    let gameModel = GameModel(gameUuid: game.gameUuid,
+                                              gameCategory: category,
+                                              gameNoteCreateTime: game.gameNoteCreateTime,
+                                              gameId: game.gameId,
+                                              gameTitle: game.gameTitle,
+                                              gameImage: game.gameImage,
+                                              gameImageLink: game.gameImageLink,
+                                              gameDescription: game.gameDescription,
+                                              gameScreenshots: game.gameScreenshots,
+                                              gameScreenshotsLinks: game.gameScreenshotsLinks,
+                                              gameVideoPreviewImage: game.gameVideoPreviewImage,
+                                              gameVideoPreviewImageLink: game.gameVideoPreviewImageLink,
+                                              gameVideoLink: game.gameVideoLink)
+                    completion(gameModel)
+                } else {
+                    completion(nil)
+                }
+            } catch {
+                print("Ошибка фетча gameId: \(error)")
+            }
+        }
+    }
+
 }

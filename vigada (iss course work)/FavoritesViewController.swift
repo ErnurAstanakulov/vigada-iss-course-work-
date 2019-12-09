@@ -64,7 +64,7 @@ class FavoritesViewController: UIViewController {
                         self.segmentDictionary = dictionary
                         let sortedArray = array.sorted(by: { $0.gameNoteCreateTime > $1.gameNoteCreateTime })
                         self.rowsToDisplay = sortedArray
-                        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                        self.tableView.reloadData()
                     }
                 }
             }
@@ -124,7 +124,7 @@ class FavoritesViewController: UIViewController {
         } else {
             rowsToDisplay = []
         }
-        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        tableView.reloadData()
     }
 
 }

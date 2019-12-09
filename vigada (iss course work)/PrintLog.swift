@@ -8,7 +8,48 @@
 
 import Foundation
 
-public func printLog<T>(message: String, value: T) {
-    let timestamp = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: .medium, timeStyle: .long)
-    print("\n VIGADA LOG (\(timestamp.localizedUppercase)): - \(message): \(value) \n")
+protocol LoggerType {
+    func log<T>(message: String, value: T)
+}
+
+enum TypeMessage : String{
+    case info = "ℹ️ [Info] - "
+    case warning = "⚠️ [Warning] - "
+    case error = "🤬 [Error] - "
+    case debug = "🤖 [Debug] - "
+}
+
+struct VGDLogger {
+    let type: LoggerType
+
+    func log<T>(message: String, value: T) {
+        let timestamp = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: .medium, timeStyle: .long)
+        print("\n")
+        print("VIGADA LOG (\(timestamp.localizedUppercase)):")
+        type.log(message: message, value: value)
+    }
+}
+
+struct Warning: LoggerType {
+    func log<T>(message: String, value: T) {
+        print("\(TypeMessage.warning.rawValue.uppercased()) \(message.capitalized): \(value)")
+    }
+}
+
+struct Error: LoggerType {
+    func log<T>(message: String, value: T) {
+        print("\(TypeMessage.error.rawValue.uppercased()) \(message.capitalized): \(value)")
+    }
+}
+
+struct Info: LoggerType {
+    func log<T>(message: String, value: T) {
+        print("\(TypeMessage.info.rawValue.uppercased()) \(message.capitalized): \(value)")
+    }
+}
+
+struct Debug: LoggerType {
+    func log<T>(message: String, value: T) {
+        print("\(TypeMessage.debug.rawValue.uppercased()) \(message.capitalized): \(value)")
+    }
 }

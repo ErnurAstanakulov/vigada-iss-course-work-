@@ -54,13 +54,11 @@ class GDScreenshotsTableViewCell: UITableViewCell {
         stackView.backgroundColor = UIColor.VGDColor.black
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            //stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             stackView.heightAnchor.constraint(equalToConstant: stackCellHeight)
-            //stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
             ])
 
         screenshotsContainer.backgroundColor = UIColor.VGDColor.white
@@ -70,7 +68,6 @@ class GDScreenshotsTableViewCell: UITableViewCell {
             screenshotsContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             screenshotsContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             screenshotsContainer.heightAnchor.constraint(equalToConstant: 0),
-            //stackView.heightAnchor.constraint(equalToConstant: 100),
             screenshotsContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
             ])
 

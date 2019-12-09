@@ -12,20 +12,6 @@ import CoreData
 final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
     let stack = CoreDataStack.shared
 
-    //var initialState = false
-//
-//    fileprivate lazy var gameDetailsFRC: NSFetchedResultsController<MOGameDetails> = {
-//        let fetchRequest = NSFetchRequest<MOGameDetails>()
-//        fetchRequest.entity = MOGameDetails.entity()
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "gameNoteCreateTime", ascending: true)]
-//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-//                                             managedObjectContext: stack.persistentContainer.viewContext,
-//                                             sectionNameKeyPath: nil,
-//                                             cacheName: nil)
-//        fetchedResultsController.delegate = self
-//        return fetchedResultsController
-//    }()
-
     var gameModels = [GameModel]()
 
     func loadFavoritesFromCoreData(completion: @escaping (_ dictionary: [String: [GameModel]]) -> Void) {

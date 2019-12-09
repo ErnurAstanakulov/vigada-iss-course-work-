@@ -26,5 +26,4 @@ final class GithubTokenStoreManager {
     func removeGithubToken() {
         UserDefaults.standard.removeObject(forKey: githubKey)
     }
-
 }

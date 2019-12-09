@@ -140,7 +140,6 @@ class NoInternetViewController: UIViewController {
         let nextViewController = FavoritesViewController()
         nextViewController.modalTransitionStyle = .crossDissolve
         self.present(nextViewController, animated: true, completion: nil)
-//        UserDefaults.standard.set(true, forKey: "isOnBoardSeen")
         print("click")
     }
 }

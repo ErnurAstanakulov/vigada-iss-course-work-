@@ -9,17 +9,16 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+    // MARK: - Properties
+    let homeViewController = HomeViewController()
+    let browseViewController = BrowseViewController()
+    let searchViewController = SearchViewController()
+    let favoritesViewController = FavoritesViewController()
+    let settingsViewController = SettingsViewController()
 
     // MARK: - Life cycle
-    override func viewWillAppear(_: Bool) {
-        super.viewWillAppear(true)
-        // MARK: - Properties
-        let homeViewController = HomeViewController()
-        let browseViewController = BrowseViewController()
-        let searchViewController = SearchViewController()
-        let favoritesViewController = FavoritesViewController()
-        let settingsViewController = SettingsViewController()
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
         // MARK: - Set up
         // MARK: homeNavigationController
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)

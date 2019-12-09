@@ -26,6 +26,9 @@ class GameDetailsViewController: UIViewController {
     private let viewWithShadowAndCorners = UIElements().containerView
     private let closeControllerButton = UIElements().imageView
 
+    private let loaderView = UIElements().containerView
+    private let loaderTintView = UIElements().containerView
+
     private let window = UIApplication.shared.windows[0]
     private var safeFrame = CGRect(x: 0, y: 0, width: 0, height: 0)
     private var bottomSafeAreaHeight: CGFloat = 0
@@ -80,100 +83,161 @@ class GameDetailsViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
 
         if game == nil {
-            // TODO сделать поисх по gameId в кордате и если найдна запись, то показать из кордаты инфу
-
-            guard let gameTitle = gameTemp?.name,
-                let gameImage = gameBackgroundImageTemp,
-                let gameImageLink = gameTemp?.backgroundImage,
-                let gameId = gameTemp?.id else {
+            guard let gameId = gameTemp?.id else {
                 return
             }
-
-            strechyView.strechyImage.image = UIImage(data: gameImage)
-            strechyView.titleGame.text = gameTitle
-
-            var gameDescription = ""
-            var gameScreenshots: [Data?] = [nil]
-
-            var gameScreenshotsLinks = [String?]()
-            if let screenshots = gameTemp?.shortScreenshots {
-                for index in 0..<screenshots.count {
-                    gameScreenshotsLinks.append(screenshots[index].image)
-                }
-            } else {
-                gameScreenshotsLinks = [nil]
-            }
-
-            var gameVideoPreviewImage: Data?
-            let gameVideoPreviewImageLink = gameTemp?.clip?.preview
-            let gameVideoLink = gameTemp?.clip?.clips?.full
-
-            let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
-            game = gameTest
-
-            // тут запускаем качалку с диспатчгрупп и релоадим таблицу
-            let group = DispatchGroup()
-            let queueDetails = DispatchQueue(label: "com.GameDetails")
-
-            group.enter()
-            queueDetails.async(group: group) {
-                let gameDetailsLink = "https://api.rawg.io/api/games/\(gameId)"
-                self.networkManager.getGamesDescription(url: gameDetailsLink, completion: { description, _ in
-                    gameDescription = description?.descriptionRaw ?? ""
-                    group.leave()
-                })
-            }
-
-            group.enter()
-            queueDetails.async(group: group) {
-                if let previewLink = gameVideoPreviewImageLink {
-                    self.networkManager.getImageByStringUrl(url: previewLink, completion: { (image, _) in
-                        gameVideoPreviewImage = image
-                        group.leave()
-                    })
-                } else {
-                    group.leave()
-                }
-            }
-
-            group.enter()
-            if !gameScreenshotsLinks.isEmpty {
-                let groupScreenshots = DispatchGroup()
-                for url in gameScreenshotsLinks {
-                    if let url = url {
-                        groupScreenshots.enter()
-                        self.networkManager.getImageByStringUrl(url: url, completion: { (image, _) in
-                            gameScreenshots.append(image)
-                            print("качнул из урлa \(url)")
-                            groupScreenshots.leave()
-                        })
+            startLoader()
+            coreDataManager.checkAndLoadGame(gameId: "\(gameId)", completion: { game in
+                DispatchQueue.main.async {
+                    if let game = game {
+                        print("Загрузил игру из кор даты")
+                        self.game = game
+                        self.strechyView.strechyImage.image = UIImage(data: game.gameImage)
+                        self.strechyView.titleGame.text = game.gameTitle
+                        self.setupFavIcon()
+                        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                        self.stopLoader()
+                    } else {
+                        print("Нет игры в кордате")
+                        self.createGameModelFromNetworkData()
                     }
                 }
-
-                groupScreenshots.notify(queue: .main) {
-                    group.leave()
-                }
-            } else {
-                group.leave()
-            }
-
-            group.notify(queue: .main) {
-                gameScreenshots.removeFirst()
-                let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
-                self.game = gameTest
-                self.tableView.reloadData()
-                // Сохраняем игру в Core Data
-                self.saveGameToCoreData()
-            }
-
+            })
         } else {
             print("Мы пришли из фаворитсов и у нас есть модель!")
         }
     }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
         navigationController?.hidesBarsOnSwipe = false
+    }
+
+    // MARK: - Method
+
+    private func startLoader() {
+        self.loaderView.vgdLoader(.start, durationIn: 0.6)
+        UIView.animate(withDuration: 0.4) {
+            self.loaderTintView.alpha = 0.7
+        }
+    }
+
+    private func stopLoader() {
+        self.loaderView.vgdLoader(.stop)
+        self.loaderTintView.alpha = 0
+    }
+
+    private func createGameModelFromNetworkData() {
+
+        guard let gameTitle = gameTemp?.name,
+            let gameImage = gameBackgroundImageTemp,
+            let gameImageLink = gameTemp?.backgroundImage,
+            let gameId = gameTemp?.id else {
+                return
+        }
+
+        strechyView.strechyImage.image = UIImage(data: gameImage)
+        strechyView.titleGame.text = gameTitle
+
+        var gameDescription = ""
+        var gameScreenshots: [Data?] = [nil]
+
+        var gameScreenshotsLinks = [String?]()
+        if let screenshots = gameTemp?.shortScreenshots {
+            for index in 0..<screenshots.count {
+                gameScreenshotsLinks.append(screenshots[index].image)
+            }
+        } else {
+            gameScreenshotsLinks = [nil]
+        }
+
+        var gameVideoPreviewImage: Data?
+        let gameVideoPreviewImageLink = gameTemp?.clip?.preview
+        let gameVideoLink = gameTemp?.clip?.clips?.full
+
+        let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
+        game = gameTest
+
+        // тут запускаем качалку с диспатчгрупп и релоадим таблицу
+        let group = DispatchGroup()
+        let queueDetails = DispatchQueue(label: "com.GameDetails")
+
+        group.enter()
+        queueDetails.async(group: group) {
+            let gameDetailsLink = "https://api.rawg.io/api/games/\(gameId)"
+            self.networkManager.getGamesDescription(url: gameDetailsLink, completion: { description, _ in
+                gameDescription = description?.descriptionRaw ?? ""
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queueDetails.async(group: group) {
+            if let previewLink = gameVideoPreviewImageLink {
+                self.networkManager.getImageByStringUrl(url: previewLink, completion: { (image, _) in
+                    gameVideoPreviewImage = image
+                    group.leave()
+                })
+            } else {
+                group.leave()
+            }
+        }
+
+        group.enter()
+        if !gameScreenshotsLinks.isEmpty {
+            let groupScreenshots = DispatchGroup()
+            for url in gameScreenshotsLinks {
+                if let url = url {
+                    groupScreenshots.enter()
+                    self.networkManager.getImageByStringUrl(url: url, completion: { (image, _) in
+                        gameScreenshots.append(image)
+                        print("качнул из урлa \(url)")
+                        groupScreenshots.leave()
+                    })
+                }
+            }
+
+            groupScreenshots.notify(queue: .main) {
+                group.leave()
+            }
+        } else {
+            group.leave()
+        }
+
+        group.notify(queue: .main) {
+            gameScreenshots.removeFirst()
+            let gameTest = GameModel(gameId: "\(gameId)", gameTitle: gameTitle, gameImage: gameImage, gameImageLink: gameImageLink, gameDescription: gameDescription, gameScreenshots: gameScreenshots, gameScreenshotsLinks: gameScreenshotsLinks, gameVideoPreviewImage: gameVideoPreviewImage, gameVideoPreviewImageLink: gameVideoPreviewImageLink, gameVideoLink: gameVideoLink)
+            self.game = gameTest
+            self.stopLoader()
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            // Сохраняем игру в Core Data
+            self.saveGameToCoreData()
+        }
+    }
+
+    private func saveGameToCoreData() {
+        // Сохраняем игру в Core Data
+        if let game = game {
+            coreDataManager.saveGame(game)
+        } else {
+            print("сохранялка в базу данных не прошла. Модель nil")
+        }
+    }
+
+    private func tableViewContainerUp() {
+        let height = self.favoritesPanelLikeButtonView.frame.size.height
+        self.tableviewContainerShiftConstraint.constant = -(height - 28)
+        UIView.animate(withDuration: 0.9, delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+
+    private func tableviewContainerDown() {
+        self.tableviewContainerShiftConstraint.constant = -0
+        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     // MARK: - Action
@@ -221,7 +285,6 @@ class GameDetailsViewController: UIViewController {
             })
             UIView.transition(with: self.tableView, duration: 0.1, options: .transitionCrossDissolve,
                               animations: {
-                                //self.tableView.reloadData()
                                 if stackTag == 3 {
                                     icon = "fav.add"
                                     color = UIColor.VGDColor.black
@@ -243,30 +306,6 @@ class GameDetailsViewController: UIViewController {
 
     @objc func addFavoritesTapped(_ sender: UIButton) {
         self.tableViewContainerUp()
-    }
-
-    private func saveGameToCoreData() {
-        // Сохраняем игру в Core Data
-        if let game = game {
-            coreDataManager.saveGame(game)
-        } else {
-            print("сохранялка в базу данных не прошла. Модель nil")
-        }
-    }
-
-    private func tableViewContainerUp() {
-        let height = self.favoritesPanelLikeButtonView.frame.size.height
-        self.tableviewContainerShiftConstraint.constant = -(height - 28)
-        UIView.animate(withDuration: 0.9, delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-    }
-
-    private func tableviewContainerDown() {
-        self.tableviewContainerShiftConstraint.constant = -0
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
 
     @objc func playButtonIsTapped(_ sender: UIButton) {
@@ -318,6 +357,7 @@ class GameDetailsViewController: UIViewController {
         setupTableView()
         setupStrechyHeader()
         setupFavSelectStick()
+        setupLoader()
     }
 
     private func setupTableView() {
@@ -343,6 +383,26 @@ class GameDetailsViewController: UIViewController {
             ])
     }
 
+    private func setupLoader() {
+        loaderTintView.alpha = 0
+        loaderTintView.layer.cornerRadius = 8
+        loaderTintView.backgroundColor = UIColor.VGDColor.black
+        view.addSubview(loaderTintView)
+        NSLayoutConstraint.activate([
+            loaderTintView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            loaderTintView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            loaderTintView.widthAnchor.constraint(equalToConstant: 60),
+            loaderTintView.heightAnchor.constraint(equalToConstant: 60)
+            ])
+        view.addSubview(loaderView)
+        NSLayoutConstraint.activate([
+            loaderView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            loaderView.widthAnchor.constraint(equalToConstant: 40),
+            loaderView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+    }
+
     func setupStrechyHeader() {
         strechyContainerHeaderView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: strechyShift)
         strechyContainerHeaderView.contentMode = .scaleAspectFill
@@ -364,6 +424,14 @@ class GameDetailsViewController: UIViewController {
             strechyView.bottomAnchor.constraint(equalTo: strechyContainerHeaderView.bottomAnchor, constant: 0)
             ])
 
+        setupFavIcon()
+
+        strechyView.addFavoritesButton.setImage(favIcon, for: .normal)
+        strechyView.tintContainer.backgroundColor = favIconTintColor
+        strechyView.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
+    }
+
+    func setupFavIcon() {
         if let category = game?.gameCategory {
             switch category {
             case .best:
@@ -384,7 +452,6 @@ class GameDetailsViewController: UIViewController {
 
         strechyView.addFavoritesButton.setImage(favIcon, for: .normal)
         strechyView.tintContainer.backgroundColor = favIconTintColor
-        strechyView.addFavoritesButton.addTarget(self, action: #selector(self.addFavoritesTapped(_:)), for: .touchUpInside)
     }
 
     func setupFavSelectStick() {
@@ -496,12 +563,24 @@ extension GameDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     func showScreenshotsCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GDScreenshotsTableViewCell", for: indexPath) as? GDScreenshotsTableViewCell
         cell?.selectionStyle = .none
-        
         if let gameScreenshots = self.game?.gameScreenshots {
-            if let image1 = gameScreenshots[0],
-                let image2 = gameScreenshots[1],
-                let image3 = gameScreenshots[2],
-                let image4 = gameScreenshots[3] {
+            let gameScreenshotsFilter = gameScreenshots.compactMap { $0 }
+            let gamesScreenshotsCount = gameScreenshotsFilter.count
+            var tempIamageDataArray = [Data?]()
+            for index in 0...3 {
+                if index < gamesScreenshotsCount {
+                    tempIamageDataArray.append(gameScreenshotsFilter[index])
+                } else {
+                    guard let image = UIImage(named: "placeholder2") else {
+                        fatalError("Потерялся плейсхолдер в стеке")
+                    }
+                    tempIamageDataArray.append(image.pngData())
+                }
+            }
+            if let image1 = tempIamageDataArray[0],
+                let image2 = tempIamageDataArray[1],
+                let image3 = tempIamageDataArray[2],
+                let image4 = tempIamageDataArray[3] {
                 cell?.screenshotCell1.image = UIImage(data: image1)
                 cell?.screenshotCell2.image = UIImage(data: image2)
                 cell?.screenshotCell3.image = UIImage(data: image3)

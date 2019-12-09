@@ -12,7 +12,7 @@ protocol LoggerType {
     func log<T>(message: String, value: T)
 }
 
-enum TypeMessage : String{
+enum TypeMessage: String {
     case info = "ℹ️ [Info] - "
     case warning = "⚠️ [Warning] - "
     case error = "🤬 [Error] - "

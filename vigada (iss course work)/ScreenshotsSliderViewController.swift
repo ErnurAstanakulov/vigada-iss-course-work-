@@ -86,7 +86,7 @@ class ScreenshotsSliderViewController: UIViewController {
 // MARK: - Extensions
 extension ScreenshotsSliderViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return screenshotsArraySlider.count 
+        return screenshotsArraySlider.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

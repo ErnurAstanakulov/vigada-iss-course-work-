@@ -45,7 +45,7 @@ class HomeCollectionTableviewCell: UITableViewCell {
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0),
             allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             allContainer.heightAnchor.constraint(equalToConstant: 256)

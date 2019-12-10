@@ -73,4 +73,16 @@ class APICollectionData {
         return (title, urls)
     }
 
+    func collectionAllGames() -> (titles: [String], urls: [URL]) {
+        let allGamesTitle = "All Video Games in base"
+        let allGamesRequest = urlBuilder
+            .addPath(path: .games)
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+        let title = [allGamesTitle]
+        let urls = [allGamesRequest]
+
+        return (title, urls)
+    }
+
 }

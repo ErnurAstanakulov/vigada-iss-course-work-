@@ -21,7 +21,7 @@ class LoaderViewController: UIViewController {
     var preLoadDictionary = [String: VGDModelGamesRequest]()
     var preLoadCollection = [String: VGDModelGamesRequest]()
 
-    var loaded = false
+    var loaded = true
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -135,7 +135,7 @@ extension LoaderViewController: CheckInternetDelegate {
 
         // Если интернет есть, сделаем предзагрузку контента
         if isInternet {
-            preLoadNetworkData()
+            //preLoadNetworkData()
             var seconds = 0
             // таймер на 2 секунды, чтобы посмотреть красивый лоадер ;)
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in

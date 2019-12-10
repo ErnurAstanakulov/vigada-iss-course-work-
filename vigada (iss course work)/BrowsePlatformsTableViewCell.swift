@@ -1,20 +1,20 @@
 //
-//  BrowseTopTableViewCell.swift
+//  BrowsePlatformsTableViewCell.swift
 //  vigada (iss course work)
 //
-//  Created by Maxim Marchuk on 09.12.2019.
+//  Created by Maxim Marchuk on 10.12.2019.
 //  Copyright © 2019 Maxim Marchuk. All rights reserved.
 //
 
 import UIKit
 
-protocol BrowseTopTableViewCellTapDelegate: class {
-    func topCollectionCellTapped(_ numberCell: Int)
+protocol BrowsePlatformsTableViewCellTapDelegate: class {
+    func platformsCollectionCellTapped(_ numberCell: Int)
 }
 
-class BrowseTopTableviewCell: UITableViewCell {
+class BrowsePlatformsTableViewCell: UITableViewCell {
 
-    weak var delegate: BrowseTopTableViewCellTapDelegate?
+    weak var delegate: BrowsePlatformsTableViewCellTapDelegate?
 
     private let allContainer = UIElements().containerView
     fileprivate let collectionView: UICollectionView = {
@@ -45,17 +45,17 @@ class BrowseTopTableviewCell: UITableViewCell {
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0),
+            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
 
             // тут меняем величину ячейки
-            allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -0)
-            //allContainer.heightAnchor.constraint(equalToConstant: 120)
+            //allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -8)
+            allContainer.heightAnchor.constraint(equalToConstant: 120)
             ])
 
         collectionView.backgroundColor = UIColor.VGDColor.clear
-        collectionView.register(BrowseTopCollectionViewCell.self, forCellWithReuseIdentifier: "BrowseTopCollectionViewCell")
+        collectionView.register(BrowsePlatformsCollectionViewCell.self, forCellWithReuseIdentifier: "BrowsePlatformsCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
@@ -83,7 +83,7 @@ class BrowseTopTableviewCell: UITableViewCell {
 
 }
 
-extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension BrowsePlatformsTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSizeHeight = collectionView.frame.height / 1.15
         let cellSizeWidth = cellSizeHeight + 16
@@ -95,7 +95,7 @@ extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseTopCollectionViewCell", for: indexPath) as? BrowseTopCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowsePlatformsCollectionViewCell", for: indexPath) as? BrowsePlatformsCollectionViewCell
         if let imageData = cellImage[indexPath.item] {
             cell?.topImage.image = UIImage(data: imageData)
         }
@@ -117,14 +117,14 @@ extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.topCollectionCellTapped(indexPath.item)
+        self.delegate?.platformsCollectionCellTapped(indexPath.item)
     }
 }
 
-extension BrowseTopTableviewCell: UIScrollViewDelegate {
+extension BrowsePlatformsTableViewCell: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let collectionView = scrollView as? UICollectionView {
-            if let collectionViewParallax = collectionView.visibleCells as? [BrowseTopCollectionViewCell] {
+            if let collectionViewParallax = collectionView.visibleCells as? [BrowsePlatformsCollectionViewCell] {
                 for cell in collectionViewParallax {
                     guard let indexPath = collectionView.indexPath(for: cell) else {
                         return

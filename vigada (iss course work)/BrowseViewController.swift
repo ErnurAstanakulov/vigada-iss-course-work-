@@ -36,14 +36,17 @@ class BrowseViewController: UIViewController {
     // MARK: - Set up
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SearchRecentTableViewCell.self, forCellReuseIdentifier: "SearchRecentTableViewCell")
+        tableView.register(BrowseQuoteTableViewCell.self, forCellReuseIdentifier: "BrowseQuoteTableViewCell")
         tableView.register(BrowseTopTableviewCell.self, forCellReuseIdentifier: "BrowseTopTableviewCell")
+        tableView.register(BrowsePlatformsTableViewCell.self, forCellReuseIdentifier: "BrowsePlatformsTableViewCell")
+        tableView.register(BrowseAgesTableViewCell.self, forCellReuseIdentifier: "BrowseAgesTableViewCell")
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
         tableView.keyboardDismissMode = .onDrag
 
-        tableView.backgroundColor = .yellow
+        tableView.backgroundColor = UIColor.VGDColor.white
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
@@ -53,13 +56,31 @@ class BrowseViewController: UIViewController {
             ])
     }
 
-    func topCollectionCell(indexPath: IndexPath, text: String) -> UITableViewCell {
+    func topCollectionCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BrowseTopTableviewCell", for: indexPath) as? BrowseTopTableviewCell
 
         cell?.delegate = self
         cell?.selectionStyle = .none
 
-        let cellCollcetionText = ["Test 1", "Test2", "Test 1", "Test2", "Test 1", "Test2"]
+        let cellCollcetionText = ["Test 1Test2"]
+        let cellCollcetionData: [Data?] = [nil]
+
+        cell?.cellText = cellCollcetionText
+        cell?.cellImage = cellCollcetionData
+        if let cell = cell {
+            return cell
+        } else {
+            return defaultCell(indexPath: indexPath)
+        }
+    }
+
+    func platformsCollectionCell(indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BrowsePlatformsTableViewCell", for: indexPath) as? BrowsePlatformsTableViewCell
+
+        cell?.delegate = self
+        cell?.selectionStyle = .none
+
+        let cellCollcetionText = ["Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2"]
         let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil]
 
         cell?.cellText = cellCollcetionText
@@ -71,9 +92,28 @@ class BrowseViewController: UIViewController {
         }
     }
 
-    func testCell(indexPath: IndexPath, text: String) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchRecentTableViewCell", for: indexPath) as? SearchRecentTableViewCell
-        cell?.settingView.settingLabel.text = "игры..."
+    func agesCollectionCell(indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BrowseAgesTableViewCell", for: indexPath) as? BrowseAgesTableViewCell
+
+        cell?.delegate = self
+        cell?.selectionStyle = .none
+
+        let cellCollcetionText = ["Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2", "Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2"]
+        let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+
+        cell?.cellText = cellCollcetionText
+        cell?.cellImage = cellCollcetionData
+        if let cell = cell {
+            return cell
+        } else {
+            return defaultCell(indexPath: indexPath)
+        }
+    }
+
+    func quoteCell(indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BrowseQuoteTableViewCell", for: indexPath) as? BrowseQuoteTableViewCell
+        let quote = quotesAboutVideoGames.randomElement()
+        cell?.settingView.settingLabel.text = quote
         cell?.selectionStyle = .none
         if let cell = cell {
             return cell
@@ -99,18 +139,23 @@ extension BrowseViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 4
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         switch indexPath.row {
         case 0:
-            return testCell(indexPath: indexPath, text: "Какой-то текст")
+            return quoteCell(indexPath: indexPath)
         case 1:
-            return topCollectionCell(indexPath: indexPath, text: "highest rated game by Electronic Arts")
+            return platformsCollectionCell(indexPath: indexPath)
+        case 2:
+            return topCollectionCell(indexPath: indexPath)
+        case 3:
+            return agesCollectionCell(indexPath: indexPath)
+
         default:
-            return testCell(indexPath: indexPath, text: "Какой-то текст 2")
+            return quoteCell(indexPath: indexPath)
         }
     }
 
@@ -121,7 +166,7 @@ extension BrowseViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension BrowseViewController: BrowseTopTableViewCellTapDelegate {
-    func collectionCellTapped(_ numberCell: Int) {
+    func topCollectionCellTapped(_ numberCell: Int) {
         print("нажал на \(numberCell) ячейку")
 //        let nextViewController = GamesViewController()
 //        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
@@ -131,5 +176,33 @@ extension BrowseViewController: BrowseTopTableViewCellTapDelegate {
 //        if let navigator = navigationController {
 //            navigator.pushViewController(nextViewController, animated: true)
 //        }
+    }
+}
+
+extension BrowseViewController: BrowsePlatformsTableViewCellTapDelegate {
+    func platformsCollectionCellTapped(_ numberCell: Int) {
+        print("нажал на \(numberCell) ячейку")
+        //        let nextViewController = GamesViewController()
+        //        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
+        //        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
+        //        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
+        //        nextViewController.titleScreen = cellCollcetionText[numberCell]
+        //        if let navigator = navigationController {
+        //            navigator.pushViewController(nextViewController, animated: true)
+        //        }
+    }
+}
+
+extension BrowseViewController: BrowseAgesTableViewCellTapDelegate {
+    func agesCollectionCellTapped(_ numberCell: Int) {
+        print("нажал на \(numberCell) ячейку")
+        //        let nextViewController = GamesViewController()
+        //        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
+        //        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
+        //        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
+        //        nextViewController.titleScreen = cellCollcetionText[numberCell]
+        //        if let navigator = navigationController {
+        //            navigator.pushViewController(nextViewController, animated: true)
+        //        }
     }
 }

@@ -89,6 +89,14 @@
 		B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */; };
 		B3E352CE239E83F400C5C34F /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */; };
 		B3E352D0239E86B300C5C34F /* AngularWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E352CF239E86B300C5C34F /* AngularWindowView.swift */; };
+		B3E37640239F8FA400CB3284 /* BrowsePlatformsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E3763F239F8FA400CB3284 /* BrowsePlatformsTableViewCell.swift */; };
+		B3E37642239F8FB500CB3284 /* BrowsePlatformsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E37641239F8FB500CB3284 /* BrowsePlatformsCollectionViewCell.swift */; };
+		B3E37644239F9F5400CB3284 /* TileWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E37643239F9F5400CB3284 /* TileWindowView.swift */; };
+		B3E37646239F9F7D00CB3284 /* SqWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E37645239F9F7D00CB3284 /* SqWindowView.swift */; };
+		B3E37649239FA10500CB3284 /* QuotesAboutVideoGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E37648239FA10500CB3284 /* QuotesAboutVideoGames.swift */; };
+		B3E3764B239FA83900CB3284 /* BrowseQuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E3764A239FA83900CB3284 /* BrowseQuoteTableViewCell.swift */; };
+		B3E3764D239FB9E300CB3284 /* BrowseAgesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E3764C239FB9E300CB3284 /* BrowseAgesTableViewCell.swift */; };
+		B3E3764F239FB9F300CB3284 /* BrowseAgesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E3764E239FB9F300CB3284 /* BrowseAgesCollectionViewCell.swift */; };
 		B3FCD194238CFA5F001C9FDE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */; };
 		B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */; };
 		B3FCD198238D0000001C9FDE /* SettingNormalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */; };
@@ -195,6 +203,14 @@
 		B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWindowView.swift; sourceTree = "<group>"; };
 		B3E352CD239E83F400C5C34F /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		B3E352CF239E86B300C5C34F /* AngularWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularWindowView.swift; sourceTree = "<group>"; };
+		B3E3763F239F8FA400CB3284 /* BrowsePlatformsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsePlatformsTableViewCell.swift; sourceTree = "<group>"; };
+		B3E37641239F8FB500CB3284 /* BrowsePlatformsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsePlatformsCollectionViewCell.swift; sourceTree = "<group>"; };
+		B3E37643239F9F5400CB3284 /* TileWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileWindowView.swift; sourceTree = "<group>"; };
+		B3E37645239F9F7D00CB3284 /* SqWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqWindowView.swift; sourceTree = "<group>"; };
+		B3E37648239FA10500CB3284 /* QuotesAboutVideoGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesAboutVideoGames.swift; sourceTree = "<group>"; };
+		B3E3764A239FA83900CB3284 /* BrowseQuoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseQuoteTableViewCell.swift; sourceTree = "<group>"; };
+		B3E3764C239FB9E300CB3284 /* BrowseAgesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseAgesTableViewCell.swift; sourceTree = "<group>"; };
+		B3E3764E239FB9F300CB3284 /* BrowseAgesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseAgesCollectionViewCell.swift; sourceTree = "<group>"; };
 		B3FCD193238CFA5F001C9FDE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3FCD195238CFFF1001C9FDE /* AboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewCell.swift; sourceTree = "<group>"; };
 		B3FCD197238D0000001C9FDE /* SettingNormalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNormalTableViewCell.swift; sourceTree = "<group>"; };
@@ -244,6 +260,7 @@
 		B32674172385508700B2E45E /* vigada (iss course work) */ = {
 			isa = PBXGroup;
 			children = (
+				B3E37647239FA0E300CB3284 /* Data */,
 				B3DB6620238A806D008265A7 /* Model */,
 				B3DB6605238A678F008265A7 /* DataServices */,
 				B326743C23855AD600B2E45E /* Controllers */,
@@ -332,6 +349,8 @@
 				B34902C72386D487000EF110 /* AboutView.swift */,
 				B3E352CB239E7CCC00C5C34F /* TVWindowView.swift */,
 				B3E352CF239E86B300C5C34F /* AngularWindowView.swift */,
+				B3E37643239F9F5400CB3284 /* TileWindowView.swift */,
+				B3E37645239F9F7D00CB3284 /* SqWindowView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -344,8 +363,13 @@
 				B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */,
 				B3067274239BAD59003DF7E2 /* HomeCollectionTableviewCell.swift */,
 				B3067276239BBE0E003DF7E2 /* HomeCollectionViewCell.swift */,
+				B3E3764A239FA83900CB3284 /* BrowseQuoteTableViewCell.swift */,
 				B3DF37CB239ECF2D00B46D85 /* BrowseTopTableViewCell.swift */,
 				B3DF37CD239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift */,
+				B3E3763F239F8FA400CB3284 /* BrowsePlatformsTableViewCell.swift */,
+				B3E37641239F8FB500CB3284 /* BrowsePlatformsCollectionViewCell.swift */,
+				B3E3764C239FB9E300CB3284 /* BrowseAgesTableViewCell.swift */,
+				B3E3764E239FB9F300CB3284 /* BrowseAgesCollectionViewCell.swift */,
 				B39C491E238DB7D900F4B7AC /* SearchResultTableViewCell.swift */,
 				B39C4920238DB7EB00F4B7AC /* SearchRecentTableViewCell.swift */,
 				B39C4918238D730700F4B7AC /* FavoritesTableViewCell.swift */,
@@ -396,7 +420,6 @@
 				B306727C239BE9C3003DF7E2 /* NetworkService.swift */,
 				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
 				B33D1E00239EC44800507264 /* PreLoader.swift */,
-				B33D1E04239EC68600507264 /* APICollectionData.swift */,
 				B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */,
 				B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */,
 			);
@@ -426,6 +449,15 @@
 				B3FCD19B238D0E67001C9FDE /* SettingModel.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		B3E37647239FA0E300CB3284 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B3E37648239FA10500CB3284 /* QuotesAboutVideoGames.swift */,
+				B33D1E04239EC68600507264 /* APICollectionData.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		B3FCD1A3238D48F4001C9FDE /* Utils */ = {
@@ -579,6 +611,8 @@
 				B3B6F505238FB9490034AE3F /* GithubAuthorizationConstants.swift in Sources */,
 				B3BF66D1239D8988008A653E /* GameDescription.swift in Sources */,
 				B326742B2385514F00B2E45E /* TabBarController.swift in Sources */,
+				B3E37640239F8FA400CB3284 /* BrowsePlatformsTableViewCell.swift in Sources */,
+				B3E37642239F8FB500CB3284 /* BrowsePlatformsCollectionViewCell.swift in Sources */,
 				B3267439238559A200B2E45E /* VGDLoader.swift in Sources */,
 				B3E352D0239E86B300C5C34F /* AngularWindowView.swift in Sources */,
 				B31FF2602395734E002747E3 /* ScreenshotsGalleryCell.swift in Sources */,
@@ -589,6 +623,7 @@
 				B3B6F507238FE1760034AE3F /* PrintLog.swift in Sources */,
 				B31FF25E23957321002747E3 /* ScreenshotsCollectionViewController.swift in Sources */,
 				B3DB6626238A8F7D008265A7 /* GithubAuthViewController.swift in Sources */,
+				B3E37644239F9F5400CB3284 /* TileWindowView.swift in Sources */,
 				B3BF66CF239D5FD5008A653E /* UserDefaultsFacade.swift in Sources */,
 				B3067275239BAD59003DF7E2 /* HomeCollectionTableviewCell.swift in Sources */,
 				B3E352CA239E74CE00C5C34F /* UIBezierPath.swift in Sources */,
@@ -619,7 +654,9 @@
 				B3067277239BBE0E003DF7E2 /* HomeCollectionViewCell.swift in Sources */,
 				B321C7CD238AB71A00821B73 /* CoreDataStack.swift in Sources */,
 				B3A75B7A2397947000A94F9E /* StrechyHeaderView.swift in Sources */,
+				B3E3764B239FA83900CB3284 /* BrowseQuoteTableViewCell.swift in Sources */,
 				B3067281239C3C90003DF7E2 /* GamesListModel.swift in Sources */,
+				B3E37649239FA10500CB3284 /* QuotesAboutVideoGames.swift in Sources */,
 				B3FCD196238CFFF1001C9FDE /* AboutTableViewCell.swift in Sources */,
 				B306727D239BE9C3003DF7E2 /* NetworkService.swift in Sources */,
 				B3DF37CC239ECF2D00B46D85 /* BrowseTopTableViewCell.swift in Sources */,
@@ -635,7 +672,9 @@
 				B321C7D0238AB76100821B73 /* VGDModel.xcdatamodeld in Sources */,
 				B32A3870239675BB00445901 /* ScreenshotsSliderViewController.swift in Sources */,
 				B32E9D6E239B21CA005FE0B3 /* HomeThirdTableViewCell.swift in Sources */,
+				B3E3764F239FB9F300CB3284 /* BrowseAgesCollectionViewCell.swift in Sources */,
 				B32674332385533D00B2E45E /* FavoritesViewController.swift in Sources */,
+				B3E37646239F9F7D00CB3284 /* SqWindowView.swift in Sources */,
 				B321C7D8238AD49F00821B73 /* CoreDataManager.swift in Sources */,
 				B3067279239BE6E6003DF7E2 /* API.swift in Sources */,
 				B321C7D2238AB7D100821B73 /* MOGameDetails.swift in Sources */,
@@ -646,6 +685,7 @@
 				B361A3C72392EF2000002647 /* GDVideoTableViewCell.swift in Sources */,
 				B3E352CC239E7CCC00C5C34F /* TVWindowView.swift in Sources */,
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
+				B3E3764D239FB9E300CB3284 /* BrowseAgesTableViewCell.swift in Sources */,
 				B3DF37CE239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift in Sources */,
 				B31D682D239A467000576ED9 /* AddToFavoritesStubView.swift in Sources */,
 			);

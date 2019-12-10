@@ -1,20 +1,20 @@
 //
-//  BrowseTopTableViewCell.swift
+//  BrowseAgesTableViewCell.swift
 //  vigada (iss course work)
 //
-//  Created by Maxim Marchuk on 09.12.2019.
+//  Created by Maxim Marchuk on 10.12.2019.
 //  Copyright © 2019 Maxim Marchuk. All rights reserved.
 //
 
 import UIKit
 
-protocol BrowseTopTableViewCellTapDelegate: class {
-    func topCollectionCellTapped(_ numberCell: Int)
+protocol BrowseAgesTableViewCellTapDelegate: class {
+    func agesCollectionCellTapped(_ numberCell: Int)
 }
 
-class BrowseTopTableviewCell: UITableViewCell {
+class BrowseAgesTableViewCell: UITableViewCell {
 
-    weak var delegate: BrowseTopTableViewCellTapDelegate?
+    weak var delegate: BrowseAgesTableViewCellTapDelegate?
 
     private let allContainer = UIElements().containerView
     fileprivate let collectionView: UICollectionView = {
@@ -22,6 +22,9 @@ class BrowseTopTableviewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return collectionView
     }()
 
@@ -33,29 +36,29 @@ class BrowseTopTableviewCell: UITableViewCell {
 
         contentView.clipsToBounds = true
 
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
-        allContainer.alpha = 0.8
+//        allContainer.layer.cornerRadius = 16
+//        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
+//        allContainer.layer.shadowRadius = 3
+//        allContainer.layer.shadowOpacity = 0.4
+//        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
+//        allContainer.layer.masksToBounds = false
+//        allContainer.alpha = 0.8
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0),
+            allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
 
             // тут меняем величину ячейки
-            allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -0)
-            //allContainer.heightAnchor.constraint(equalToConstant: 120)
+            //allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -8)
+            allContainer.heightAnchor.constraint(equalToConstant: 250)
             ])
 
         collectionView.backgroundColor = UIColor.VGDColor.clear
-        collectionView.register(BrowseTopCollectionViewCell.self, forCellWithReuseIdentifier: "BrowseTopCollectionViewCell")
+        collectionView.register(BrowseAgesCollectionViewCell.self, forCellWithReuseIdentifier: "BrowseAgesCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
@@ -83,11 +86,10 @@ class BrowseTopTableviewCell: UITableViewCell {
 
 }
 
-extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension BrowseAgesTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSizeHeight = collectionView.frame.height / 1.15
-        let cellSizeWidth = cellSizeHeight + 16
-        return CGSize(width: cellSizeWidth, height: cellSizeHeight)
+        let itemSize = CGSize(width:(self.collectionView.frame.size.width - 10)/3,height: (self.collectionView.frame.size.height)/2.3)
+        return itemSize
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -95,7 +97,7 @@ extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseTopCollectionViewCell", for: indexPath) as? BrowseTopCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseAgesCollectionViewCell", for: indexPath) as? BrowseAgesCollectionViewCell
         if let imageData = cellImage[indexPath.item] {
             cell?.topImage.image = UIImage(data: imageData)
         }
@@ -108,23 +110,26 @@ extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollecti
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 16)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//    }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 32
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 16
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 8
+//    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.topCollectionCellTapped(indexPath.item)
+        self.delegate?.agesCollectionCellTapped(indexPath.item)
     }
 }
 
-extension BrowseTopTableviewCell: UIScrollViewDelegate {
+extension BrowseAgesTableViewCell: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let collectionView = scrollView as? UICollectionView {
-            if let collectionViewParallax = collectionView.visibleCells as? [BrowseTopCollectionViewCell] {
+            if let collectionViewParallax = collectionView.visibleCells as? [BrowseAgesCollectionViewCell] {
                 for cell in collectionViewParallax {
                     guard let indexPath = collectionView.indexPath(for: cell) else {
                         return

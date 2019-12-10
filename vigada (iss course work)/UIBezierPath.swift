@@ -54,3 +54,64 @@ func createTvWindowPath() -> UIBezierPath {
 
     return tVScreenPathPath
 }
+
+func createSqPath() -> UIBezierPath {
+
+    let sqPath = UIBezierPath()
+    sqPath.move(to: CGPoint(x: 61.5, y: 32.5))
+    sqPath.addCurve(to: CGPoint(x: 61.5, y: 18.5), controlPoint1: CGPoint(x: 61.5, y: 33.5), controlPoint2: CGPoint(x: 61.5, y: 18.5))
+    sqPath.addLine(to: CGPoint(x: 76.5, y: 18.5))
+    sqPath.addLine(to: CGPoint(x: 76.5, y: 26.5))
+    sqPath.addLine(to: CGPoint(x: 100.5, y: 26.5))
+    sqPath.addLine(to: CGPoint(x: 100.5, y: 11.5))
+    sqPath.addLine(to: CGPoint(x: 114.5, y: 11.5))
+    sqPath.addLine(to: CGPoint(x: 114.5, y: 18.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 18.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 26.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 32.5))
+    sqPath.addLine(to: CGPoint(x: 139.5, y: 32.5))
+    sqPath.addLine(to: CGPoint(x: 139.5, y: 40.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 40.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 46.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 57.5))
+    sqPath.addLine(to: CGPoint(x: 148.5, y: 57.5))
+    sqPath.addLine(to: CGPoint(x: 148.5, y: 72.5))
+    sqPath.addLine(to: CGPoint(x: 129.5, y: 72.5))
+    sqPath.addLine(to: CGPoint(x: 120.5, y: 72.5))
+    sqPath.addLine(to: CGPoint(x: 120.5, y: 83.5))
+    sqPath.addLine(to: CGPoint(x: 107.5, y: 83.5))
+    sqPath.addLine(to: CGPoint(x: 107.5, y: 65.5))
+    sqPath.addLine(to: CGPoint(x: 93.5, y: 65.5))
+    sqPath.addLine(to: CGPoint(x: 93.5, y: 72.5))
+    sqPath.addLine(to: CGPoint(x: 76.5, y: 72.5))
+    sqPath.addLine(to: CGPoint(x: 76.5, y: 77.5))
+    sqPath.addLine(to: CGPoint(x: 55.5, y: 77.5))
+    sqPath.addLine(to: CGPoint(x: 55.5, y: 57.5))
+    sqPath.addLine(to: CGPoint(x: 40.5, y: 57.5))
+    sqPath.addLine(to: CGPoint(x: 40.5, y: 32.5))
+    sqPath.addCurve(to: CGPoint(x: 61.5, y: 32.5), controlPoint1: CGPoint(x: 40.5, y: 32.5), controlPoint2: CGPoint(x: 61.5, y: 31.5))
+    sqPath.close()
+
+    return sqPath
+}
+
+func createTilePath() -> UIBezierPath {
+    let tilePath = UIBezierPath()
+    tilePath.move(to: CGPoint(x: 83.5, y: 58.5))
+    tilePath.addCurve(to: CGPoint(x: 83.5, y: 43.5), controlPoint1: CGPoint(x: 82.5, y: 58.5), controlPoint2: CGPoint(x: 83.5, y: 43.5))
+    tilePath.addLine(to: CGPoint(x: 165.5, y: 43.5))
+    tilePath.addLine(to: CGPoint(x: 165.5, y: 69.5))
+    tilePath.addLine(to: CGPoint(x: 183.5, y: 69.5))
+    tilePath.addLine(to: CGPoint(x: 183.5, y: 90.5))
+    tilePath.addLine(to: CGPoint(x: 183.5, y: 90.5))
+    tilePath.addLine(to: CGPoint(x: 195.5, y: 90.5))
+    tilePath.addLine(to: CGPoint(x: 195.5, y: 180.5))
+    tilePath.addLine(to: CGPoint(x: 152.5, y: 180.5))
+    tilePath.addLine(to: CGPoint(x: 152.5, y: 196.5))
+    tilePath.addLine(to: CGPoint(x: 44.5, y: 196.5))
+    tilePath.addLine(to: CGPoint(x: 44.5, y: 58.5))
+    tilePath.addCurve(to: CGPoint(x: 83.5, y: 58.5), controlPoint1: CGPoint(x: 44.5, y: 58.5), controlPoint2: CGPoint(x: 84.5, y: 58.5))
+    tilePath.close()
+
+    return tilePath
+}

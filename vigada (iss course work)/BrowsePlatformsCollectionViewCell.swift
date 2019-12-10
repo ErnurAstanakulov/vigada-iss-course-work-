@@ -1,27 +1,35 @@
 //
-//  BrowseTopCollectionViewCell.swift
+//  BrowsePlatformsCollectionViewCell.swift
 //  vigada (iss course work)
 //
-//  Created by Maxim Marchuk on 09.12.2019.
+//  Created by Maxim Marchuk on 10.12.2019.
 //  Copyright © 2019 Maxim Marchuk. All rights reserved.
 //
 
 import UIKit
 
-class BrowseTopCollectionViewCell: UICollectionViewCell {
+class BrowsePlatformsCollectionViewCell: UICollectionViewCell {
     private let allContainer = UIElements().containerView
     private let imageContainer = UIElements().containerView
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
 
-    //let maskForImage = AngularWindowView()
-    //let maskForImage = TileWindowView()
-    let maskForImage = TVWindowView()
+    let maskForImage = AngularWindowView()
+    //let maskForImage = TVWindowView()
     let imageTop = UIElements().containerView
     let rectangle2 = UIElements().containerView
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+
+        allContainer.layer.cornerRadius = 16
+        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
+        allContainer.layer.shadowRadius = 3
+        allContainer.layer.shadowOpacity = 0.4
+        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
+        allContainer.layer.masksToBounds = false
+        allContainer.alpha = 1
+        allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
@@ -31,6 +39,11 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             ])
 
+        let angle: [CGFloat] = [0, 90, 180, 270]
+        guard let randomAngle: CGFloat = angle.randomElement() else {
+            return
+        }
+        maskForImage.rotate(degrees: randomAngle)
         maskForImage.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(maskForImage)
         NSLayoutConstraint.activate([
@@ -49,7 +62,8 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
             imageTop.heightAnchor.constraint(equalTo: maskForImage.heightAnchor)
             ])
 
-        topImage.image = UIImage(named: "placeholder3")
+        topImage.rotate(degrees: -randomAngle)
+        topImage.image = UIImage(named: "placeholder2")
         topImage.contentMode = .scaleAspectFill
         imageTop.addSubview(topImage)
         NSLayoutConstraint.activate([
@@ -64,7 +78,7 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
         title.textAlignment = .right
         title.numberOfLines = 0
         title.alpha = 0.8
-        let randomInt = Int.random(in: 18...48)
+        let randomInt = Int.random(in: 11...24)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         contentView.addSubview(title)

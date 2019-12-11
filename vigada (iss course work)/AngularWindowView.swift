@@ -16,7 +16,7 @@ final class AngularWindowView: UIView {
         fillColor.setFill()
 
         path.lineWidth = 1.0
-        let strokeColor = UIColor.VGDColor.blue
+        let strokeColor = UIColor.VGDColor.white
         strokeColor.setStroke()
 
         path.fit(into: rect).moveCenter(to: rect.center).fill()

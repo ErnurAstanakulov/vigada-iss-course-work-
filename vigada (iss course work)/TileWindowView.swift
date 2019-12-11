@@ -12,11 +12,11 @@ final class TileWindowView: UIView {
     override func draw(_ rect: CGRect) {
         let path = createTilePath()
 
-        let fillColor = UIColor.VGDColor.yellow
+        let fillColor = UIColor.VGDColor.white
         fillColor.setFill()
 
         path.lineWidth = 1.0
-        let strokeColor = UIColor.VGDColor.blue
+        let strokeColor = UIColor.VGDColor.white
         strokeColor.setStroke()
 
         path.fit(into: rect).moveCenter(to: rect.center).fill()

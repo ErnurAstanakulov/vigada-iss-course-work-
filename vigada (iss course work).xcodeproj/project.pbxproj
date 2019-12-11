@@ -53,6 +53,7 @@
 		B34902C2238680F4000EF110 /* SF-Compact-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */; };
 		B34902C42386B3BF000EF110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C32386B3BF000EF110 /* Colors.swift */; };
 		B34902C82386D487000EF110 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C72386D487000EF110 /* AboutView.swift */; };
+		B358ED0123A133D600546EBB /* APICollectionDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B358ED0023A133D600546EBB /* APICollectionDataTest.swift */; };
 		B3590F1F23A105EC00441CC2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3590F1E23A105EC00441CC2 /* Protocols.swift */; };
 		B361A3C52392D55100002647 /* GDDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B361A3C42392D55100002647 /* GDDescriptionTableViewCell.swift */; };
 		B361A3C72392EF2000002647 /* GDVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B361A3C62392EF2000002647 /* GDVideoTableViewCell.swift */; };
@@ -166,6 +167,7 @@
 		B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Light.otf"; sourceTree = "<group>"; };
 		B34902C32386B3BF000EF110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B34902C72386D487000EF110 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		B358ED0023A133D600546EBB /* APICollectionDataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICollectionDataTest.swift; sourceTree = "<group>"; };
 		B3590F1E23A105EC00441CC2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		B361A3C42392D55100002647 /* GDDescriptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		B361A3C62392EF2000002647 /* GDVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDVideoTableViewCell.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */,
+				B358ED0023A133D600546EBB /* APICollectionDataTest.swift */,
 				B3BA3B22238BCEC400B9C08D /* Info.plist */,
 			);
 			path = "vigada (iss course work)Tests";
@@ -696,6 +699,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */,
+				B358ED0123A133D600546EBB /* APICollectionDataTest.swift in Sources */,
 				B38788BA238C3E61007C0893 /* GameModelForKeeping.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

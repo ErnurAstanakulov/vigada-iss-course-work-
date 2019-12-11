@@ -38,7 +38,7 @@
 
 11. **Multithreading**
 
-12. **Core Animation:** Анимация ячеек таблицы. Parallax титров. Кастомный Activity Indicator 
+12. **Core Animation:** Анимация ячеек таблицы. Parallax титров. Кастомный Activity Indicator. Панель смены категории игры по "лайку"
 
 13. **Core Graphics:** Кастомные UIView. UIBezierPath. Masking
 

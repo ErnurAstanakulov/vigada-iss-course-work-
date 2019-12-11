@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol BrowseAgesTableViewCellTapDelegate: class {
-    func agesCollectionCellTapped(_ numberCell: Int)
-}
-
 class BrowseAgesTableViewCell: UITableViewCell {
 
     weak var delegate: BrowseAgesTableViewCellTapDelegate?
@@ -22,9 +18,9 @@ class BrowseAgesTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 32, bottom: 16, right: 32)
         return collectionView
     }()
 
@@ -60,6 +56,12 @@ class BrowseAgesTableViewCell: UITableViewCell {
             collectionView.centerYAnchor.constraint(equalTo: allContainer.centerYAnchor, constant: 0),
             collectionView.heightAnchor.constraint(equalTo: allContainer.heightAnchor)
             ])
+    }
+
+    func setCollectionViewDataSourceDelegate() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.reloadData()
     }
 
     required init?(coder _: NSCoder) {
@@ -104,6 +106,7 @@ extension BrowseAgesTableViewCell: UICollectionViewDelegateFlowLayout, UICollect
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.delegate?.agesCollectionCellTapped(indexPath.item)
     }
+
 }
 
 extension BrowseAgesTableViewCell: UIScrollViewDelegate {

@@ -29,6 +29,8 @@ class BrowseViewController: UIViewController {
     var platformsCollectionTitles = [String]()
     var platformsCollectionImages = [Data]()
 
+    var kostilCount = 0
+
     // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,16 +76,6 @@ class BrowseViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
             ])
 
-        loaderTintView.alpha = 0
-        loaderTintView.layer.cornerRadius = 8
-        loaderTintView.backgroundColor = UIColor.VGDColor.black
-        view.addSubview(loaderTintView)
-        NSLayoutConstraint.activate([
-            loaderTintView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
-            loaderTintView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            loaderTintView.widthAnchor.constraint(equalToConstant: 60),
-            loaderTintView.heightAnchor.constraint(equalToConstant: 60)
-            ])
         view.addSubview(loaderView)
         NSLayoutConstraint.activate([
             loaderView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
@@ -129,6 +121,8 @@ class BrowseViewController: UIViewController {
             let platformsCellUrls = self.apiCollectionData.collectionPlatformsGames()
             self.networkManager.preLoad(platformsCellUrls, completion: {dictionary in
                 self.platformsCollection = dictionary
+                self.platformsCollectionTitles.removeAll()
+                self.platformsCollectionImages.removeAll()
                 for element in dictionary {
                     self.platformsCollectionTitles.append(element.key)
                     self.platformsCollectionImages.append(element.value.image)
@@ -146,7 +140,7 @@ class BrowseViewController: UIViewController {
     private func startLoader() {
         self.loaderView.vgdLoader(.start, durationIn: 0.6)
         UIView.animate(withDuration: 0.4) {
-            self.loaderTintView.alpha = 0.7
+            self.loaderTintView.alpha = 0.5
         }
     }
 
@@ -199,11 +193,14 @@ class BrowseViewController: UIViewController {
 
         let cellCollcetionText = platformsCollectionTitles
         let cellCollcetionData: [Data] = platformsCollectionImages
-//        let cellCollcetionText = ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4",]
-//        let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
 
         cell?.cellText = cellCollcetionText
         cell?.cellImage = cellCollcetionData
+        if kostilCount < 2 {
+            cell?.setCollectionViewDataSourceDelegate()
+            kostilCount += 1
+        }
+
         if let cell = cell {
             return cell
         } else {

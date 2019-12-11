@@ -153,13 +153,15 @@ extension LoaderViewController: CheckInternetDelegate {
                         if let viewWithTag = self.view.viewWithTag(42) {
                             viewWithTag.removeFromSuperview()
                         } else {
-                            print("Гифка загрузки не удалилась с вью")
+                            let logger = VGDLogger(type: Warning())
+                            logger.log(message: "Гифка загрузки не удалилась с вью", value: "Loader checkInternet")
                         }
                         self.loaderView.vgdLoader(.stop)
                         if let viewWithTag = self.view.viewWithTag(99) {
                             viewWithTag.removeFromSuperview()
                         } else {
-                            print("Колесо загрузки не удалилось с вью")
+                            let logger = VGDLogger(type: Warning())
+                            logger.log(message: "Колесо загрузки не удалилось с вью", value: "Loader checkInternet")
                         }
                         self.navigationToHome()
                         timer.invalidate()

@@ -57,7 +57,8 @@ class NoInternetViewController: UIViewController {
     }
     // MARK: - Action
     @objc func applicationDidBecomeActive() {
-        print("снова проверили интернет")
+        let logger = VGDLogger(type: Info())
+        logger.log(message: "Чекнули интернет", value: "NoInternetViewController")
         // Если он есть, то предзагрузим данные для первого экрана и перейдем на него.
     }
 
@@ -140,6 +141,5 @@ class NoInternetViewController: UIViewController {
         let nextViewController = FavoritesViewController()
         nextViewController.modalTransitionStyle = .crossDissolve
         self.present(nextViewController, animated: true, completion: nil)
-        print("click")
     }
 }

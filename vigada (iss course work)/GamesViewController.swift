@@ -162,7 +162,6 @@ extension GamesViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("переход на экран с инфой по игре")
         let nextViewController = GameDetailsViewController()
         let game = gamesCollection[indexPath.row]
         nextViewController.gameTemp = game

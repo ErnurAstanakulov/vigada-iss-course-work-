@@ -60,7 +60,8 @@ final class GithubAuthorizationService {
                             }
                         }
                     } catch {
-                        print(error.localizedDescription)
+                        let logger = VGDLogger(type: Error())
+                        logger.log(message: "Не смогли получить токен", value: "\(error.localizedDescription)")
                         completion(nil, NetworkResponse.unableToDecode.rawValue)
                     }
 

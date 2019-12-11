@@ -193,7 +193,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         case Favorites.segmentCells.data[3]:
             self.rowsToDisplay[indexPath.row].gameCategory = .recent
         default:
-            print("чот неудачно смена категории прошла")
+            let logger = VGDLogger(type: Error())
+            logger.log(message: "Неудачная смена категорий", value: "swipeChangeCategory")
         }
 
         //  Сохраняем модель игру в кордату

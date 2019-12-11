@@ -144,7 +144,8 @@ class SettingsViewController: UIViewController {
                 gihubLogoutButtonTapped()
             }
         default:
-            print("press \(sender.tag)")
+            let logger = VGDLogger(type: Info())
+            logger.log(message: "Нажал settingButtonTapped", value: sender.tag)
         }
     }
 

@@ -90,7 +90,8 @@ class GameDetailsViewController: UIViewController {
             coreDataManager.checkAndLoadGame(gameId: "\(gameId)", completion: { game in
                 DispatchQueue.main.async {
                     if let game = game {
-                        print("Загрузил игру из кор даты")
+                        let logger = VGDLogger(type: Info())
+                        logger.log(message: "Загрузил игру из кор даты", value: game.gameTitle)
                         self.game = game
                         self.strechyView.strechyImage.image = UIImage(data: game.gameImage)
                         self.strechyView.titleGame.text = game.gameTitle
@@ -98,13 +99,12 @@ class GameDetailsViewController: UIViewController {
                         self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                         self.stopLoader()
                     } else {
-                        print("Нет игры в кордате")
+                        let logger = VGDLogger(type: Info())
+                        logger.log(message: "Нет такой игры в базе. Создадим её.", value: "")
                         self.createGameModelFromNetworkData()
                     }
                 }
             })
-        } else {
-            print("Мы пришли из фаворитсов и у нас есть модель!")
         }
     }
 
@@ -219,7 +219,8 @@ class GameDetailsViewController: UIViewController {
         if let game = game {
             coreDataManager.saveGame(game)
         } else {
-            print("сохранялка в базу данных не прошла. Модель nil")
+            let logger = VGDLogger(type: Error())
+            logger.log(message: "Сохранялка в базу данных не прошла. saveGameToCoreData", value: "nil")
         }
     }
 
@@ -261,7 +262,8 @@ class GameDetailsViewController: UIViewController {
             case 3:
                 game?.gameCategory = .recent
             default:
-                print("not right category")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Not right category", value: stackTag)
             }
 
             // Сохраняем игру в Core Data

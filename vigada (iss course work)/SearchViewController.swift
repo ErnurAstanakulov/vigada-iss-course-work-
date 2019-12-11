@@ -123,7 +123,8 @@ class SearchViewController: UIViewController {
         if searchText.count > 2 {
             pendingRequestWorkItem?.cancel()
             let requestWorkItem = DispatchWorkItem { [weak self] in
-                print("ищу \(searchText)...")
+                let logger = VGDLogger(type: Info())
+                logger.log(message: "Ищу в базе", value: "\(searchText)")
                 self?.isSearch = true
                 // сохраняю эту строчку в кордату
                 guard let sections = self?.searchRequestFRC.sections else {
@@ -136,8 +137,6 @@ class SearchViewController: UIViewController {
                 let isExist = itemsInSection.filter { $0.recentSearchText == searchText }
                 if isExist.isEmpty {
                      self?.coreDataManager.saveRecentSearchRequestText(searchText)
-                } else {
-                    print("было уже")
                 }
 
                 self?.startLoader()
@@ -152,8 +151,6 @@ class SearchViewController: UIViewController {
             }
             pendingRequestWorkItem = requestWorkItem
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay), execute: requestWorkItem)
-        } else {
-            print("поле поиска не активно")
         }
     }
 
@@ -174,7 +171,6 @@ class SearchViewController: UIViewController {
             .addQuery(query: .page, value: "\(pageTemp)")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
-        print(searchGameURL)
 
         self.networkManager.getGamesList(url: searchGameURL, completion: { gamesList, _ in
             DispatchQueue.main.async {
@@ -190,11 +186,11 @@ class SearchViewController: UIViewController {
     }
 
     func loadRecentSearchRequestText() {
-        print("грузим из кордаты поисковую строку")
         do {
             try searchRequestFRC.performFetch()
         } catch {
-            print(error.localizedDescription)
+            let logger = VGDLogger(type: Error())
+            logger.log(message: "Ошибка в loadRecentSearchRequestText", value: "\(error.localizedDescription)")
         }
     }
 }
@@ -230,12 +226,12 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
         } else {
             // Постраничная загрузка из сети
             if (indexPath.row == gamesInet.count - 1) && (gamesInet.count < gameListCount) {
-                print("Загружаем \(page) страницу")
+                let logger = VGDLogger(type: Info())
+                logger.log(message: "Загружаем страницу", value: page)
                 startLoader()
                 searchGames()
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as? SearchResultTableViewCell
-
             let game = gamesInet[indexPath.row]
 
             cell?.gameTitle.text = game.name
@@ -255,7 +251,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
                             UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
                                 cell?.gameImageView.image = image
                             }, completion: nil)
-
                         }
                     })
                 }
@@ -289,7 +284,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
             let text = model.recentSearchText
             searchGame(searchText: text, delay: 0)
         } else {
-            print("переход на экран с инфой по игре")
             searchController?.searchBar.resignFirstResponder()
             let nextViewController = GameDetailsViewController()
             let game = gamesInet[indexPath.row]
@@ -331,10 +325,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
 
 extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("update")
+
     }
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("BeginEditing")
         navigationItem.hidesSearchBarWhenScrolling = true
         if isSearch {
             loadRecentSearchRequestText()
@@ -345,7 +338,6 @@ extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating {
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        print("cancel")
         if isSearch {
             isRecentSearchCalls = false
             let sectionToReload = 0

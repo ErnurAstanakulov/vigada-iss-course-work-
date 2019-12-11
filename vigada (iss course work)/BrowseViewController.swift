@@ -259,13 +259,13 @@ extension BrowseViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("нажал")
+        let logger = VGDLogger(type: Info())
+        logger.log(message: "Нажал на ячейку в BrowseViewController", value: indexPath)
     }
 }
 
 extension BrowseViewController: BrowseTopTableViewCellTapDelegate {
     func topCollectionCellTapped(_ numberCell: Int) {
-        print("нажал на \(numberCell) ячейку")
         let nextViewController = GamesViewController()
         nextViewController.gameLink = topCollection[topCollectionTitles[numberCell]]?.model.next ?? ""
         nextViewController.gameListCount = topCollection[topCollectionTitles[numberCell]]?.model.count ?? 1
@@ -279,7 +279,6 @@ extension BrowseViewController: BrowseTopTableViewCellTapDelegate {
 
 extension BrowseViewController: BrowsePlatformsTableViewCellTapDelegate {
     func platformsCollectionCellTapped(_ numberCell: Int) {
-        print("нажал на \(numberCell) ячейку")
         let nextViewController = GamesViewController()
         nextViewController.gameLink = agesCollection[agesCollectionTitles[numberCell]]?.model.next ?? ""
         nextViewController.gameListCount = agesCollection[agesCollectionTitles[numberCell]]?.model.count ?? 1
@@ -293,7 +292,6 @@ extension BrowseViewController: BrowsePlatformsTableViewCellTapDelegate {
 
 extension BrowseViewController: BrowseAgesTableViewCellTapDelegate {
     func agesCollectionCellTapped(_ numberCell: Int) {
-        print("нажал на \(numberCell) ячейку")
         let nextViewController = GamesViewController()
         nextViewController.gameLink = platformsCollection[platformsCollectionTitles[numberCell]]?.model.next ?? ""
         nextViewController.gameListCount = platformsCollection[platformsCollectionTitles[numberCell]]?.model.count ?? 1

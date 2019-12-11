@@ -11,7 +11,8 @@ import UIKit
 extension UIImageView {
     static func fromGif(frame: CGRect, resourceName: String) -> UIImageView? {
         guard let path = Bundle.main.path(forResource: resourceName, ofType: "gif") else {
-            print("Такого Gif файла нет")
+            let logger = VGDLogger(type: Error())
+            logger.log(message: "Такого Gif файла нет", value: resourceName)
             return nil
         }
         let url = URL(fileURLWithPath: path)

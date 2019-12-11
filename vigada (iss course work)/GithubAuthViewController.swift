@@ -71,12 +71,14 @@ extension GithubAuthViewController: WKNavigationDelegate {
                     if let token = token {
                         self.delegate?.handleTokenReceived(token: token)
                     } else {
-                        print(error ?? "ашипка")
+                        let logger = VGDLogger(type: Error())
+                        logger.log(message: "Не смогли нормально собрать урл, чтобы забрать токен", value: error)
                     }
                 })
             }
         } else {
-            print("Чота не получилося")
+            let logger = VGDLogger(type: Error())
+            logger.log(message: "Неудача GithubAuthViewController", value: "")
             decisionHandler(.cancel)
         }
     }

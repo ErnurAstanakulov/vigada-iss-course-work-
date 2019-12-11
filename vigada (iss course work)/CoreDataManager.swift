@@ -52,7 +52,8 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
                 completion(favoritesDictionary)
 
             } catch {
-                print("Ашипкафечареквестафаворе")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Что-то с фетчреквест", value: "loadFavoritesFromCoreData")
             }
         }
     }
@@ -85,15 +86,18 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
                     newGame.setValue(gameModelForKeeping.gameVideoLink, forKey: "gameVideoLink")
                 }
             } catch {
-                print("Ошибка фетча gameUuid: \(error)")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка фетча gameUuid:", value: "\(error)")
             }
 
             do {
                 // сохраняем контекст
                 try context.save()
-                print("Контекст c моделью успешно сохранен или обновлён")
+                let logger = VGDLogger(type: Info())
+                logger.log(message: "Контекст c моделью успешно сохранен или обновлён", value: "true")
             } catch {
-                print("Ошибка сохранения: \(error)")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка сохранения", value: "\(error)")
             }
         }
     }
@@ -108,9 +112,11 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
             do {
                 // сохраняем контекст
                 try context.save()
-                print("Контекст с поисковым запросом успешно сохранен.")
+                let logger = VGDLogger(type: Info())
+                logger.log(message: "Контекст c моделью успешно сохранен", value: "true")
             } catch {
-                print("Ошибка сохранения: \(error)")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка сохранения", value: "\(error)")
             }
         }
     }
@@ -143,7 +149,8 @@ final class CoreDataManager: NSObject, NSFetchedResultsControllerDelegate {
                     completion(nil)
                 }
             } catch {
-                print("Ошибка фетча gameId: \(error)")
+                let logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка фетча gameId", value: "\(error)")
             }
         }
     }

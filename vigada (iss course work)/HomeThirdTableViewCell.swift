@@ -72,10 +72,10 @@ class HomeThirdTableViewCell: UITableViewCell {
         topImage.contentMode = .scaleAspectFill
         maskForImage.addSubview(topImage)
         NSLayoutConstraint.activate([
-            topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: -16),
-            topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 16),
-            topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -16),
-            topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 16)
+            topImage.leadingAnchor.constraint(equalTo: maskForImage.leadingAnchor, constant: -8),
+            topImage.trailingAnchor.constraint(equalTo: maskForImage.trailingAnchor, constant: 8),
+            topImage.topAnchor.constraint(equalTo: maskForImage.topAnchor, constant: -8),
+            topImage.bottomAnchor.constraint(equalTo: maskForImage.bottomAnchor, constant: 8)
             ])
     }
 

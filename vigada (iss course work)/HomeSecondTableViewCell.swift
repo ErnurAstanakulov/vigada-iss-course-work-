@@ -20,12 +20,6 @@ class HomeSecondTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)
@@ -37,7 +31,6 @@ class HomeSecondTableViewCell: UITableViewCell {
             allContainer.heightAnchor.constraint(equalToConstant: 128)
             ])
 
-        topImage.layer.cornerRadius = 16
         topImage.image = UIImage(named: "placeholder2")
         topImage.contentMode = .scaleAspectFill
         allContainer.addSubview(topImage)

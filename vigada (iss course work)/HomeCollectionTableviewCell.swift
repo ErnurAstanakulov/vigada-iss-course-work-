@@ -108,7 +108,7 @@ extension HomeCollectionTableviewCell: UICollectionViewDelegateFlowLayout, UICol
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 16)
+        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 32)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -133,7 +133,7 @@ extension HomeCollectionTableviewCell: UIScrollViewDelegate {
                     }
                     let cellFrame = collectionView.convert(attributes.frame, to: contentView)
                     let translationX = cellFrame.origin.x / 10
-                    cell.topImage.transform = CGAffineTransform(translationX: translationX, y: 0)
+                    cell.title.transform = CGAffineTransform(translationX: translationX, y: 0)
                 }
             }
         }

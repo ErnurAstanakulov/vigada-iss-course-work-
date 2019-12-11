@@ -22,13 +22,13 @@ class BrowsePlatformsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
-        allContainer.alpha = 1
+//        allContainer.layer.cornerRadius = 16
+//        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
+//        allContainer.layer.shadowRadius = 3
+//        allContainer.layer.shadowOpacity = 0.4
+//        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
+//        allContainer.layer.masksToBounds = false
+//        allContainer.alpha = 1
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)

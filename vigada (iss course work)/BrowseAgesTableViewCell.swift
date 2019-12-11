@@ -22,9 +22,9 @@ class BrowseAgesTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
         return collectionView
     }()
 
@@ -33,16 +33,8 @@ class BrowseAgesTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
         contentView.clipsToBounds = true
 
-//        allContainer.layer.cornerRadius = 16
-//        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-//        allContainer.layer.shadowRadius = 3
-//        allContainer.layer.shadowOpacity = 0.4
-//        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-//        allContainer.layer.masksToBounds = false
-//        allContainer.alpha = 0.8
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)
@@ -53,7 +45,6 @@ class BrowseAgesTableViewCell: UITableViewCell {
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
 
             // тут меняем величину ячейки
-            //allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -8)
             allContainer.heightAnchor.constraint(equalToConstant: 250)
             ])
 
@@ -88,7 +79,7 @@ class BrowseAgesTableViewCell: UITableViewCell {
 
 extension BrowseAgesTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSize = CGSize(width:(self.collectionView.frame.size.width - 10)/3,height: (self.collectionView.frame.size.height)/2.3)
+        let itemSize = CGSize(width: (self.collectionView.frame.size.width - 10)/3, height: (self.collectionView.frame.size.height)/2.3)
         return itemSize
     }
 
@@ -110,17 +101,6 @@ extension BrowseAgesTableViewCell: UICollectionViewDelegateFlowLayout, UICollect
         }
     }
 
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
-
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 16
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 8
-//    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.delegate?.agesCollectionCellTapped(indexPath.item)
     }
@@ -138,8 +118,9 @@ extension BrowseAgesTableViewCell: UIScrollViewDelegate {
                         return
                     }
                     let cellFrame = collectionView.convert(attributes.frame, to: contentView)
-                    let translationX = cellFrame.origin.x / 10
-                    cell.topImage.transform = CGAffineTransform(translationX: translationX, y: 0)
+                    let translationX = cellFrame.origin.x / 20
+                    cell.title.transform = CGAffineTransform(translationX: translationX, y: 0)
+
                 }
             }
         }

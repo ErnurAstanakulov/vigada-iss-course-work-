@@ -14,9 +14,9 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
 
-    //let maskForImage = AngularWindowView()
-    //let maskForImage = TileWindowView()
-    let maskForImage = TVWindowView()
+    //private let maskForImage = AngularWindowView()
+    private let maskForImage = TileWindowView()
+    //private let maskForImage = TVWindowView()
     let imageTop = UIElements().containerView
     let rectangle2 = UIElements().containerView
 
@@ -27,10 +27,15 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0)
             ])
 
+        let angle: [CGFloat] = [0, 90, 180, 270]
+        guard let randomAngle: CGFloat = angle.randomElement() else {
+            return
+        }
+        maskForImage.rotate(degrees: randomAngle)
         maskForImage.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(maskForImage)
         NSLayoutConstraint.activate([
@@ -40,18 +45,10 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
             maskForImage.heightAnchor.constraint(equalTo: maskForImage.widthAnchor, constant: 0)
             ])
 
-        imageTop.backgroundColor = UIColor.VGDColor.white
-        maskForImage.addSubview(imageTop)
-        NSLayoutConstraint.activate([
-            imageTop.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
-            imageTop.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -0),
-            imageTop.widthAnchor.constraint(equalTo: maskForImage.widthAnchor),
-            imageTop.heightAnchor.constraint(equalTo: maskForImage.heightAnchor)
-            ])
-
+        topImage.rotate(degrees: -randomAngle)
         topImage.image = UIImage(named: "placeholder3")
         topImage.contentMode = .scaleAspectFill
-        imageTop.addSubview(topImage)
+        maskForImage.addSubview(topImage)
         NSLayoutConstraint.activate([
             topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: -8),
             topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 8),
@@ -78,17 +75,17 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
         var rightText = NSLayoutConstraint()
         var topOrBootomText = NSLayoutConstraint()
         if leftOrRight {
-            leftText = title.leadingAnchor.constraint(equalTo: imageTop.leadingAnchor, constant: -8)
-            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: imageTop.trailingAnchor, constant: 0)
+            leftText = title.leadingAnchor.constraint(equalTo: topImage.leadingAnchor, constant: -8)
+            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: topImage.trailingAnchor, constant: 0)
         } else {
-            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: imageTop.leadingAnchor, constant: 0)
-            leftText = title.trailingAnchor.constraint(equalTo: imageTop.trailingAnchor, constant: 8)
+            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0)
+            leftText = title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: 8)
         }
         let verticalRandom = Int.random(in: 16...40)
         if topOrBottom {
-            topOrBootomText = title.topAnchor.constraint(equalTo: imageTop.topAnchor, constant: CGFloat(verticalRandom))
+            topOrBootomText = title.topAnchor.constraint(equalTo: topImage.topAnchor, constant: CGFloat(verticalRandom))
         } else {
-            topOrBootomText = title.bottomAnchor.constraint(equalTo: imageTop.bottomAnchor, constant: -CGFloat(verticalRandom))
+            topOrBootomText = title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -CGFloat(verticalRandom))
         }
         NSLayoutConstraint.activate([
             leftText,

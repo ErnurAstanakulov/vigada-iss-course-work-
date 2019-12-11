@@ -30,16 +30,15 @@ class BrowsePlatformsTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
         contentView.clipsToBounds = true
-
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
-        allContainer.alpha = 0.8
+//
+//        allContainer.layer.cornerRadius = 16
+//        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
+//        allContainer.layer.shadowRadius = 3
+//        allContainer.layer.shadowOpacity = 0.4
+//        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
+//        allContainer.layer.masksToBounds = false
+//        allContainer.alpha = 0.8
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)
@@ -50,7 +49,6 @@ class BrowsePlatformsTableViewCell: UITableViewCell {
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0),
 
             // тут меняем величину ячейки
-            //allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -8)
             allContainer.heightAnchor.constraint(equalToConstant: 120)
             ])
 
@@ -133,8 +131,8 @@ extension BrowsePlatformsTableViewCell: UIScrollViewDelegate {
                         return
                     }
                     let cellFrame = collectionView.convert(attributes.frame, to: contentView)
-                    let translationX = cellFrame.origin.x / 10
-                    cell.topImage.transform = CGAffineTransform(translationX: translationX, y: 0)
+                    let translationX = cellFrame.origin.x / 20
+                    cell.title.transform = CGAffineTransform(translationX: translationX, y: 0)
                 }
             }
         }

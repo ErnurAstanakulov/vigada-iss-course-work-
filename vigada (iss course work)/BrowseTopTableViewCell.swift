@@ -22,6 +22,9 @@ class BrowseTopTableviewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 24, right: 0)
         return collectionView
     }()
 
@@ -33,15 +36,7 @@ class BrowseTopTableviewCell: UITableViewCell {
 
         contentView.clipsToBounds = true
 
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
-        allContainer.alpha = 0.8
         allContainer.backgroundColor = UIColor.VGDColor.clear
-
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
@@ -51,7 +46,6 @@ class BrowseTopTableviewCell: UITableViewCell {
 
             // тут меняем величину ячейки
             allContainer.heightAnchor.constraint(equalTo: contentView.widthAnchor, constant: -0)
-            //allContainer.heightAnchor.constraint(equalToConstant: 120)
             ])
 
         collectionView.backgroundColor = UIColor.VGDColor.clear
@@ -108,35 +102,7 @@ extension BrowseTopTableviewCell: UICollectionViewDelegateFlowLayout, UICollecti
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 16)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 32
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.delegate?.topCollectionCellTapped(indexPath.item)
-    }
-}
-
-extension BrowseTopTableviewCell: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let collectionView = scrollView as? UICollectionView {
-            if let collectionViewParallax = collectionView.visibleCells as? [BrowseTopCollectionViewCell] {
-                for cell in collectionViewParallax {
-                    guard let indexPath = collectionView.indexPath(for: cell) else {
-                        return
-                    }
-                    guard let attributes = collectionView.layoutAttributesForItem(at: indexPath) else {
-                        return
-                    }
-                    let cellFrame = collectionView.convert(attributes.frame, to: contentView)
-                    let translationX = cellFrame.origin.x / 10
-                    cell.topImage.transform = CGAffineTransform(translationX: translationX, y: 0)
-                }
-            }
-        }
     }
 }

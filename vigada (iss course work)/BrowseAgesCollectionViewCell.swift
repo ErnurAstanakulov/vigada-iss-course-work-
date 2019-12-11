@@ -78,7 +78,7 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
         title.textAlignment = .right
         title.numberOfLines = 0
         title.alpha = 0.8
-        let randomInt = Int.random(in: 11...24)
+        let randomInt = Int.random(in: 18...27)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         contentView.addSubview(title)

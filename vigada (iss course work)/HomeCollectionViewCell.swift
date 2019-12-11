@@ -11,21 +11,17 @@ import UIKit
 class HomeCollectionViewCell: UICollectionViewCell {
     private let allContainer = UIElements().containerView
     private let imageContainer = UIElements().containerView
+
+    //private let maskForImage = AngularWindowView()
+    //private let maskForImage = TileWindowView()
+    private let maskForImage = TVWindowView()
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
-        allContainer.layer.cornerRadius = 16
-        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-        allContainer.layer.shadowRadius = 3
-        allContainer.layer.shadowOpacity = 0.4
-        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-        allContainer.layer.masksToBounds = false
-        allContainer.alpha = 1
         allContainer.backgroundColor = UIColor.VGDColor.clear
-
         contentView.addSubview(allContainer)
         NSLayoutConstraint.activate([
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -34,15 +30,29 @@ class HomeCollectionViewCell: UICollectionViewCell {
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             ])
 
-        topImage.layer.cornerRadius = 16
-        topImage.image = UIImage(named: "placeholder2")
-        topImage.contentMode = .scaleAspectFill
-        allContainer.addSubview(topImage)
+        let angle: [CGFloat] = [0, 90, 180, 270]
+        guard let randomAngle: CGFloat = angle.randomElement() else {
+            return
+        }
+        maskForImage.rotate(degrees: randomAngle)
+        maskForImage.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(maskForImage)
         NSLayoutConstraint.activate([
-            topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: 0),
-            topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: -0),
-            topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: 0),
-            topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: -0)
+            maskForImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+            maskForImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -0),
+            maskForImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -16),
+            maskForImage.heightAnchor.constraint(equalTo: maskForImage.widthAnchor, constant: 0)
+            ])
+
+        topImage.rotate(degrees: -randomAngle)
+        topImage.image = UIImage(named: "placeholder3")
+        topImage.contentMode = .scaleAspectFill
+        maskForImage.addSubview(topImage)
+        NSLayoutConstraint.activate([
+            topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: -8),
+            topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 8),
+            topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -8),
+            topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8)
             ])
 
         title.textColor = UIColor.VGDColor.white
@@ -53,7 +63,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
         let randomInt = Int.random(in: 18...36)
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
-        allContainer.addSubview(title)
+        contentView.addSubview(title)
         randomCoordinateTitle()
     }
 
@@ -65,9 +75,9 @@ class HomeCollectionViewCell: UICollectionViewCell {
         var topOrBootomText = NSLayoutConstraint()
         if leftOrRight {
             leftText = title.leadingAnchor.constraint(equalTo: topImage.leadingAnchor, constant: -8)
-            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: topImage.trailingAnchor, constant: 0)
+            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: topImage.trailingAnchor, constant: -32)
         } else {
-            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0)
+            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 32)
             leftText = title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: 8)
         }
         let verticalRandom = Int.random(in: 16...40)

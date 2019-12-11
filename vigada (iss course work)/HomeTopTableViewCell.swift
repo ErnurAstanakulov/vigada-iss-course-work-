@@ -14,6 +14,11 @@ class HomeTopTableViewCell: UITableViewCell {
     private let imageContainer = UIElements().containerView
     private let all1Container = UIElements().containerView
     private let all2Container = UIElements().containerView
+
+    private let maskForImage = AngularWindowView()
+    //private let maskForImage = TileWindowView()
+    //private let maskForImage = TVWindowView()
+
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
 
@@ -39,15 +44,29 @@ class HomeTopTableViewCell: UITableViewCell {
             allContainer.heightAnchor.constraint(equalToConstant: 360)
             ])
 
-        topImage.layer.cornerRadius = 16
-        topImage.image = UIImage(named: "placeholder2")
-        topImage.contentMode = .scaleAspectFill
-        allContainer.addSubview(topImage)
+        let angle: [CGFloat] = [0, 90, 180, 270]
+        guard let randomAngle: CGFloat = angle.randomElement() else {
+            return
+        }
+        maskForImage.rotate(degrees: randomAngle)
+        maskForImage.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(maskForImage)
         NSLayoutConstraint.activate([
-            topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: 32),
-            topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: -78),
-            topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: 8),
-            topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: -32)
+            maskForImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+            maskForImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -0),
+            maskForImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -16),
+            maskForImage.heightAnchor.constraint(equalTo: maskForImage.widthAnchor, constant: 0)
+            ])
+
+        topImage.rotate(degrees: -randomAngle)
+        topImage.image = UIImage(named: "placeholder3")
+        topImage.contentMode = .scaleAspectFill
+        maskForImage.addSubview(topImage)
+        NSLayoutConstraint.activate([
+            topImage.leadingAnchor.constraint(equalTo: allContainer.leadingAnchor, constant: -8),
+            topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 8),
+            topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -8),
+            topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8)
             ])
 
         title.textColor = UIColor.VGDColor.white
@@ -58,11 +77,11 @@ class HomeTopTableViewCell: UITableViewCell {
         title.font = SFMono.bold.of(size: CGFloat(randomInt))
         title.backgroundColor = UIColor.VGDColor.black
         title.alpha = 0.8
-        topImage.addSubview(title)
+        contentView.addSubview(title)
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0),
-            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -0),
-            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -32)
+            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -16),
+            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -80)
             ])
     }
 

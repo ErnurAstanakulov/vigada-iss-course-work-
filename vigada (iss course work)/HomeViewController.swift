@@ -17,16 +17,12 @@ class HomeViewController: UIViewController {
 
     private let networkManager = NetworkManager()
 
-    var topCollection: VGDModelGamesRequest?
-    var preLoadDictionary: [String: VGDModelGamesRequest]?
-    var preLoadCollection: [String: VGDModelGamesRequest]?
-
-    typealias CellTuples = (text: String, imageLink: String)
-    var cellTables = [CellTuples]()
-    var cellCollection = [CellTuples]()
-
-    var cellCollcetionText = [String]()
-    var cellCollcetionData = [Data?]()
+    var homeMajorCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    var homeMajorCollectionTitles = [String]()
+    var homeMajorCollectionImages = [Data]()
+    var homeMajorTable = [String: (image: Data, model: VGDModelGamesRequest)]()
+    var homeMajorTableTitles = [String]()
+    var homeMajorTableImages = [Data]()
 
     // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
@@ -37,67 +33,9 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor.VGDColor.white
 
         setupTableView()
-
-        setupTableCells()
-        setupCollectionCells()
     }
 
     // MARK: - Set up
-    private func setupTableCells() {
-        guard let preLoadDictionary = preLoadDictionary else {
-            return
-        }
-
-        for element in preLoadDictionary {
-            var randomInt = 0
-            if let range = element.value.results?.count {
-                randomInt = Int.random(in: 0..<range)
-            }
-
-            let title = element.key
-            guard let imageLink = element.value.results?[randomInt].backgroundImage else {
-                return
-            }
-            cellTables.append((title, imageLink))
-        }
-    }
-
-    private func setupCollectionCells() {
-        guard let preLoadCollection = preLoadCollection else {
-            return
-        }
-
-        for element in preLoadCollection {
-            var randomInt = 0
-            if let range = element.value.results?.count {
-                randomInt = Int.random(in: 0..<range)
-            }
-
-            let title = element.key
-            guard let imageLink = element.value.results?[randomInt].backgroundImage else {
-                return
-            }
-            cellCollection.append((title, imageLink))
-        }
-
-        let collectionPreview = DispatchGroup()
-        for url in cellCollection {
-            let urlLink = url.imageLink
-                collectionPreview.enter()
-                self.networkManager.getImageByStringUrl(url: urlLink, completion: { (image, _) in
-                    self.cellCollcetionData.append(image)
-                    self.cellCollcetionText.append(url.text)
-                    print("качнул для коллекции из урлa \(urlLink)")
-                    collectionPreview.leave()
-                })
-
-        }
-
-        collectionPreview.notify(queue: .main) {
-            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-        }
-    }
-
     private func setupTableView() {
         setupCykablyatMem()
 
@@ -119,11 +57,11 @@ class HomeViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
             ])
     }
 
-    func setupCykablyatMem() {
+    private func setupCykablyatMem() {
         titleCyka.textColor = UIColor.VGDColor.lightGray
         titleCyka.text = "CYKA"
         titleCyka.contentMode = .right
@@ -157,63 +95,36 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var numbers = 0
-        if !cellTables.isEmpty {
-            numbers = cellTables.count + 1
-        }
-        return numbers
+        return 5
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let text = cellTables[indexPath.row].text
-            let imageLink = cellTables[indexPath.row].imageLink
-            return firstCell(indexPath: indexPath, text: text, imageLink: imageLink)
+            return topCell(indexPath: indexPath)
         case 1:
-            let text = cellTables[indexPath.row].text
-            let imageLink = cellTables[indexPath.row].imageLink
-            return secondCell(indexPath: indexPath, text: text, imageLink: imageLink)
+            return top2Cell(indexPath: indexPath)
         case 4:
             let rowNumber = indexPath.row
             let newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
-            let text = cellTables[newIndexPath.row].text
-            let imageLink = cellTables[newIndexPath.row].imageLink
-            return thirdCell(indexPath: newIndexPath, text: text, imageLink: imageLink)
+            return top3Cell(indexPath: newIndexPath)
         case 3:
             let rowNumber = indexPath.row
             let newIndexPath = IndexPath(row: rowNumber - 1, section: 0)
-            let text = cellTables[newIndexPath.row].text
-            let imageLink = cellTables[newIndexPath.row].imageLink
-            return secondCell(indexPath: newIndexPath, text: text, imageLink: imageLink)
+            return top2Cell(indexPath: newIndexPath)
         case 2:
-            return collectionCell(indexPath: indexPath, text: "highest rated game by Electronic Arts")
+            return topCollectionCell(indexPath: indexPath)
         default:
-            let text = "cyka blyat"
-            let imageLink = "https://steamcdn-a.akamaihd.net/steam/apps/10/0000000132.1920x1080.jpg"
-            return secondCell(indexPath: indexPath, text: text, imageLink: imageLink)
+            return top2Cell(indexPath: indexPath)
         }
     }
 
-    func firstCell(indexPath: IndexPath, text: String, imageLink: String) -> UITableViewCell {
+    func topCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTopTableViewCell", for: indexPath) as? HomeTopTableViewCell
         cell?.selectionStyle = .none
-        let textUpp = text.uppercased()
+        let textUpp = homeMajorTableTitles[indexPath.row].uppercased()
         cell?.title.text = textUpp
-        networkManager.getImageByStringUrl(url: imageLink, completion: { data, _ in
-            guard let data = data else {
-                return
-            }
-            DispatchQueue.main.async {
-                let image = UIImage(data: data) ?? UIImage(named: "placeholder3")
-                guard let imageInCell = cell?.topImage else {
-                    fatalError("тут упал и отжался")
-                }
-                UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
-                    cell?.topImage.image = image
-                }, completion: nil)
-            }
-        })
+        cell?.topImage.image = UIImage(data: homeMajorTableImages[indexPath.row])
         if let cell = cell {
             return cell
         } else {
@@ -221,25 +132,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func secondCell(indexPath: IndexPath, text: String, imageLink: String) -> UITableViewCell {
+    func top2Cell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeSecondTableViewCell", for: indexPath) as? HomeSecondTableViewCell
         cell?.selectionStyle = .none
-        let textUpp = text.uppercased()
+        let textUpp = homeMajorTableTitles[indexPath.row].uppercased()
         cell?.title.text = textUpp
-        networkManager.getImageByStringUrl(url: imageLink, completion: { data, _ in
-            guard let data = data else {
-                return
-            }
-            DispatchQueue.main.async {
-                let image = UIImage(data: data) ?? UIImage(named: "placeholder3")
-                guard let imageInCell = cell?.topImage else {
-                    fatalError("тут упал и отжался")
-                }
-                UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
-                    cell?.topImage.image = image
-                }, completion: nil)
-            }
-        })
+        cell?.topImage.image = UIImage(data: homeMajorTableImages[indexPath.row])
         if let cell = cell {
             return cell
         } else {
@@ -247,36 +145,28 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func thirdCell(indexPath: IndexPath, text: String, imageLink: String) -> UITableViewCell {
+    func top3Cell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeThirdTableViewCell", for: indexPath) as? HomeThirdTableViewCell
         cell?.selectionStyle = .none
-        let textUpp = text.uppercased()
+        let textUpp = homeMajorTableTitles[indexPath.row].uppercased()
         cell?.title.text = textUpp
-        networkManager.getImageByStringUrl(url: imageLink, completion: { data, _ in
-            guard let data = data else {
-                return
-            }
-            DispatchQueue.main.async {
-                let image = UIImage(data: data) ?? UIImage(named: "placeholder3")
-                guard let imageInCell = cell?.topImage else {
-                    fatalError("тут упал и отжался")
-                }
-                UIView.transition(with: imageInCell, duration: 0.6, options: .transitionCrossDissolve, animations: {
-                    cell?.topImage.image = image
-                }, completion: nil)
-            }
-        })
+        cell?.topImage.image = UIImage(data: homeMajorTableImages[indexPath.row])
         if let cell = cell {
             return cell
         } else {
             return defaultCell(indexPath: indexPath)
         }
     }
-    func collectionCell(indexPath: IndexPath, text: String) -> UITableViewCell {
+
+    func topCollectionCell(indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCollectionTableviewCell", for: indexPath) as? HomeCollectionTableviewCell
 
         cell?.delegate = self
         cell?.selectionStyle = .none
+
+        let cellCollcetionText = homeMajorCollectionTitles
+        let cellCollcetionData: [Data] = homeMajorCollectionImages
+
         cell?.cellText = cellCollcetionText
         cell?.cellImage = cellCollcetionData
         if let cell = cell {
@@ -311,11 +201,21 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         default:
             print("default indexPath")
         }
+        print("Нажал на строку:", newIndexPath.row)
+//        let nextViewController = GamesViewController()
+//        nextViewController.gameLink = preLoadDictionary?[cellTables[newIndexPath.row].text]?.next ?? ""
+//        nextViewController.gameListCount = preLoadDictionary?[cellTables[newIndexPath.row].text]?.count ?? 1
+//        nextViewController.gamesCollection = preLoadDictionary?[cellTables[newIndexPath.row].text]?.results ?? []
+//        nextViewController.titleScreen = cellTables[newIndexPath.row].text
+//        if let navigator = navigationController {
+//            navigator.pushViewController(nextViewController, animated: true)
+//        }
+        let numberRow = newIndexPath.row
         let nextViewController = GamesViewController()
-        nextViewController.gameLink = preLoadDictionary?[cellTables[newIndexPath.row].text]?.next ?? ""
-        nextViewController.gameListCount = preLoadDictionary?[cellTables[newIndexPath.row].text]?.count ?? 1
-        nextViewController.gamesCollection = preLoadDictionary?[cellTables[newIndexPath.row].text]?.results ?? []
-        nextViewController.titleScreen = cellTables[newIndexPath.row].text
+        nextViewController.gameLink = homeMajorTable[homeMajorTableTitles[numberRow]]?.model.next ?? ""
+        nextViewController.gameListCount = homeMajorTable[homeMajorTableTitles[numberRow]]?.model.count ?? 1
+        nextViewController.gamesCollection = homeMajorTable[homeMajorTableTitles[numberRow]]?.model.results ?? []
+        nextViewController.titleScreen = homeMajorTableTitles[numberRow]
         if let navigator = navigationController {
             navigator.pushViewController(nextViewController, animated: true)
         }
@@ -326,11 +226,19 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController: CollectionCellTapDelegate {
     func collectionCellTapped(_ numberCell: Int) {
         print("нажал на \(numberCell) ячейку")
+//        let nextViewController = GamesViewController()
+//        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
+//        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
+//        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
+//        nextViewController.titleScreen = cellCollcetionText[numberCell]
+//        if let navigator = navigationController {
+//            navigator.pushViewController(nextViewController, animated: true)
+//        }
         let nextViewController = GamesViewController()
-        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
-        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
-        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
-        nextViewController.titleScreen = cellCollcetionText[numberCell]
+        nextViewController.gameLink = homeMajorCollection[homeMajorCollectionTitles[numberCell]]?.model.next ?? ""
+        nextViewController.gameListCount = homeMajorCollection[homeMajorCollectionTitles[numberCell]]?.model.count ?? 1
+        nextViewController.gamesCollection = homeMajorCollection[homeMajorCollectionTitles[numberCell]]?.model.results ?? []
+        nextViewController.titleScreen = homeMajorCollectionTitles[numberCell]
         if let navigator = navigationController {
             navigator.pushViewController(nextViewController, animated: true)
         }

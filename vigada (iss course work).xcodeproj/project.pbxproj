@@ -38,7 +38,6 @@
 		B32A3872239676FA00445901 /* ScreenshotsSlideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32A3871239676FA00445901 /* ScreenshotsSlideCell.swift */; };
 		B32E9D6C239B0567005FE0B3 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32E9D6B239B0567005FE0B3 /* GamesViewController.swift */; };
 		B32E9D6E239B21CA005FE0B3 /* HomeThirdTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */; };
-		B33D1E01239EC44800507264 /* PreLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D1E00239EC44800507264 /* PreLoader.swift */; };
 		B33D1E05239EC68600507264 /* APICollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D1E04239EC68600507264 /* APICollectionData.swift */; };
 		B3490296238669AF000EF110 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3490295238669AF000EF110 /* GameDetailsViewController.swift */; };
 		B349029823866B44000EF110 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349029723866B44000EF110 /* Fonts.swift */; };
@@ -151,7 +150,6 @@
 		B32A3871239676FA00445901 /* ScreenshotsSlideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsSlideCell.swift; sourceTree = "<group>"; };
 		B32E9D6B239B0567005FE0B3 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		B32E9D6D239B21CA005FE0B3 /* HomeThirdTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThirdTableViewCell.swift; sourceTree = "<group>"; };
-		B33D1E00239EC44800507264 /* PreLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLoader.swift; sourceTree = "<group>"; };
 		B33D1E04239EC68600507264 /* APICollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICollectionData.swift; sourceTree = "<group>"; };
 		B349028A2386683E000EF110 /* NewYorkExtraLarge-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Black.otf"; sourceTree = "<group>"; };
 		B349028B2386683E000EF110 /* NewYorkExtraLarge-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkExtraLarge-Bold.otf"; sourceTree = "<group>"; };
@@ -419,7 +417,6 @@
 				B306727A239BE723003DF7E2 /* URLSessionFactory.swift */,
 				B306727C239BE9C3003DF7E2 /* NetworkService.swift */,
 				B3DB661E238A7F21008265A7 /* NetworkManager.swift */,
-				B33D1E00239EC44800507264 /* PreLoader.swift */,
 				B3B6F502238FB8B90034AE3F /* GithubAuthorizationService.swift */,
 				B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */,
 			);
@@ -640,7 +637,6 @@
 				B32674192385508700B2E45E /* AppDelegate.swift in Sources */,
 				B34902C42386B3BF000EF110 /* Colors.swift in Sources */,
 				B3A75B80239806C700A94F9E /* Extensions.swift in Sources */,
-				B33D1E01239EC44800507264 /* PreLoader.swift in Sources */,
 				B3FCD1A2238D3DD3001C9FDE /* SettingView.swift in Sources */,
 				B306727F239BF591003DF7E2 /* URLBuilder.swift in Sources */,
 				B39C491F238DB7D900F4B7AC /* SearchResultTableViewCell.swift in Sources */,

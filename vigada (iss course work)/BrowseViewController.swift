@@ -13,6 +13,22 @@ class BrowseViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let reuseId = "UITableViewCellreuseId"
 
+    private let apiCollectionData = APICollectionData()
+    private let networkManager = NetworkManager()
+
+    private let loaderView = UIElements().containerView
+    private let loaderTintView = UIElements().containerView
+
+    var topCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    var topCollectionTitles = [String]()
+    var topCollectionImages = [Data]()
+    var agesCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    var agesCollectionTitles = [String]()
+    var agesCollectionImages = [Data]()
+    var platformsCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    var platformsCollectionTitles = [String]()
+    var platformsCollectionImages = [Data]()
+
     // MARK: - UIViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +37,7 @@ class BrowseViewController: UIViewController {
         view.backgroundColor = UIColor.VGDColor.white
 
         setupTableView()
+        loadCollections()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -28,9 +45,10 @@ class BrowseViewController: UIViewController {
 
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        let cell0FromSection0 = IndexPath(row: 0, section: 0)
+        tableView.reloadRows(at: [cell0FromSection0], with: .automatic)
     }
 
     // MARK: - Set up
@@ -45,6 +63,7 @@ class BrowseViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorColor = UIColor.VGDColor.clear
         tableView.keyboardDismissMode = .onDrag
+        tableView.showsVerticalScrollIndicator = false
 
         tableView.backgroundColor = UIColor.VGDColor.white
         view.addSubview(tableView)
@@ -54,6 +73,86 @@ class BrowseViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
             ])
+
+        loaderTintView.alpha = 0
+        loaderTintView.layer.cornerRadius = 8
+        loaderTintView.backgroundColor = UIColor.VGDColor.black
+        view.addSubview(loaderTintView)
+        NSLayoutConstraint.activate([
+            loaderTintView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            loaderTintView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            loaderTintView.widthAnchor.constraint(equalToConstant: 60),
+            loaderTintView.heightAnchor.constraint(equalToConstant: 60)
+            ])
+        view.addSubview(loaderView)
+        NSLayoutConstraint.activate([
+            loaderView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            loaderView.widthAnchor.constraint(equalToConstant: 40),
+            loaderView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+    }
+
+    func loadCollections() {
+        let group = DispatchGroup()
+        let queuePreLoader = DispatchQueue(label: "com.preLoader")
+        startLoader()
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let topCellUrls = self.apiCollectionData.collectionAllGames()
+            self.networkManager.preLoad(topCellUrls, completion: {dictionary in
+                self.topCollection = dictionary
+                for element in dictionary {
+                    self.topCollectionTitles.append(element.key)
+                    self.topCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let agesCellUrls = self.apiCollectionData.collectionAges()
+            self.networkManager.preLoad(agesCellUrls, completion: {dictionary in
+                self.agesCollection = dictionary
+                for element in dictionary {
+                    self.agesCollectionTitles.append(element.key)
+                    self.agesCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let platformsCellUrls = self.apiCollectionData.collectionPlatformsGames()
+            self.networkManager.preLoad(platformsCellUrls, completion: {dictionary in
+                self.platformsCollection = dictionary
+                for element in dictionary {
+                    self.platformsCollectionTitles.append(element.key)
+                    self.platformsCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.notify(queue: .main) {
+            self.stopLoader()
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        }
+    }
+
+    private func startLoader() {
+        self.loaderView.vgdLoader(.start, durationIn: 0.6)
+        UIView.animate(withDuration: 0.4) {
+            self.loaderTintView.alpha = 0.7
+        }
+    }
+
+    private func stopLoader() {
+        self.loaderView.vgdLoader(.stop)
+        self.loaderTintView.alpha = 0
     }
 
     func topCollectionCell(indexPath: IndexPath) -> UITableViewCell {
@@ -62,8 +161,8 @@ class BrowseViewController: UIViewController {
         cell?.delegate = self
         cell?.selectionStyle = .none
 
-        let cellCollcetionText = ["Test 1Test2"]
-        let cellCollcetionData: [Data?] = [nil]
+        let cellCollcetionText = topCollectionTitles
+        let cellCollcetionData: [Data] = topCollectionImages
 
         cell?.cellText = cellCollcetionText
         cell?.cellImage = cellCollcetionData
@@ -80,8 +179,8 @@ class BrowseViewController: UIViewController {
         cell?.delegate = self
         cell?.selectionStyle = .none
 
-        let cellCollcetionText = ["Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2"]
-        let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil]
+        let cellCollcetionText = agesCollectionTitles
+        let cellCollcetionData: [Data] = agesCollectionImages
 
         cell?.cellText = cellCollcetionText
         cell?.cellImage = cellCollcetionData
@@ -98,8 +197,10 @@ class BrowseViewController: UIViewController {
         cell?.delegate = self
         cell?.selectionStyle = .none
 
-        let cellCollcetionText = ["Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2", "Test 1Test 1", "Test 1Test2", "Test 1Test 1", "Test2", "Test 1", "Test2"]
-        let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+        let cellCollcetionText = platformsCollectionTitles
+        let cellCollcetionData: [Data] = platformsCollectionImages
+//        let cellCollcetionText = ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4",]
+//        let cellCollcetionData: [Data?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
 
         cell?.cellText = cellCollcetionText
         cell?.cellImage = cellCollcetionData
@@ -168,41 +269,41 @@ extension BrowseViewController: UITableViewDataSource, UITableViewDelegate {
 extension BrowseViewController: BrowseTopTableViewCellTapDelegate {
     func topCollectionCellTapped(_ numberCell: Int) {
         print("нажал на \(numberCell) ячейку")
-//        let nextViewController = GamesViewController()
-//        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
-//        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
-//        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
-//        nextViewController.titleScreen = cellCollcetionText[numberCell]
-//        if let navigator = navigationController {
-//            navigator.pushViewController(nextViewController, animated: true)
-//        }
+        let nextViewController = GamesViewController()
+        nextViewController.gameLink = topCollection[topCollectionTitles[numberCell]]?.model.next ?? ""
+        nextViewController.gameListCount = topCollection[topCollectionTitles[numberCell]]?.model.count ?? 1
+        nextViewController.gamesCollection = topCollection[topCollectionTitles[numberCell]]?.model.results ?? []
+        nextViewController.titleScreen = topCollectionTitles[numberCell]
+        if let navigator = navigationController {
+            navigator.pushViewController(nextViewController, animated: true)
+        }
     }
 }
 
 extension BrowseViewController: BrowsePlatformsTableViewCellTapDelegate {
     func platformsCollectionCellTapped(_ numberCell: Int) {
         print("нажал на \(numberCell) ячейку")
-        //        let nextViewController = GamesViewController()
-        //        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
-        //        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
-        //        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
-        //        nextViewController.titleScreen = cellCollcetionText[numberCell]
-        //        if let navigator = navigationController {
-        //            navigator.pushViewController(nextViewController, animated: true)
-        //        }
+        let nextViewController = GamesViewController()
+        nextViewController.gameLink = agesCollection[agesCollectionTitles[numberCell]]?.model.next ?? ""
+        nextViewController.gameListCount = agesCollection[agesCollectionTitles[numberCell]]?.model.count ?? 1
+        nextViewController.gamesCollection = agesCollection[agesCollectionTitles[numberCell]]?.model.results ?? []
+        nextViewController.titleScreen = agesCollectionTitles[numberCell]
+        if let navigator = navigationController {
+            navigator.pushViewController(nextViewController, animated: true)
+        }
     }
 }
 
 extension BrowseViewController: BrowseAgesTableViewCellTapDelegate {
     func agesCollectionCellTapped(_ numberCell: Int) {
         print("нажал на \(numberCell) ячейку")
-        //        let nextViewController = GamesViewController()
-        //        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
-        //        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
-        //        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
-        //        nextViewController.titleScreen = cellCollcetionText[numberCell]
-        //        if let navigator = navigationController {
-        //            navigator.pushViewController(nextViewController, animated: true)
-        //        }
+        let nextViewController = GamesViewController()
+        nextViewController.gameLink = platformsCollection[platformsCollectionTitles[numberCell]]?.model.next ?? ""
+        nextViewController.gameListCount = platformsCollection[platformsCollectionTitles[numberCell]]?.model.count ?? 1
+        nextViewController.gamesCollection = platformsCollection[platformsCollectionTitles[numberCell]]?.model.results ?? []
+        nextViewController.titleScreen = platformsCollectionTitles[numberCell]
+        if let navigator = navigationController {
+            navigator.pushViewController(nextViewController, animated: true)
+        }
     }
 }

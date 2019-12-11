@@ -12,16 +12,30 @@ class LoaderViewController: UIViewController {
     // MARK: - Properties
     private let loaderView = UIElements().containerView
     private var isInternet = "isInternet"
-    let urlBuilder = URLBuilder()
-    let networkManager = NetworkManager()
 
-    let apiCollectionData = APICollectionData()
-    let preLoader = PreLoader()
+    private let networkManager = NetworkManager()
 
-    var preLoadDictionary = [String: VGDModelGamesRequest]()
-    var preLoadCollection = [String: VGDModelGamesRequest]()
+    private let apiCollectionData = APICollectionData()
 
-    var loaded = true
+    private var majorCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    private var majorCollectionTitles = [String]()
+    private var majorCollectionImages = [Data]()
+    private var majorTable = [String: (image: Data, model: VGDModelGamesRequest)]()
+    private var majorTableTitles = [String]()
+    private var majorTableImages = [Data]()
+
+    private var browseTopCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    private var browseTopCollectionTitles = [String]()
+    private var browseTopCollectionImages = [Data]()
+    private var browseAgesCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    private var browseAgesCollectionTitles = [String]()
+    private var browseAgesCollectionImages = [Data]()
+    private var browsePlatformsCollection = [String: (image: Data, model: VGDModelGamesRequest)]()
+    private var browsePlatformsCollectionTitles = [String]()
+    private var browsePlatformsCollectionImages = [Data]()
+
+    var majorLoaded = false
+    var browseLoaded = true
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -66,64 +80,127 @@ class LoaderViewController: UIViewController {
             ])
     }
 
-    func preLoadNetworkData() {
-
+    func majorLoad() {
         let group = DispatchGroup()
         let queuePreLoader = DispatchQueue(label: "com.preLoader")
-        //let queueBest = DispatchQueue(label: "com.best")
-
-        let tableFirstScreenData = apiCollectionData.tableFirstScreen()
-        let collectionFirstScreenData = apiCollectionData.collectionFirstScreen()
 
         group.enter()
         queuePreLoader.async(group: group) {
-            self.preLoader.preLoadDictionary(title: tableFirstScreenData.titles,
-                                             urls: tableFirstScreenData.urls,
-                                             completion: { tableDictionary in
-                self.preLoadDictionary = tableDictionary
+            let topCellUrls = self.apiCollectionData.collectionFirstScreen()
+            self.networkManager.preLoad(topCellUrls, completion: {dictionary in
+                self.majorCollection = dictionary
+                for element in dictionary {
+                    self.majorCollectionTitles.append(element.key)
+                    self.majorCollectionImages.append(element.value.image)
+                }
                 group.leave()
             })
         }
 
         group.enter()
         queuePreLoader.async(group: group) {
-            self.preLoader.preLoadDictionary(title: collectionFirstScreenData.titles,
-                                             urls: collectionFirstScreenData.urls,
-                                             completion: { tableDictionary in
-                                                self.preLoadCollection = tableDictionary
-                                                group.leave()
+            let agesCellUrls = self.apiCollectionData.tableFirstScreen()
+            self.networkManager.preLoad(agesCellUrls, completion: {dictionary in
+                self.majorTable = dictionary
+                for element in dictionary {
+                    self.majorTableTitles.append(element.key)
+                    self.majorTableImages.append(element.value.image)
+                }
+                group.leave()
             })
         }
 
-        // как всё скачали переходим на главный экран
         group.notify(queue: .main) {
-            self.loaded = true
+            self.majorLoaded = true
+        }
+    }
+
+    func browseLoad() {
+        let group = DispatchGroup()
+        let queuePreLoader = DispatchQueue(label: "com.preLoader")
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let topCellUrls = self.apiCollectionData.collectionAllGames()
+            self.networkManager.preLoad(topCellUrls, completion: {dictionary in
+                self.browseTopCollection = dictionary
+                for element in dictionary {
+                    self.browseTopCollectionTitles.append(element.key)
+                    self.browseTopCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let agesCellUrls = self.apiCollectionData.collectionAges()
+            self.networkManager.preLoad(agesCellUrls, completion: {dictionary in
+                self.browseAgesCollection = dictionary
+                for element in dictionary {
+                    self.browseAgesCollectionTitles.append(element.key)
+                    self.browseAgesCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.enter()
+        queuePreLoader.async(group: group) {
+            let platformsCellUrls = self.apiCollectionData.collectionPlatformsGames()
+            self.networkManager.preLoad(platformsCellUrls, completion: {dictionary in
+                self.browsePlatformsCollection = dictionary
+                for element in dictionary {
+                    self.browsePlatformsCollectionTitles.append(element.key)
+                    self.browsePlatformsCollectionImages.append(element.value.image)
+                }
+                group.leave()
+            })
+        }
+
+        group.notify(queue: .main) {
+            self.browseLoaded = true
         }
     }
 
     func navigationToHome() {
-        if let viewWithTag = self.view.viewWithTag(42) {
-            viewWithTag.removeFromSuperview()
-        } else {
-            print("Гифка загрузки не удалилась с вью")
-        }
-        self.loaderView.vgdLoader(.stop)
-        if let viewWithTag = self.view.viewWithTag(99) {
-            viewWithTag.removeFromSuperview()
-        } else {
-            print("Колесо загрузки не удалилось с вью")
-        }
         var nextViewController: UITabBarController
-
         nextViewController = TabBarController()
         if let tabbarViewcontrollers = nextViewController.viewControllers {
             if let homeViewController = tabbarViewcontrollers[0].children[0] as? HomeViewController {
-                homeViewController.preLoadDictionary = self.preLoadDictionary
-                homeViewController.preLoadCollection = self.preLoadCollection
+                homeViewController.homeMajorTable = self.majorTable
+                homeViewController.homeMajorTableTitles = self.majorTableTitles
+                homeViewController.homeMajorTableImages = self.majorTableImages
+                homeViewController.homeMajorCollection = self.majorCollection
+                homeViewController.homeMajorCollectionTitles = self.majorCollectionTitles
+                homeViewController.homeMajorCollectionImages = self.majorCollectionImages
+
             }
         }
+
         nextViewController.modalTransitionStyle = .crossDissolve
         self.present(nextViewController, animated: true, completion: nil)
+    }
+
+    func passPreLoadDataToBrowse() {
+        var browseViewController: UITabBarController
+        browseViewController = TabBarController()
+        if let tabbarViewcontrollers = browseViewController.viewControllers {
+            if let browseViewController = tabbarViewcontrollers[1].children[0] as? BrowseViewController {
+                browseViewController.topCollection = self.browseTopCollection
+                browseViewController.topCollectionTitles = self.browseTopCollectionTitles
+                browseViewController.topCollectionImages = self.browseTopCollectionImages
+                browseViewController.agesCollection = self.browseAgesCollection
+                browseViewController.agesCollectionTitles = self.browseAgesCollectionTitles
+                browseViewController.agesCollectionImages = self.browseAgesCollectionImages
+                browseViewController.platformsCollection = self.browsePlatformsCollection
+                browseViewController.platformsCollectionTitles = self.browsePlatformsCollectionTitles
+                browseViewController.platformsCollectionImages = self.browsePlatformsCollectionImages
+
+            }
+        }
+//        browseViewController.modalTransitionStyle = .crossDissolve
+//        self.present(browseViewController, animated: true, completion: nil)
     }
 
 }
@@ -135,14 +212,27 @@ extension LoaderViewController: CheckInternetDelegate {
 
         // Если интернет есть, сделаем предзагрузку контента
         if isInternet {
-            //preLoadNetworkData()
+            majorLoad()
+            //browseLoad()
             var seconds = 0
             // таймер на 2 секунды, чтобы посмотреть красивый лоадер ;)
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 seconds += 1
-                if self.loaded {
+                if self.majorLoaded && self.browseLoaded {
                     if seconds > 2 {
+                        if let viewWithTag = self.view.viewWithTag(42) {
+                            viewWithTag.removeFromSuperview()
+                        } else {
+                            print("Гифка загрузки не удалилась с вью")
+                        }
+                        self.loaderView.vgdLoader(.stop)
+                        if let viewWithTag = self.view.viewWithTag(99) {
+                            viewWithTag.removeFromSuperview()
+                        } else {
+                            print("Колесо загрузки не удалилось с вью")
+                        }
                         self.navigationToHome()
+                        //self.passPreLoadDataToBrowse()
                         timer.invalidate()
                     }
                 }

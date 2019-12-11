@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddToFavoritesStubView: UIView {
+final class AddToFavoritesStubView: UIView {
 
     private let tintContainer = UIElements().containerView
     private let clearContainer = UIElements().containerView

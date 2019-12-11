@@ -42,8 +42,8 @@ class NoInternetViewController: UIViewController {
                                  selector: #selector(ghostEye),
                                  userInfo: nil,
                                  repeats: true)
-        // Если пользователь ушел проверить настройки и после каких-то манипуляций, а может сам собой,
-        // включился интернет, то вернувшись в приложение на этот кэран, будет снова проверка связи
+        // Если пользователь ушел проверить настройки и после каких-то манипуляций, а может самим собой,
+        // включился интернет, то вернувшись в приложение на этот экран, будет снова проверка связи
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationDidBecomeActive),
                                                name: UIApplication.didBecomeActiveNotification,

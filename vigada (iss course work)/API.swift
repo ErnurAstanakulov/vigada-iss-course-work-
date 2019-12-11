@@ -8,7 +8,7 @@
 
 import Foundation
 
-class API {
+final class API {
     let baseUrl = "https://api.rawg.io/api/"
 
     enum MainPathParameters: String {

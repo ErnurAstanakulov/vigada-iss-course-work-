@@ -11,9 +11,6 @@ import UIKit
 class HomeCollectionViewCell: UICollectionViewCell {
     private let allContainer = UIElements().containerView
     private let imageContainer = UIElements().containerView
-
-    //private let maskForImage = AngularWindowView()
-    //private let maskForImage = TileWindowView()
     private let maskForImage = TVWindowView()
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel

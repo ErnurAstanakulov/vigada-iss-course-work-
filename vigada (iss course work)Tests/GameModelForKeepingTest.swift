@@ -18,7 +18,7 @@ class GameModelForKeepingTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        //model = GameModel(gameCategory: gameCategory)
+
     }
 
     override func tearDown() {

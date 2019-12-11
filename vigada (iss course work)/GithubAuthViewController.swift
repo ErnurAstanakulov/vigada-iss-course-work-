@@ -9,10 +9,6 @@
 import Foundation
 import WebKit
 
-protocol GithubAuthViewControllerDelegate: class {
-    func handleTokenReceived(token: String)
-}
-
 final class GithubAuthViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: GithubAuthViewControllerDelegate?

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TileWindowView: UIView {
+final class TileWindowView: UIView {
     override func draw(_ rect: CGRect) {
         let path = createTilePath()
 

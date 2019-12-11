@@ -14,9 +14,6 @@ class HomeThirdTableViewCell: UITableViewCell {
     private let imageContainer = UIElements().containerView
     private let all1Container = UIElements().containerView
     private let all2Container = UIElements().containerView
-
-    //private let maskForImage = AngularWindowView()
-    //private let maskForImage = TileWindowView()
     private let maskForImage = TVWindowView()
 
     let topImage = UIElements().imageView
@@ -33,10 +30,29 @@ class HomeThirdTableViewCell: UITableViewCell {
             allContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             allContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             allContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32),
             allContainer.heightAnchor.constraint(equalToConstant: 370)
             ])
 
+        setupMaskImage()
+
+        title.textColor = UIColor.VGDColor.white
+        title.text = " CYKA BLYAT  "
+        title.textAlignment = .right
+        title.numberOfLines = 0
+        title.alpha = 0.8
+        let randomInt = Int.random(in: 18...30)
+        title.font = SFMono.bold.of(size: CGFloat(randomInt))
+        title.backgroundColor = UIColor.VGDColor.black
+        contentView.addSubview(title)
+        NSLayoutConstraint.activate([
+            title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 32),
+            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -64),
+            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -64)
+            ])
+    }
+
+    func setupMaskImage() {
         let angle: [CGFloat] = [0, 90, 180, 270]
         guard let randomAngle: CGFloat = angle.randomElement() else {
             return
@@ -60,21 +76,6 @@ class HomeThirdTableViewCell: UITableViewCell {
             topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 16),
             topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -16),
             topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 16)
-            ])
-
-        title.textColor = UIColor.VGDColor.white
-        title.text = " CYKA BLYAT  "
-        title.textAlignment = .right
-        title.numberOfLines = 0
-        title.alpha = 0.8
-        let randomInt = Int.random(in: 18...30)
-        title.font = SFMono.bold.of(size: CGFloat(randomInt))
-        title.backgroundColor = UIColor.VGDColor.black
-        contentView.addSubview(title)
-        NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 32),
-            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -64),
-            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -64)
             ])
     }
 

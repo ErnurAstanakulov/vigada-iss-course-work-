@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AngularWindowView: UIView {
+final class AngularWindowView: UIView {
     override func draw(_ rect: CGRect) {
         let path = createAngularWindowPath()
 
@@ -27,6 +27,6 @@ class AngularWindowView: UIView {
         maskLayer.frame = bounds
         maskLayer.path = path.cgPath
         layer.mask = maskLayer
-        //clipsToBounds = true
+        clipsToBounds = true
     }
 }

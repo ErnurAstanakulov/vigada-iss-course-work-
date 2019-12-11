@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol Font {
-    func of(size: CGFloat) -> UIFont?
-    func of(textStyle: UIFont.TextStyle, defaultSize: CGFloat, maxSize: CGFloat?) -> UIFont?
-}
-
 enum NewYork: String, Font {
     case black = "NewYorkExtraLarge-Black"
     case bold = "NewYorkExtraLarge-Bold"

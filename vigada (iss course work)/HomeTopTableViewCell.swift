@@ -16,8 +16,6 @@ class HomeTopTableViewCell: UITableViewCell {
     private let all2Container = UIElements().containerView
 
     private let maskForImage = AngularWindowView()
-    //private let maskForImage = TileWindowView()
-    //private let maskForImage = TVWindowView()
 
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
@@ -44,6 +42,25 @@ class HomeTopTableViewCell: UITableViewCell {
             allContainer.heightAnchor.constraint(equalToConstant: 360)
             ])
 
+        imageMask()
+
+        title.textColor = UIColor.VGDColor.white
+        title.text = " CYKA BLYAT  "
+        title.textAlignment = .right
+        title.numberOfLines = 0
+        let randomInt = Int.random(in: 18...30)
+        title.font = SFMono.bold.of(size: CGFloat(randomInt))
+        title.backgroundColor = UIColor.VGDColor.black
+        title.alpha = 0.8
+        contentView.addSubview(title)
+        NSLayoutConstraint.activate([
+            title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0),
+            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -16),
+            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -80)
+            ])
+    }
+
+    func imageMask() {
         let angle: [CGFloat] = [0, 90, 180, 270]
         guard let randomAngle: CGFloat = angle.randomElement() else {
             return
@@ -67,21 +84,6 @@ class HomeTopTableViewCell: UITableViewCell {
             topImage.trailingAnchor.constraint(equalTo: allContainer.trailingAnchor, constant: 8),
             topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -8),
             topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8)
-            ])
-
-        title.textColor = UIColor.VGDColor.white
-        title.text = " CYKA BLYAT  "
-        title.textAlignment = .right
-        title.numberOfLines = 0
-        let randomInt = Int.random(in: 18...30)
-        title.font = SFMono.bold.of(size: CGFloat(randomInt))
-        title.backgroundColor = UIColor.VGDColor.black
-        title.alpha = 0.8
-        contentView.addSubview(title)
-        NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0),
-            title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: -16),
-            title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -80)
             ])
     }
 

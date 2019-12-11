@@ -53,6 +53,7 @@
 		B34902C2238680F4000EF110 /* SF-Compact-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */; };
 		B34902C42386B3BF000EF110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C32386B3BF000EF110 /* Colors.swift */; };
 		B34902C82386D487000EF110 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34902C72386D487000EF110 /* AboutView.swift */; };
+		B3590F1F23A105EC00441CC2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3590F1E23A105EC00441CC2 /* Protocols.swift */; };
 		B361A3C52392D55100002647 /* GDDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B361A3C42392D55100002647 /* GDDescriptionTableViewCell.swift */; };
 		B361A3C72392EF2000002647 /* GDVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B361A3C62392EF2000002647 /* GDVideoTableViewCell.swift */; };
 		B3751795239A9EEE00C83078 /* HomeTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3751794239A9EEE00C83078 /* HomeTopTableViewCell.swift */; };
@@ -165,6 +166,7 @@
 		B34902C1238680EF000EF110 /* SF-Compact-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Light.otf"; sourceTree = "<group>"; };
 		B34902C32386B3BF000EF110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B34902C72386D487000EF110 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		B3590F1E23A105EC00441CC2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		B361A3C42392D55100002647 /* GDDescriptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		B361A3C62392EF2000002647 /* GDVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDVideoTableViewCell.swift; sourceTree = "<group>"; };
 		B3751794239A9EEE00C83078 /* HomeTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopTableViewCell.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				B326741F2385508A00B2E45E /* Assets.xcassets */,
 				B32674212385508A00B2E45E /* LaunchScreen.storyboard */,
 				B32674182385508700B2E45E /* AppDelegate.swift */,
+				B3590F1E23A105EC00441CC2 /* Protocols.swift */,
 				B32674242385508A00B2E45E /* Info.plist */,
 			);
 			path = "vigada (iss course work)";
@@ -683,6 +686,7 @@
 				B326742D238552C500B2E45E /* HomeViewController.swift in Sources */,
 				B3E3764D239FB9E300CB3284 /* BrowseAgesTableViewCell.swift in Sources */,
 				B3DF37CE239ED2C400B46D85 /* BrowseTopCollectionViewCell.swift in Sources */,
+				B3590F1F23A105EC00441CC2 /* Protocols.swift in Sources */,
 				B31D682D239A467000576ED9 /* AddToFavoritesStubView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

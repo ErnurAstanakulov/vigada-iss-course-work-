@@ -12,7 +12,6 @@ class StrechyHeaderView: UIView {
     // MARK: - Properties
     private let coverContainer = UIElements().containerView
     let strechyImage = UIElements().imageView
-    //let textContainerForMask = UIElements().containerView
     let tintContainer = UIElements().containerView
     let titleGame = UIElements().titleLabel
 

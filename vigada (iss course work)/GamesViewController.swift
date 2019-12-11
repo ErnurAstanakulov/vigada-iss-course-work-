@@ -108,7 +108,7 @@ extension GamesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Постраничная загрузка из сети
+        // Постраничная подзагрузка из сети
         if (indexPath.row == gamesCollection.count - 1) && (gamesCollection.count < gameListCount) {
             startLoader()
             searchGames()

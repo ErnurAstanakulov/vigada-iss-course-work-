@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 class ScreenshotsCollectionViewController: UIViewController {
     // MARK: - Properties
     private let screenshotsCollectionView: UICollectionView = {

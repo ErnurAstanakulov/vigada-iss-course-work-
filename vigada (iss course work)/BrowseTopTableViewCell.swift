@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol BrowseTopTableViewCellTapDelegate: class {
-    func topCollectionCellTapped(_ numberCell: Int)
-}
-
 class BrowseTopTableviewCell: UITableViewCell {
 
     weak var delegate: BrowseTopTableViewCellTapDelegate?

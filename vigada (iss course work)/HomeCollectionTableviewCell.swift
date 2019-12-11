@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol CollectionCellTapDelegate: class {
-    func collectionCellTapped(_ numberCell: Int)
-}
-
 class HomeCollectionTableviewCell: UITableViewCell {
 
     weak var delegate: CollectionCellTapDelegate?

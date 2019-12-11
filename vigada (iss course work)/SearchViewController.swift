@@ -301,17 +301,17 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, NSFe
         }
     }
     // анимация ячеек. Но из-за неё что-то подтормаживает быстрый скролл
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if !isRecentSearchCalls {
-//            let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 15, 0)
-//            cell.layer.transform = rotationTransform
-//            cell.alpha = 0.5
-//            UIView.animate(withDuration: 0.55) {
-//                cell.layer.transform = CATransform3DIdentity
-//                cell.alpha = 1
-//            }
-//        }
-//    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if !isRecentSearchCalls {
+            let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 10, 0)
+            cell.layer.transform = rotationTransform
+            cell.alpha = 0.7
+            UIView.animate(withDuration: 0.55) {
+                cell.layer.transform = CATransform3DIdentity
+                cell.alpha = 1
+            }
+        }
+    }
 
     func modelFromCoreData(indexPath: IndexPath) -> MORecentSearchRequest {
         guard let sections = searchRequestFRC.sections else {

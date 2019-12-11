@@ -8,7 +8,7 @@
 
 import Foundation
 
-class APICollectionData {
+final class APICollectionData {
     let urlBuilder = URLBuilder()
 
     func tableFirstScreen() -> (titles: [String], urls: [URL]) {
@@ -73,7 +73,6 @@ class APICollectionData {
             .addQuery(query: .developers, value: "405")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
-        
         let title = [best1990RequestTitle, ubisoftTitle, electronicsArtTitle]
         let urls = [best1990Request, ubisoftRequest, electronicsArtRequest]
 
@@ -101,7 +100,7 @@ class APICollectionData {
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
 
-        let pcTitle = "PC games"
+        let pcTitle = "PC\ngames"
         var pcRequest = urlBuilder.reset().result()
         pcRequest = urlBuilder
             .addPath(path: .games)
@@ -125,7 +124,7 @@ class APICollectionData {
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
 
-        let psTitle = "PlayStation"
+        let psTitle = "Play\nStation"
         var psRequest = urlBuilder.reset().result()
         psRequest = urlBuilder
             .addPath(path: .games)

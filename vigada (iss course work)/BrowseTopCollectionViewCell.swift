@@ -11,15 +11,10 @@ import UIKit
 class BrowseTopCollectionViewCell: UICollectionViewCell {
     private let allContainer = UIElements().containerView
     private let imageContainer = UIElements().containerView
+    private let maskForImage = TileWindowView()
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
-
-    //private let maskForImage = AngularWindowView()
-    private let maskForImage = TileWindowView()
-    //private let maskForImage = TVWindowView()
-    let imageTop = UIElements().containerView
-    let rectangle2 = UIElements().containerView
-
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
 

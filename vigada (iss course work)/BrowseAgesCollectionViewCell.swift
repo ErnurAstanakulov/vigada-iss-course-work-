@@ -14,10 +14,7 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
 
-    //let maskForImage = AngularWindowView()
     let maskForImage = TileWindowView()
-    let imageTop = UIElements().containerView
-    let rectangle2 = UIElements().containerView
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -39,6 +36,21 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
             allContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
             ])
 
+        setupMaskImage()
+
+        title.textColor = UIColor.VGDColor.white
+        title.text = " CYKA BLYAT  "
+        title.textAlignment = .right
+        title.numberOfLines = 0
+        title.alpha = 0.8
+        let randomInt = Int.random(in: 18...27)
+        title.font = SFMono.bold.of(size: CGFloat(randomInt))
+        title.backgroundColor = UIColor.VGDColor.black
+        contentView.addSubview(title)
+        randomCoordinateTitle()
+    }
+
+    func setupMaskImage() {
         let angle: [CGFloat] = [0, 90, 180, 270]
         guard let randomAngle: CGFloat = angle.randomElement() else {
             return
@@ -53,15 +65,6 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
             maskForImage.heightAnchor.constraint(equalTo: maskForImage.widthAnchor, constant: 0)
             ])
 
-        imageTop.backgroundColor = UIColor.VGDColor.white
-        maskForImage.addSubview(imageTop)
-        NSLayoutConstraint.activate([
-            imageTop.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
-            imageTop.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -0),
-            imageTop.widthAnchor.constraint(equalTo: maskForImage.widthAnchor),
-            imageTop.heightAnchor.constraint(equalTo: maskForImage.heightAnchor)
-            ])
-
         topImage.rotate(degrees: -randomAngle)
         topImage.image = UIImage(named: "placeholder2")
         topImage.contentMode = .scaleAspectFill
@@ -72,17 +75,6 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
             topImage.topAnchor.constraint(equalTo: allContainer.topAnchor, constant: -8),
             topImage.bottomAnchor.constraint(equalTo: allContainer.bottomAnchor, constant: 8)
             ])
-
-        title.textColor = UIColor.VGDColor.white
-        title.text = " CYKA BLYAT  "
-        title.textAlignment = .right
-        title.numberOfLines = 0
-        title.alpha = 0.8
-        let randomInt = Int.random(in: 18...27)
-        title.font = SFMono.bold.of(size: CGFloat(randomInt))
-        title.backgroundColor = UIColor.VGDColor.black
-        contentView.addSubview(title)
-        randomCoordinateTitle()
     }
 
     func randomCoordinateTitle() {
@@ -92,17 +84,17 @@ class BrowseAgesCollectionViewCell: UICollectionViewCell {
         var rightText = NSLayoutConstraint()
         var topOrBootomText = NSLayoutConstraint()
         if leftOrRight {
-            leftText = title.leadingAnchor.constraint(equalTo: imageTop.leadingAnchor, constant: -8)
-            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: imageTop.trailingAnchor, constant: 0)
+            leftText = title.leadingAnchor.constraint(equalTo: topImage.leadingAnchor, constant: -8)
+            rightText = title.trailingAnchor.constraint(lessThanOrEqualTo: topImage.trailingAnchor, constant: 0)
         } else {
-            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: imageTop.leadingAnchor, constant: 0)
-            leftText = title.trailingAnchor.constraint(equalTo: imageTop.trailingAnchor, constant: 8)
+            rightText = title.leadingAnchor.constraint(greaterThanOrEqualTo: topImage.leadingAnchor, constant: 0)
+            leftText = title.trailingAnchor.constraint(equalTo: topImage.trailingAnchor, constant: 8)
         }
         let verticalRandom = Int.random(in: 16...40)
         if topOrBottom {
-            topOrBootomText = title.topAnchor.constraint(equalTo: imageTop.topAnchor, constant: CGFloat(verticalRandom))
+            topOrBootomText = title.topAnchor.constraint(equalTo: topImage.topAnchor, constant: CGFloat(verticalRandom))
         } else {
-            topOrBootomText = title.bottomAnchor.constraint(equalTo: imageTop.bottomAnchor, constant: -CGFloat(verticalRandom))
+            topOrBootomText = title.bottomAnchor.constraint(equalTo: topImage.bottomAnchor, constant: -CGFloat(verticalRandom))
         }
         NSLayoutConstraint.activate([
             leftText,

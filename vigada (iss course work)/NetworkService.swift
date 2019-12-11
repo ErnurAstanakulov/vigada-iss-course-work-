@@ -31,7 +31,7 @@ public enum HTTPMethod: String {
     case deleteData = "DELETE"
 }
 
-class NetworkService {
+final class NetworkService {
     let session: URLSession
 
     init() {

@@ -115,54 +115,6 @@ class LoaderViewController: UIViewController {
         }
     }
 
-    func browseLoad() {
-        let group = DispatchGroup()
-        let queuePreLoader = DispatchQueue(label: "com.preLoader")
-
-        group.enter()
-        queuePreLoader.async(group: group) {
-            let topCellUrls = self.apiCollectionData.collectionAllGames()
-            self.networkManager.preLoad(topCellUrls, completion: {dictionary in
-                self.browseTopCollection = dictionary
-                for element in dictionary {
-                    self.browseTopCollectionTitles.append(element.key)
-                    self.browseTopCollectionImages.append(element.value.image)
-                }
-                group.leave()
-            })
-        }
-
-        group.enter()
-        queuePreLoader.async(group: group) {
-            let agesCellUrls = self.apiCollectionData.collectionAges()
-            self.networkManager.preLoad(agesCellUrls, completion: {dictionary in
-                self.browseAgesCollection = dictionary
-                for element in dictionary {
-                    self.browseAgesCollectionTitles.append(element.key)
-                    self.browseAgesCollectionImages.append(element.value.image)
-                }
-                group.leave()
-            })
-        }
-
-        group.enter()
-        queuePreLoader.async(group: group) {
-            let platformsCellUrls = self.apiCollectionData.collectionPlatformsGames()
-            self.networkManager.preLoad(platformsCellUrls, completion: {dictionary in
-                self.browsePlatformsCollection = dictionary
-                for element in dictionary {
-                    self.browsePlatformsCollectionTitles.append(element.key)
-                    self.browsePlatformsCollectionImages.append(element.value.image)
-                }
-                group.leave()
-            })
-        }
-
-        group.notify(queue: .main) {
-            self.browseLoaded = true
-        }
-    }
-
     func navigationToHome() {
         var nextViewController: UITabBarController
         nextViewController = TabBarController()
@@ -182,27 +134,6 @@ class LoaderViewController: UIViewController {
         self.present(nextViewController, animated: true, completion: nil)
     }
 
-    func passPreLoadDataToBrowse() {
-        var browseViewController: UITabBarController
-        browseViewController = TabBarController()
-        if let tabbarViewcontrollers = browseViewController.viewControllers {
-            if let browseViewController = tabbarViewcontrollers[1].children[0] as? BrowseViewController {
-                browseViewController.topCollection = self.browseTopCollection
-                browseViewController.topCollectionTitles = self.browseTopCollectionTitles
-                browseViewController.topCollectionImages = self.browseTopCollectionImages
-                browseViewController.agesCollection = self.browseAgesCollection
-                browseViewController.agesCollectionTitles = self.browseAgesCollectionTitles
-                browseViewController.agesCollectionImages = self.browseAgesCollectionImages
-                browseViewController.platformsCollection = self.browsePlatformsCollection
-                browseViewController.platformsCollectionTitles = self.browsePlatformsCollectionTitles
-                browseViewController.platformsCollectionImages = self.browsePlatformsCollectionImages
-
-            }
-        }
-//        browseViewController.modalTransitionStyle = .crossDissolve
-//        self.present(browseViewController, animated: true, completion: nil)
-    }
-
 }
 
 // MARK: - Extensions
@@ -210,12 +141,11 @@ extension LoaderViewController: CheckInternetDelegate {
     func checkInternet(_ isInternet: Bool) {
         UserDefaults.standard.set(isInternet, forKey: self.isInternet)
 
-        // Если интернет есть, сделаем предзагрузку контента
+        // Если интернет есть, сделаем предзагрузку контента для главного экрана
         if isInternet {
             majorLoad()
-            //browseLoad()
             var seconds = 0
-            // таймер на 2 секунды, чтобы посмотреть красивый лоадер ;)
+            // таймер на 1 секунду, чтобы посмотреть красивый лоадер ;)
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 seconds += 1
                 if self.majorLoaded && self.browseLoaded {
@@ -232,7 +162,6 @@ extension LoaderViewController: CheckInternetDelegate {
                             print("Колесо загрузки не удалилось с вью")
                         }
                         self.navigationToHome()
-                        //self.passPreLoadDataToBrowse()
                         timer.invalidate()
                     }
                 }

@@ -115,7 +115,6 @@ class GameDetailsViewController: UIViewController {
     }
 
     // MARK: - Method
-
     private func startLoader() {
         self.loaderView.vgdLoader(.start, durationIn: 0.6)
         UIView.animate(withDuration: 0.4) {
@@ -192,7 +191,6 @@ class GameDetailsViewController: UIViewController {
                     groupScreenshots.enter()
                     self.networkManager.getImageByStringUrl(url: url, completion: { (image, _) in
                         gameScreenshots.append(image)
-                        print("качнул из урлa \(url)")
                         groupScreenshots.leave()
                     })
                 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TVWindowView: UIView {
+final class TVWindowView: UIView {
     override func draw(_ rect: CGRect) {
         let path = createTvWindowPath()
 

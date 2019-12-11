@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol BrowsePlatformsTableViewCellTapDelegate: class {
-    func platformsCollectionCellTapped(_ numberCell: Int)
-}
-
 class BrowsePlatformsTableViewCell: UITableViewCell {
 
     weak var delegate: BrowsePlatformsTableViewCellTapDelegate?
@@ -31,14 +27,7 @@ class BrowsePlatformsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.clipsToBounds = true
-//
-//        allContainer.layer.cornerRadius = 16
-//        allContainer.layer.shadowColor = UIColor.VGDColor.black.cgColor
-//        allContainer.layer.shadowRadius = 3
-//        allContainer.layer.shadowOpacity = 0.4
-//        allContainer.layer.shadowOffset = CGSize(width: 2, height: 5)
-//        allContainer.layer.masksToBounds = false
-//        allContainer.alpha = 0.8
+
         allContainer.backgroundColor = UIColor.VGDColor.clear
 
         contentView.addSubview(allContainer)

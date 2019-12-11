@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
             ])
     }
 
@@ -201,15 +201,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         default:
             print("default indexPath")
         }
-        print("Нажал на строку:", newIndexPath.row)
-//        let nextViewController = GamesViewController()
-//        nextViewController.gameLink = preLoadDictionary?[cellTables[newIndexPath.row].text]?.next ?? ""
-//        nextViewController.gameListCount = preLoadDictionary?[cellTables[newIndexPath.row].text]?.count ?? 1
-//        nextViewController.gamesCollection = preLoadDictionary?[cellTables[newIndexPath.row].text]?.results ?? []
-//        nextViewController.titleScreen = cellTables[newIndexPath.row].text
-//        if let navigator = navigationController {
-//            navigator.pushViewController(nextViewController, animated: true)
-//        }
         let numberRow = newIndexPath.row
         let nextViewController = GamesViewController()
         nextViewController.gameLink = homeMajorTable[homeMajorTableTitles[numberRow]]?.model.next ?? ""
@@ -225,15 +216,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeViewController: CollectionCellTapDelegate {
     func collectionCellTapped(_ numberCell: Int) {
-        print("нажал на \(numberCell) ячейку")
-//        let nextViewController = GamesViewController()
-//        nextViewController.gameLink = preLoadCollection?[cellCollcetionText[numberCell]]?.next ?? ""
-//        nextViewController.gameListCount = preLoadCollection?[cellCollcetionText[numberCell]]?.count ?? 1
-//        nextViewController.gamesCollection = preLoadCollection?[cellCollcetionText[numberCell]]?.results ?? []
-//        nextViewController.titleScreen = cellCollcetionText[numberCell]
-//        if let navigator = navigationController {
-//            navigator.pushViewController(nextViewController, animated: true)
-//        }
         let nextViewController = GamesViewController()
         nextViewController.gameLink = homeMajorCollection[homeMajorCollectionTitles[numberCell]]?.model.next ?? ""
         nextViewController.gameListCount = homeMajorCollection[homeMajorCollectionTitles[numberCell]]?.model.count ?? 1

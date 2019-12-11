@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SqWindowView: UIView {
+final class SqWindowView: UIView {
     override func draw(_ rect: CGRect) {
         let path = createSqPath()
 

@@ -13,27 +13,31 @@ class APICollectionData {
 
     func tableFirstScreen() -> (titles: [String], urls: [URL]) {
         let top70yearsRequestTitle = "top 70 years"
-        let top70yearsRequest = urlBuilder
+        var top70yearsRequest = urlBuilder.reset().result()
+        top70yearsRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "1970-01-01,1979-12-31")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
 
         let best2019RequestTitle = "best 2019"
-        let best2019Request = urlBuilder
+        var best2019Request = urlBuilder.reset().result()
+        best2019Request = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "2019-01-01,2019-12-31")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
         let releaseLastMonthTitle = "Release Last Month"
-        let releaseLastMonthRequest = urlBuilder
+        var releaseLastMonthRequest = urlBuilder.reset().result()
+        releaseLastMonthRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "2019-12-01,2019-12-31")
             .addOrderingAscending(value: .released, order: .descending)
             .result()
 
         let mostAnticipatedUpcomingTitle = "What are the most anticipated upcoming games?"
-        let mostAnticipatedUpcomingRequest = urlBuilder
+        var mostAnticipatedUpcomingRequest = urlBuilder.reset().result()
+        mostAnticipatedUpcomingRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "2019-12-10,2020-10-10")
             .addOrderingAscending(value: .added, order: .descending)
@@ -47,41 +51,146 @@ class APICollectionData {
 
     func collectionFirstScreen() -> (titles: [String], urls: [URL]) {
 
-//        let electronicsArtTitle = "highest rated game by Electronic Arts"
-//        let electronicsArtRequest = urlBuilder
-//            .addPath(path: .games)
-//            .addQuery(query: .developers, value: "109")
-//            .addOrderingAscending(value: .rating, order: .descending)
-//            .result()
+        let electronicsArtTitle = "highest rated game by Electronic Arts"
+        var electronicsArtRequest = urlBuilder.reset().result()
+        electronicsArtRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .developers, value: "109")
+            .result()
 
         let best1990RequestTitle = "Legends 1990-1999"
-        let best1990Request = urlBuilder
+        var best1990Request = urlBuilder.reset().result()
+        best1990Request = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .dates, value: "1990-01-01,1999-12-31")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
 
         let ubisoftTitle = "Top by Ubisoft"
-        let ubisoftRequest = urlBuilder
+        var ubisoftRequest = urlBuilder.reset().result()
+        ubisoftRequest = urlBuilder
             .addPath(path: .games)
             .addQuery(query: .developers, value: "405")
             .addOrderingAscending(value: .rating, order: .descending)
             .result()
-        let title = [best1990RequestTitle, ubisoftTitle]
-        let urls = [best1990Request, ubisoftRequest]
+        
+        let title = [best1990RequestTitle, ubisoftTitle, electronicsArtTitle]
+        let urls = [best1990Request, ubisoftRequest, electronicsArtRequest]
 
         return (title, urls)
     }
 
     func collectionAllGames() -> (titles: [String], urls: [URL]) {
         let allGamesTitle = "All Video Games in base"
-        let allGamesRequest = urlBuilder
+        var allGamesRequest = urlBuilder.reset().result()
+        allGamesRequest = urlBuilder
             .addPath(path: .games)
-            .addOrderingAscending(value: .rating, order: .descending)
             .result()
         let title = [allGamesTitle]
         let urls = [allGamesRequest]
 
+        return (title, urls)
+    }
+
+    func collectionPlatformsGames() -> (titles: [String], urls: [URL]) {
+        let linuxTitle = "Linux"
+        var linuxRequest = urlBuilder.reset().result()
+        linuxRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .platforms, value: "6")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let pcTitle = "PC games"
+        var pcRequest = urlBuilder.reset().result()
+        pcRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .platforms, value: "1")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let iosTitle = "iOS"
+        var iosRequest = urlBuilder.reset().result()
+        iosRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .platforms, value: "3")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let xboxTitle = "XBOX"
+        var xboxRequest = urlBuilder.reset().result()
+        xboxRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .platforms, value: "1")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let psTitle = "PlayStation"
+        var psRequest = urlBuilder.reset().result()
+        psRequest = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .platforms, value: "3")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let title = [linuxTitle, pcTitle, iosTitle, xboxTitle, psTitle]
+        let urls = [linuxRequest, pcRequest, iosRequest, xboxRequest, psRequest]
+
+        return (title, urls)
+    }
+
+    func collectionAges() -> (titles: [String], urls: [URL]) {
+
+        let y40Title = "1940-1969 years"
+        var y40Request = urlBuilder.reset().result()
+        y40Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "1940-01-01,1969-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let y70Title = "1970 years"
+        var y70Request = urlBuilder.reset().result()
+        y70Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "1970-01-01,1979-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let y80Title = "1980 years"
+        var y80Request = urlBuilder.reset().result()
+        y80Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "1980-01-01,1989-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let y90Title = "1990 years"
+        var y90Request = urlBuilder.reset().result()
+        y90Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "1990-01-01,1999-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let y00Title = "2k years"
+        var y00Request = urlBuilder.reset().result()
+        y00Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "2000-01-01,2009-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let y10Title = "2010 years"
+        var y10Request = urlBuilder.reset().result()
+        y10Request = urlBuilder
+            .addPath(path: .games)
+            .addQuery(query: .dates, value: "2010-01-01,2019-12-31")
+            .addOrderingAscending(value: .rating, order: .descending)
+            .result()
+
+        let title = [y40Title, y70Title, y80Title, y90Title, y00Title, y10Title]
+        let urls = [y40Request, y70Request, y80Request, y90Request, y00Request, y10Request]
         return (title, urls)
     }
 

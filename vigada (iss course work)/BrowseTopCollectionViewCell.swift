@@ -14,7 +14,6 @@ class BrowseTopCollectionViewCell: UICollectionViewCell {
     private let maskForImage = TileWindowView()
     let topImage = UIElements().imageView
     let title = UIElements().titleLabel
-    
     override init(frame: CGRect) {
         super.init(frame: .zero)
 

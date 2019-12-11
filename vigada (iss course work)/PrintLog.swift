@@ -24,7 +24,6 @@ struct VGDLogger {
 
     func log<T>(message: String, value: T) {
         let timestamp = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: .medium, timeStyle: .long)
-        print("\n")
         print("VIGADA LOG (\(timestamp.localizedUppercase)):")
         type.log(message: message, value: value)
     }

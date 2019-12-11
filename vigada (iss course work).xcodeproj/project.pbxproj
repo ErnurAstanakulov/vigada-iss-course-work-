@@ -75,7 +75,6 @@
 		B3B6F505238FB9490034AE3F /* GithubAuthorizationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F504238FB9490034AE3F /* GithubAuthorizationConstants.swift */; };
 		B3B6F507238FE1760034AE3F /* PrintLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F506238FE1760034AE3F /* PrintLog.swift */; };
 		B3B6F509238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */; };
-		B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */; };
 		B3BF66CB239CE679008A653E /* GameModelTemporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66CA239CE679008A653E /* GameModelTemporary.swift */; };
 		B3BF66CF239D5FD5008A653E /* UserDefaultsFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */; };
 		B3BF66D1239D8988008A653E /* GameDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF66D0239D8988008A653E /* GameDescription.swift */; };
@@ -190,7 +189,6 @@
 		B3B6F508238FFD260034AE3F /* FavoritesPanelLikeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPanelLikeButtonView.swift; sourceTree = "<group>"; };
 		B3BA3B1E238BCEC400B9C08D /* vigada (iss course work)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vigada (iss course work)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BA3B22238BCEC400B9C08D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelForKeepingTest.swift; sourceTree = "<group>"; };
 		B3BF66CA239CE679008A653E /* GameModelTemporary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTemporary.swift; sourceTree = "<group>"; };
 		B3BF66CE239D5FD5008A653E /* UserDefaultsFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsFacade.swift; sourceTree = "<group>"; };
 		B3BF66D0239D8988008A653E /* GameDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDescription.swift; sourceTree = "<group>"; };
@@ -399,7 +397,6 @@
 		B3BA3B1F238BCEC400B9C08D /* vigada (iss course work)Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B3BA3B2A238BD00600B9C08D /* GameModelForKeepingTest.swift */,
 				B358ED0023A133D600546EBB /* APICollectionDataTest.swift */,
 				B3BA3B22238BCEC400B9C08D /* Info.plist */,
 			);
@@ -531,6 +528,7 @@
 					};
 					B3BA3B1D238BCEC400B9C08D = {
 						CreatedOnToolsVersion = 10.3;
+						TestTargetID = B32674142385508700B2E45E;
 					};
 				};
 			};
@@ -698,7 +696,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3BA3B2B238BD00600B9C08D /* GameModelForKeepingTest.swift in Sources */,
 				B358ED0123A133D600546EBB /* APICollectionDataTest.swift in Sources */,
 				B38788BA238C3E61007C0893 /* GameModelForKeeping.swift in Sources */,
 			);
@@ -881,6 +878,7 @@
 		B3BA3B25238BCEC500B9C08D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A3LV7T75L;
 				INFOPLIST_FILE = "vigada (iss course work)Tests/Info.plist";
@@ -893,12 +891,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vigada (iss course work).app/vigada (iss course work)";
 			};
 			name = Debug;
 		};
 		B3BA3B26238BCEC500B9C08D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A3LV7T75L;
 				INFOPLIST_FILE = "vigada (iss course work)Tests/Info.plist";
@@ -911,6 +911,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vigada (iss course work).app/vigada (iss course work)";
 			};
 			name = Release;
 		};

@@ -7,27 +7,64 @@
 //
 
 import XCTest
+@testable import vigada__iss_course_work_
 
 class APICollectionDataTest: XCTestCase {
 
+    var apiCollectionDataTest: APICollectionData!
+    var tupleTitles = 0
+    var tupleUrls = 0
+
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
+        apiCollectionDataTest = APICollectionData()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        apiCollectionDataTest = nil
+        tupleTitles = 0
+        tupleUrls = 0
+        super.tearDown()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testTableFirstScreenTitlesAndUrlsCountEquals() {
+        // act
+        let create = apiCollectionDataTest.tableFirstScreen()
+
+        // assert
+        XCTAssertEqual(create.titles.count, create.urls.count, "Не равны")
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testCollectionFirstScreenTitlesAndUrlsCountEquals() {
+        // act
+        let create = apiCollectionDataTest.collectionFirstScreen()
+
+        // assert
+        XCTAssertEqual(create.titles.count, create.urls.count, "Не равны")
+    }
+
+    func testCollectionPlatformsGamesTitlesAndUrlsCountEquals() {
+        // act
+        let create = apiCollectionDataTest.collectionPlatformsGames()
+
+        // assert
+        XCTAssertEqual(create.titles.count, create.urls.count, "Не равны")
+    }
+
+    func testCollectionAgesTitlesAndUrlsCountEquals() {
+        // act
+        let create = apiCollectionDataTest.collectionAges()
+
+        // assert
+        XCTAssertEqual(create.titles.count, create.urls.count, "Не равны")
+    }
+
+    func testCollectionAllGamesTitlesAndUrlsCountEquals() {
+        // act
+        let create = apiCollectionDataTest.collectionAllGames()
+
+        // assert
+        XCTAssertEqual(create.titles.count, create.urls.count, "Не равны")
     }
 
 }

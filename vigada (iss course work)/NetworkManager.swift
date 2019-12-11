@@ -9,11 +9,7 @@
 import Foundation
 import SystemConfiguration
 
-protocol CheckInternetDelegate: class {
-    func checkInternet(_ isInternet: Bool)
-}
-
-class NetworkManager {
+final class NetworkManager {
     weak var delegate: CheckInternetDelegate?
 
     let networkService = NetworkService()
@@ -43,12 +39,18 @@ class NetworkManager {
 
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        let logger = VGDLogger(type: Info())
+        logger.log(message: "Интернет", value: (isReachable && !needsConnection))
         return (isReachable && !needsConnection)
     }
 
     func getGamesList(url: URL, completion: @escaping (_ gamesList: VGDModelGamesRequest?, _ error: String?) -> Void) {
         networkService.getData(at: url) { data, _  in
+            var logger = VGDLogger(type: Info())
+            logger.log(message: "Скачиваю список игр по урлу", value: url)
             guard let data = data else {
+                logger.log(message: "Скачивание описания игры не удалось", value: "getGamesList")
+                completion(nil, nil)
                 completion(nil, nil)
                 return
             }
@@ -56,7 +58,8 @@ class NetworkManager {
                 let vGDModelGamesRequest = try JSONDecoder().decode(VGDModelGamesRequest.self, from: data)
                 completion(vGDModelGamesRequest, nil)
             } catch {
-                print("\(error.localizedDescription)")
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка", value: "\(error.localizedDescription)")
             }
 
         }
@@ -64,7 +67,11 @@ class NetworkManager {
 
     func getGamesListByStringUrl(url: String, completion: @escaping (_ gamesList: VGDModelGamesRequest?, _ error: String?) -> Void) {
         networkService.getData(at: url, completion: { data, _ in
+            var logger = VGDLogger(type: Info())
+            logger.log(message: "Скачиваю список игр по текстовому урлу", value: url)
             guard let data = data else {
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Скачивание описания игры не удалось", value: "getGamesListByStringUrl")
                 completion(nil, nil)
                 return
             }
@@ -72,7 +79,8 @@ class NetworkManager {
                 let vGDModelGamesRequest = try JSONDecoder().decode(VGDModelGamesRequest.self, from: data)
                 completion(vGDModelGamesRequest, nil)
             } catch {
-                print("\(error.localizedDescription)")
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка", value: "\(error.localizedDescription)")
             }
 
         })
@@ -80,7 +88,11 @@ class NetworkManager {
 
     func getGamesDescription(url: String, completion: @escaping (_ gamesList: GamesSearchGamesDescription?, _ error: String?) -> Void) {
         networkService.getData(at: url, completion: { data, _ in
+            var logger = VGDLogger(type: Info())
+            logger.log(message: "Скачиаю описание игры по адресу", value: url)
             guard let data = data else {
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Скачивание описания игры не удалось", value: "getGamesDescription")
                 completion(nil, nil)
                 return
             }
@@ -88,7 +100,8 @@ class NetworkManager {
                 let vGDModelGamesRequest = try JSONDecoder().decode(GamesSearchGamesDescription.self, from: data)
                 completion(vGDModelGamesRequest, nil)
             } catch {
-                print("\(error.localizedDescription)")
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Ошибка", value: "\(error.localizedDescription)")
             }
 
         })
@@ -96,37 +109,16 @@ class NetworkManager {
 
     func getImageByStringUrl(url: String, completion: @escaping (_ gameImageData: Data?, _ error: String?) -> Void) {
         networkService.getData(at: url, completion: {data, _ in
+            var logger = VGDLogger(type: Info())
+            logger.log(message: "Скачиваю картинку по этому строковому урлу", value: url)
             guard let data = data else {
+                logger = VGDLogger(type: Error())
+                logger.log(message: "Функция: getImageByStringUrl \ndata не data, guard не прошел", value: "nil")
                 completion(nil, nil)
                 return
             }
             completion(data, nil)
         })
-    }
-
-    func preLoadDictionary(title: [String],
-                           urls: [URL],
-                           completion: @escaping (_ gamesLists: [String: VGDModelGamesRequest]) -> Void) {
-
-        var preLoadDictionary = [String: VGDModelGamesRequest]()
-
-        let titleArray = title
-        let urlArray = urls
-
-        let tablePreview = DispatchGroup()
-        for index in 0..<titleArray.count {
-            let urlLink = urlArray[index]
-            tablePreview.enter()
-            self.getGamesList(url: urlLink, completion: { gamesList, _ in
-                if let list = gamesList {
-                    preLoadDictionary[titleArray[index]] = list
-                }
-                tablePreview.leave()
-            })
-        }
-        tablePreview.notify(queue: .main) {
-            completion(preLoadDictionary)
-        }
     }
 
     func preLoad(_ inputTuple: (titles: [String], urls: [URL]),
@@ -137,7 +129,7 @@ class NetworkManager {
         let titleArray = inputTuple.titles
         let urlArray = inputTuple.urls
 
-        // Получаем на входе тюпл с массивом татйлов и урлов. Урлы в цыкле обходим и скачиваем модели.
+        // Получаем на входе тюпл с массивом татйлов и урлов. Урлы в цикле обходим и скачиваем модели.
         // Из модели(списка игр) случайным образом выбераем обложку и скачиваем её.
         // После всех манипуляций формируем выходной словарь.
         // В качестве ключа тайтл, в качестве значения тюпл с картинкой-обложкой и моделью
@@ -159,11 +151,10 @@ class NetworkManager {
                                 logger = VGDLogger(type: Warning())
                                 logger.log(message: "data не data, guard не прошел", value: "nil")
                                 return
-                                // и еще одно узкое место
                             }
                             preLoadDictionary[titleArray[index]] = (data, list)
                             logger = VGDLogger(type: Info())
-                            logger.log(message: "Словарь готов, покидаю сеанс", value: titleArray[index])
+                            logger.log(message: "Словарь готов. Покидаю сеанс", value: titleArray[index])
                             tablePreview.leave()
                         })
                     }

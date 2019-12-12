@@ -10,7 +10,8 @@
 
 ![](vigada.gif)
 
-И видео ролик, как работает приложеник. Всего 3 минуты https://www.youtube.com/watch?v=d0arTZZUwgI&feature=youtu.be
+И видео ролик, как работает приложение. Всего 3 минуты https://www.youtube.com/watch?v=d0arTZZUwgI&feature=youtu.be
+
 Приложение выполнено в портретном режиме. Позволительны повороты экрана при просмотре видео и скриншотов.
 
 1. **Экраны**: Home, Browse, Games list, Search, Favorites, Setting, Game Details, Screenshot gallery
